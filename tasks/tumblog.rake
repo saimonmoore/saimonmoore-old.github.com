@@ -1,5 +1,17 @@
 
 namespace :tumblog do
+  namespace :converters do
+  
+    desc "Convert mysql mephisto posts into tumblog posts"
+    task :mysql_mephisto do |t|
+      Webby::Converters::Mephisto.process(:mysql, ENV['DBNAME'], ENV['DBUSER'], ENV['DBPASS'], ENV['DBHOST'])
+    end
+    
+    desc "Convert postgresql mephisto posts into tumblog posts"
+    task :pg_mephisto do |t|
+      Webby::Converters::Mephisto.process(:postgresql, ENV['DBNAME'], ENV['DBUSER'], ENV['DBPASS'], ENV['DBHOST'])
+    end    
+  end
 
   # iterate over all the files in the "templates/tumblog" folder and create a
   # rake task corresponding to each file found
