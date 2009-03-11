@@ -21,8 +21,9 @@ filter:    haml
       #description
         %div
           %p
-            %a{ :href => "/tumblog/archive.html" }
-              Archive
+            = link_unless_this_page("/tumblog/index.html", 'Posts')
+          %p
+            = link_unless_this_page("/tumblog/archive.html", 'Archive')
       = @content
       #footer
         = content_for :footer

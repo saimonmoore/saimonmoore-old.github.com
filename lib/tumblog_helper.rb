@@ -32,6 +32,14 @@ module TumblogHelper
     </div>
     HTML
   end  
+  
+  def link_unless_this_page(url, text)
+    unless @page.url == url
+      <<-HTML
+      <a href="#{url}">#{text}</a>
+      HTML
+    end
+  end
 
 end  # module TumblogHelper
 
