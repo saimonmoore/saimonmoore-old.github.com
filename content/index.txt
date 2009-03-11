@@ -1,0 +1,11 @@
+---
+title:        Page Title
+filter:
+  - haml
+---
+
+%h1 Welcome to the Handcrafted-Webby!
+
+%p Test
+
+%bq To be or not to be
