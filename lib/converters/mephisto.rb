@@ -46,7 +46,7 @@ module Webby
 
           data = {
              'layout' => 'tumblog/post',
-             'created_at' => date.to_y,
+             'created_at' => date,
              'author' => 'Saimon Moore',
              'filter' => 'haml',
              'title' => title.to_s,
