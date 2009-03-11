@@ -26,6 +26,7 @@ module Webby
       QUERY = "SELECT id, permalink, body, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
 
       def self.process(db, dbname, user, pass, host = 'localhost')
+        host ||= 'localhost'
         db = case db.to_s
               when 'mysql'
                 Sequel.mysql(dbname, :user => user, :password => pass, :host => host)
