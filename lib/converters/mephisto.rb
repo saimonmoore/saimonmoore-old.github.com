@@ -2,7 +2,7 @@
 # Based on mt.rb by Nick Gerakines, open source and publically
 # available under the MIT license. Use this module at your own risk.
 
-require 'haml'
+require 'haml/html'
 require 'sequel'
 require 'fastercsv'
 require 'fileutils'
@@ -23,7 +23,7 @@ module Webby
       # QUERY = "SELECT id, permalink, body, published_at, title FROM contents WHERE user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
 
       # This query will pull blog posts entries across blogs with id 1.
-      QUERY = "SELECT id, permalink, body, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
+      QUERY = "SELECT id, permalink, body, body_html, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
 
       def self.process(db, dbname, user, pass, host = 'localhost')
         host ||= 'localhost'
@@ -39,7 +39,7 @@ module Webby
           title = post[:title]
           slug = post[:permalink]
           date = post[:published_at]
-          content = post[:body]
+          content = post[:body_html]
           name = slug + ".haml"
           dir = "content/tumblog/#{date.year}#{date.month}"
           FileUtils.mkdir_p dir
@@ -53,13 +53,22 @@ module Webby
              'tumblog_type' => 'regular'
            }.delete_if { |k,v| v.nil? || v == ''}.to_yaml
 
+           converted_content = nil
+          begin
+            converted_content = Haml::HTML.new(content, {}).render
+          rescue Exception => err
+            puts "Unable to convert '#{dir}/#{name}' to haml..."            
+            puts "err: #{err.message} trace: #{err.backtrace.join("\n")}"
+            exit
+            converted_content = content
+          end
           File.open("#{dir}/#{name}", "w") do |f|
             f.puts data
             f.puts "---"
-            f.puts Haml::Engine.new(content, {}).to_html
+            f.puts converted_content
           end
-        end            
-      end    
+        end
+      end  
     end
   end
 end
