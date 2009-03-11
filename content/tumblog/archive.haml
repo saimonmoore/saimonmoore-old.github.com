@@ -6,14 +6,18 @@ filter: haml
 dirty:  true
 ---
 - prev = nil
+- prev_year = nil
 - posts = @pages.find(:all, :layout => 'tumblog/post', :sort_by => :created_at, :reverse => true)
 - paginate(posts, 10) do |p|
   %ul
     %li
       .post
+        - if prev_year != p.created_at.strftime('%Y')
+          = tumblog_year(p.created_at)
         - if prev != p.created_at.strftime('%Y%m%d')
           = tumblog_date(p.created_at)
         - prev = p.created_at.strftime('%Y%m%d')
+        - prev_year = p.created_at.strftime('%Y')
     
         %a{ :href => p.url }
           %img.permalink{ :src => "/images/tumblog/permalink.gif", :alt => "permalink" }

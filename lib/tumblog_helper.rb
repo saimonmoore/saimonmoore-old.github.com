@@ -24,6 +24,14 @@ module TumblogHelper
     </div>
     HTML
   end
+  
+  def tumblog_year( time )
+    <<-HTML
+    <div class="year">
+        #{time.year}
+    </div>
+    HTML
+  end  
 
 end  # module TumblogHelper
 
