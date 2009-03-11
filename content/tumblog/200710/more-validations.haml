@@ -1,0 +1,115 @@
+--- 
+tumblog_type: regular
+title: more validations
+author: Saimon Moore
+filter: haml
+created_at: 2007-10-23 09:14:00 +02:00
+layout: tumblog/post
+---
+%p
+  I wrote up a validates_condition_between validations class method the other day. It  basically validates that the values of two attributes matches the condition supplied. Only one condition can be used at a time. I searched around for something like this but couldn’t find anything so I wrote it.
+%p
+  Usage:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %tt
+        %span.r
+          class
+        %span.cl
+          Person
+        \&lt;
+        %span.co
+          ActiveRecord
+        \::
+        %span.co
+          Base
+        %tt
+        validates_condition_between
+        %span.sy
+          \:start_time
+        ,
+        %span.sy
+          \:end_time
+        ,
+        %span.sy
+          \:condition
+        \=&gt;
+        %span.sy
+          \:greater_than
+        %tt
+        validates_condition_between
+        %span.sy
+          \:credit
+        ,
+        %span.sy
+          \:max_credit
+        ,
+        %span.sy
+          \:condition
+        \=&gt;
+        %span.sy
+          \:less_than_or_equal_to
+        ,
+        %span.sy
+          \:allow_blank
+        \=&gt;
+        %span.pc
+          true
+        %tt
+        validates_condition_between
+        %span.sy
+          \:key
+        ,
+        %span.sy
+          \:keys
+        ,
+        %span.sy
+          \:condition
+        \=&gt;
+        %span.sy
+          \:inclusion
+        ,
+        %span.sy
+          \:allow_nil
+        \=&gt;
+        %span.pc
+          true
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  I’ve stuck it in the following plugin (just the one validation for now):
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        script/plugin install svn://rubyforge.org/var/svn/sidirodromos/plugins/more_validations
+        %tt

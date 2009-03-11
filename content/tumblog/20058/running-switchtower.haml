@@ -1,0 +1,44 @@
+--- 
+tumblog_type: regular
+title: Running switchtower
+author: Saimon Moore
+filter: haml
+created_at: 2005-08-17 05:51:00 +02:00
+layout: tumblog/post
+---
+%p
+  I’m now running
+  %a{ :href => "http://manuals.rubyonrails.com/read/book/17" }
+    switchtower.
+%p
+  Easy peasy to setup. I basically followed instructions in the manual.
+%ol
+  %li
+    svn co http://dev.rubyonrails.org/svn/rails/trunk/switchtower/
+  %li
+    rake gem
+  %li
+    Created a basic recipe (deploy.rb) from the example and stuck it in $RAILS_APP_ROOT/config/deploy.rb
+  %li
+    type:
+    %code
+      switchtower -r config/deploy.rb -a deploy
+  %li
+    Watch how your app get’s deployed  with no other action on your part.
+  %p
+    Well worth the five minutes effort to get the recipe file written up.
+  %p
+    Couldn’t find the s’pinner/spawner/reaper’ scripts but I haven’t looked in the rails svn trunk yet.
+  %p
+    Example:
+  %p
+    I fixed the ‘Weaning Problem’ I was having with bligi on my laptop this morning.
+  %p
+    When I had it working, all I had to do was type the above command, and a minute later I could post live with bligi.
+  %p
+    That’s the way I like things to go…Smoothly. ;)
+  %p
+    %span.caps
+      TODO
+    \: As I’ve only got the basic package at textdrive (i.e. 300Megs), I’m going to have to limit the number of app versions to three (Current version and the last two). An ‘after_deploy’ task should do the trick. ;)
+  %p

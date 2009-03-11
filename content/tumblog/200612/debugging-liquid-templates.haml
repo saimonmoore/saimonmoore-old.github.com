@@ -1,0 +1,59 @@
+--- 
+tumblog_type: regular
+title: Debugging Liquid templates
+author: Saimon Moore
+filter: haml
+created_at: 2006-12-07 18:17:00 +01:00
+layout: tumblog/post
+---
+%p
+  When I first started looking into liquid templates, I quickly found out that liquid doesn’t tend to provide a lot of debugging info if things go
+  %a{ :href => "http://groups.google.com/group/liquid-templates/browse_thread/thread/676c74629901a72e/" }
+    wrong
+  \. At least it doesn’t on first inspection.
+%p
+  Now that I’m working with liquid templates in earnest, I dug into the liquid source and soon found out that it’s in fact very easy to debug liquid errors.
+From template.rb in liquid/lib:
+%pre
+  %code
+    def errors
+    @errors ||= []
+    end
+    
+    def handle_error(e)
+    errors.push(e)
+    raise if @rethrow_errors
+    
+    case e
+    when SyntaxError
+    "Liquid syntax error: #{e.message}"
+    else
+    "Liquid error: #{e.message}"
+    end
+    end
+i.e. you have an ‘errors’ method available to you that holds all the errors that were thrown during  rendering.  All you have to do is use that:
+%p
+  Using
+  %a{ :href => "http://mephistoblog.com" }
+    Mephisto
+  internals as an example:
+%pre
+  %code
+    def parse_template(template, assigns, controller, request = nil)
+    \...
+    tmpl = Liquid::Template.parse(template.read.to_s)
+    returning tmpl.render(assigns, :registers =&gt; {:controller =&gt; controller, :request =&gt; request}) do |result|
+    
+    \#Just add the errors to the logger...Simple
+    if logger && logger.debug?
+    msg = ""
+    tmpl.errors.each do |exception|
+    msg &lt;&lt; "[Liquid Error] \#{exception.message} trace: \n\#{exception.backtrace.join("\n")}"
+    msg &lt;&lt; "\n\n"
+    end
+    logger.debug msg
+    end
+    
+    yield tmpl, result if block_given?
+    end
+    end

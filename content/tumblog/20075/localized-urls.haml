@@ -1,0 +1,1627 @@
+--- 
+tumblog_type: regular
+title: Localized urls
+author: Saimon Moore
+filter: haml
+created_at: 2007-05-17 09:57:00 +02:00
+layout: tumblog/post
+---
+%p
+  In this article, I’m going to describe a simple way to localize your application’s urls using globalize.
+%h3
+  Localize your urls
+What do I mean by “localize your urls” exactly? For example, you browse to :
+%pre
+  %code
+    http://ocium.com/artists/millivanilli
+%p
+  and are shown the “Milli Vanilli” artist info page in the base locale (which is ‘english’ for arguments sake). You click a link to switch locale within the page and you’re transported to:
+%pre
+  %code
+    http://es.ocium.com/artistas/millivanilli
+%p
+  As you can see, the whole url has been translated into the language of the currently active locale.
+%p
+  %strong
+    Locale defined as a path parameter
+%p
+  In this example, I’m using subdomains to indicate the locale, but you can easily use path/query parameters to define the locale.
+e.g.
+%pre
+  %code
+    http://ocium.com/en/artists/millivanilli
+    \=&gt;
+    http://ocium.com/es/artistas/millivanilli
+%h3
+  The plugin
+%p
+  I’ve wrapped up the code to do that within the
+  %a{ :href => "http://sidirodromos.rubyforge.org/" }
+    LocalizedRoutes
+  plugin:
+%h4
+  Installation
+%ul
+  %li
+    Assuming you have the latest version of globalize installed (at least for-1.2),
+  %li
+    Install the plugin via :
+    %pre
+      %code
+        script/plugin install svn://rubyforge.org/var/svn/sidirodromos/plugins/localized_routes/trunk
+%h3
+  Usage
+%p
+  You can now translate the urls in your routes via:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+        8
+        %tt
+        9
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.draw
+        %span.r
+          do
+        |map|
+        %tt
+        %tt
+        %span.c
+          \#Will translate 'list' to the default namespace
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        \.t,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        %tt
+        %span.c
+          \#Will translate 'list' to the 'urls' namespace
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  %b
+    Note
+  \: The use of the
+  %em
+    ‘urls’ namespace
+  when translating routes. This is recommended as it’s then easy to separate url translations from other translations.
+%p
+  The
+  %strong
+    localized_routes
+  plugin looks at the incoming request and calculates which locale is to be set as active from one of three possible methods in the following order:
+%ol
+  %li
+    %em
+      “Query parameter”
+    named
+    %strong
+      “locale”
+    e.g
+    %pre
+      %code
+        http://saimonmoore.net/listar?locale=es
+  %li
+    %em
+      “Path parameter”
+    extracted by matching request path against Globalize::LocalizedRoutes::LOCALE_PATH_MATCHING_RE e.g.
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.co
+              Globalize
+            \::
+            %span.co
+              LocalizedRoutes
+            \::
+            %span.co
+              LOCALE_PATH_MATCHING_RE
+            %tt
+            \=&gt;
+            %span.rx
+              %span.dl
+                \/
+              %span.k
+                ^
+              %span.ch
+                \\/
+              %span.k
+                ([
+              %span.ch
+                \\w
+              %span.k
+                \-]+)|
+              %span.ch
+                \\/
+              %span.k
+                ([
+              %span.ch
+                \\w
+              %span.k
+                \-]+)
+              %span.ch
+                \\/
+              %span.k
+                \.*$
+              %span.dl
+                \/
+            %tt
+    %pre
+      %code
+        http://saimonmoore.net/es/listar
+        or
+        http://saimonmoore.net/es
+    %b
+      Note
+    \:
+    %em
+      If you want to define the locale in the path differently, then just override the regexp
+    \.
+  %li
+    %em
+      “Subdomain”
+    e.g.
+    %pre
+      %code
+        http://es.saimonmoore.net/listar
+%p
+  If you’re using the path parameter to define your locale then it’s a good idea to specify it in the route like so:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.draw
+        %span.r
+          do
+        |map|
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  Then you’ll have access to the
+  %strong
+    “locale”
+  parameter in the controller and it’s useful for url helper methods.
+%h3
+  Some examples:
+%h4
+  You want to define the “locale via a path parameter”.
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.draw
+        %span.r
+          do
+        |map|
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  You translate the urls for each language you support:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+        8
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          Locale
+        \.set_base_language(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            en-GB
+          %span.dl
+            '
+        )
+        %tt
+        %tt
+        %span.co
+          Locale
+        \.set(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            es-ES
+          %span.dl
+            '
+        )
+        %tt
+        %span.co
+          Locale
+        \.set_translation_with_namespace(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/list
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:urls
+        ,
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/listar
+          %span.dl
+            '
+        )
+        %tt
+        %tt
+        %span.co
+          Locale
+        \.set(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            fr-FR
+          %span.dl
+            '
+        )
+        %tt
+        %span.co
+          Locale
+        \.set_translation_with_namespace(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/list
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:urls
+        ,
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/enumerer
+          %span.dl
+            '
+        )
+        %tt
+%p
+  You can now access:
+%pre
+  %code
+    http://saimonmoore.net/en/list
+    http://saimonmoore.net/es/listar
+    http://saimonmoore.net/fr/enumerer
+%p
+  To access:
+%pre
+  %code
+    http://saimonmoore.net/list
+%p
+  you’d need to additionally define:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+%p
+  %strong
+    If, on the other hand, you’d like to define the “locale via subdomains”, then:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.draw
+        %span.r
+          do
+        |map|
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            blog
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  Again you translate the urls for each language you support:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+        8
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          Locale
+        \.set_base_language(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            en-GB
+          %span.dl
+            '
+        )
+        %tt
+        %tt
+        %span.co
+          Locale
+        \.set(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            es-ES
+          %span.dl
+            '
+        )
+        %tt
+        %span.co
+          Locale
+        \.set_translation_with_namespace(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \/list
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:urls
+        ,
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \/listar
+          %span.dl
+            '
+        )
+        %tt
+        %tt
+        %span.co
+          Locale
+        \.set(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            fr-FR
+          %span.dl
+            '
+        )
+        %tt
+        %span.co
+          Locale
+        \.set_translation_with_namespace(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \/list
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:urls
+        ,
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \/enumerer
+          %span.dl
+            '
+        )
+        %tt
+%p
+  You can now access:
+%pre
+  %code
+    http://saimonmoore.net/list
+    http://es.saimonmoore.net/listar
+    http://fr.saimonmoore.net/enumerer
+%h3
+  Switch Locale Links
+%p
+  Here are examples of how you’d create a list of links to switch the current locale using all three methods for defining the locale:
+Assuming routes defined as:
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.draw
+        %span.r
+          do
+        |map|
+        %tt
+        map.list_with_locale
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:locale/list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            application
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        map.list
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        \&gt;&gt;
+        %span.sy
+          \:urls
+        ,
+        %span.sy
+          \:controller
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            application
+          %span.dl
+            '
+        ,
+        %span.sy
+          \:action
+        \=&gt;
+        %span.s
+          %span.dl
+            '
+          %span.k
+            list
+          %span.dl
+            '
+        %tt
+        map.connect
+        %span.s
+          %span.dl
+            '
+          %span.k
+            \:controller/:action/:id
+          %span.dl
+            '
+        %tt
+        %span.r
+          end
+        %tt
+%p
+  %strong
+    Note
+  \:
+  %em
+    For this example I’ve already translated the urls for each of the supported languages.
+%p
+  Then in your partial (or extract to a helper):
+%ul
+  %li
+    %strong
+      path parameter
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+            7
+            %tt
+            8
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                SupportedLocales
+              \.supported_language_codes.each
+              %span.r
+                do
+              |code|
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                Locale
+              \.switch_locale(code)
+              %span.r
+                do
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                ActionController
+              \::
+              %span.co
+                Routing
+              \::
+              %span.co
+                Routes
+              \.reload
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%=
+              link_to
+              %span.co
+                Locale
+              \.language.native_name, list_with_locale_url(
+              %span.s
+                %span.dl
+                  '
+                %span.k
+                  locale
+                %span.dl
+                  '
+              \=&gt; code)
+              %span.dl
+                \%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+    %b
+      Note
+    \:
+    %em
+      To make it even simpler you could use one of these
+      %a{ :href => "http://www.artweb-design.de/2007/5/13/concise-localized-rails-url-helpers-solved-twice" }
+        techniques
+      to only specify
+      %strong
+        “list_with_locale_url”
+    %br
+    Browsing to http://saimonmoore.net/list generates:
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/en/list
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            English
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/el/katalago
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Ελληνικά
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/es/listar
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Español
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/ca/listar
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Català
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+  %li
+    %strong
+      query parameter
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+            7
+            %tt
+            8
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                SupportedLocales
+              \.supported_language_codes.each
+              %span.r
+                do
+              |code|
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                Locale
+              \.switch_locale(code)
+              %span.r
+                do
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                ActionController
+              \::
+              %span.co
+                Routing
+              \::
+              %span.co
+                Routes
+              \.reload
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%=
+              link_to
+              %span.co
+                Locale
+              \.language.native_name, list_url(
+              %span.s
+                %span.dl
+                  '
+                %span.k
+                  locale
+                %span.dl
+                  '
+              \=&gt; code)
+              %span.dl
+                \%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+    Browsing to http://saimonmoore.net/list generates:
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/list?locale=en
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            English
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/katalogo?locale=el
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Ελληνικά
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/listar?locale=es
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Español
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/listar?locale=ca
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Català
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+  %li
+    %strong
+      subdomain
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+            7
+            %tt
+            8
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                SupportedLocales
+              \.supported_language_codes.each
+              %span.r
+                do
+              |code|
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                Locale
+              \.switch_locale(code)
+              %span.r
+                do
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.co
+                ActionController
+              \::
+              %span.co
+                Routing
+              \::
+              %span.co
+                Routes
+              \.reload
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%=
+              link_to
+              %span.co
+                Locale
+              \.language.native_name, subdomain_for(
+              %span.sy
+                \:list_url
+              )
+              %span.dl
+                \%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+            %span.il
+              %span.dl
+                \&lt;%
+              %span.r
+                end
+              %span.dl
+                \-%&gt;
+            %tt
+    Browsing to http://saimonmoore.net/list generates:
+    %table.CodeRay
+      %tr
+        %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+          %pre
+            1
+            %tt
+            2
+            %tt
+            3
+            %tt
+            4
+            %tt
+            %strong
+              5
+            %tt
+            6
+            %tt
+        %td.code
+          %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://saimonmoore.net/list
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            English
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://el.saimonmoore.net/katalogo
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Ελληνικά
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://es.saimonmoore.net/listar
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Español
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+            %span.ta
+              \&lt;a
+            %span.an
+              href
+            \=
+            %span.s
+              %span.dl
+                \&quot;
+              %span.k
+                http://ca.saimonmoore.net/listar
+              %span.dl
+                \&quot;
+            %span.ta
+              \&gt;
+            Català
+            %span.ta
+              \&lt;/a&gt;
+            %tt
+%h4
+  Test application
+%p
+  If you’d like to experiment with this, I’ve bundled up a
+  %a{ :href => "/files/testapp.tar.gz" }
+    test application
+  which has everything you need to play around with this. Just set up a db & run rake globalize:setup. In the db directory you can find an sql file, with all the translations used in this example.
+%p
+  %strong
+    Note
+  \:
+  %em
+    In the last example I used a subdomain_for() helper to correctly generate the right host for each locale. This is very simple and you can see the code in the example app.
+%h3
+  The code
+%p
+  I’ve babbled a lot about how you can use this plugin but let’s take a look at the actual code. It’s really quite simple.
+%p
+  In essence, I realized that for each request that goes through rails, the dispatcher takes care of running it through the defined routes in order to recognize the appropriate controller and action for the request and then passes it along to the controller for processing.
+%p
+  What I needed then is to ensure that the locale is set before routing recognition occurs
+%p
+  So I simple overrode Dispatcher.dispatch() to add in a call to a set_locale() method
+  %strong
+    before
+  the call to ActionController::Routing::Routes.recognize. This means Globalize::Locale is now set when the routing code does it’s recognition which means you can then translate strings within the route definitions.
+%p
+  i.e.
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+        8
+        %tt
+        9
+        %tt
+        %strong
+          10
+        %tt
+        11
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.r
+          def
+        %span.fu
+          dispatch_with_locale
+        (cgi =
+        %span.pc
+          nil
+        , session_options =
+        %span.co
+          ActionController
+        \::
+        %span.co
+          CgiRequest
+        \::
+        %span.co
+          DEFAULT_SESSION_OPTIONS
+        , output =
+        %span.gv
+          $stdout
+        )
+        %tt
+        controller =
+        %span.pc
+          nil
+        %tt
+        %span.r
+          if
+        cgi ||= new_cgi(output)
+        %tt
+        request, response =
+        %span.co
+          ActionController
+        \::
+        %span.co
+          CgiRequest
+        \.new(cgi, session_options),
+        %span.co
+          ActionController
+        \::
+        %span.co
+          CgiResponse
+        \.new(cgi)
+        %tt
+        \=&gt;        set_locale(request)
+        %span.c
+          \#Set the locale before route recognition
+        %tt
+        prepare_application
+        %tt
+        controller =
+        %span.co
+          ActionController
+        \::
+        %span.co
+          Routing
+        \::
+        %span.co
+          Routes
+        \.recognize(request)
+        %tt
+        controller.process(request, response).out(output)
+        %tt
+        %span.r
+          end
+        %tt
+        \....
+        %tt
+%p
+  %strong
+    Note
+  \:
+  %em
+    I hadn’t seen Dispatcher.to_prepare before and Josh Sierles brought it to my attention however, this only executes the callback on the
+    %strong
+      first
+    request in production mode so it’s not really usefull in this case. Another problem is that set_locale needs access to the request. I’m thinking of sending in a patch to rails to make it configurable and will then convert the code to using this.
+%p
+  Take a look at the
+  %a{ :href => "http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/plugins/localized_routes/?root=sidirodromos" }
+    code
+  to see what set_locale does (though it’s nothing fancy).
+%p
+  Hope that you find this handy. I certainly have.
+%p
+  Saimon
+%p
+  P.S. I’ve incorporated this functionality directly into my
+  %a{ :href => "http://webtypes.com/2007/3/18/globalizing-mephisto" }
+    mephisto_i18n plugin
+  which makes it handy if you need to extend mephisto with custom routes.
+%p
+  %strong
+    Update
+  \: I’ve refactored the code slightly to use a patched Dispatcher which adds support for request_callbacks (similar to preparation_callbacks but which are executed on every request and which have access to the request object).
+%p
+  %strong
+    Problem?
+  \: The code now reloads the routes for the current locale
+  %strong
+    on every request
+  \. This is so that you can reload routes within Locale.switch_locale blocks and generate the localized url correctly. I realize this may have a performance hit but initiall tests show this to minimal.

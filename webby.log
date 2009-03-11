@@ -1,0 +1,128 @@
+[33m       update[0m  output/.DS_Store
+[32m       create[0m  output/about.html
+[32m       create[0m  output/contact-me.html
+[32m       create[0m  output/hire-me.html
+[32m       create[0m  output/index.html
+[32m       create[0m  output/portfolio.html
+[32m       create[0m  output/css/coderay.css
+[32m       create[0m  output/css/site.css
+[32m       create[0m  output/css/tumblog.css
+[32m       create[0m  output/images/.DS_Store
+[32m       create[0m  output/images/background_body.jpg
+[32m       create[0m  output/images/background_header.jpg
+[32m       create[0m  output/images/image.jpg
+[32m       create[0m  output/images/tumblog/permalink.gif
+[32m       create[0m  output/images/tumblog/rss.gif
+[32m       create[0m  output/javascripts/.DS_Store
+[32m       create[0m  output/javascripts/site.js
+[32m       create[0m  output/javascripts/lib/jquery-1.2.6.min.js
+[32m       create[0m  output/tumblog/archive.html
+[32m       create[0m  output/tumblog/archive2.html
+[32m       create[0m  output/tumblog/archive3.html
+[32m       create[0m  output/tumblog/archive4.html
+[32m       create[0m  output/tumblog/archive5.html
+[32m       create[0m  output/tumblog/archive6.html
+[32m       create[0m  output/tumblog/archive7.html
+[32m       create[0m  output/tumblog/index.html
+[19:11:45] ERROR: while rendering page 'content/tumblog/index.haml'
+[19:11:45] ERROR: haml filter error: "haml filter error: \"Unbalanced brackets.\""
+[32m       create[0m  output/tumblog/index2.html
+[32m       create[0m  output/tumblog/index3.html
+[32m       create[0m  output/tumblog/index4.html
+[32m       create[0m  output/tumblog/index5.html
+[19:11:45] ERROR: while rendering page 'content/tumblog/index.haml'
+[19:11:45] ERROR: haml filter error: "haml filter error: \"uninitialized constant Webby::Renderer::Product\""
+[32m       create[0m  output/tumblog/index6.html
+[32m       create[0m  output/tumblog/index7.html
+[32m       create[0m  output/tumblog/index8.html
+[19:11:45] ERROR: while rendering page 'content/tumblog/index.haml'
+[19:11:45] ERROR: haml filter error: "haml filter error: \"undefined local variable or method `e' for #<Webby::Renderer:0x25a3cf8>\""
+[32m       create[0m  output/tumblog/index9.html
+[32m       create[0m  output/tumblog/index10.html
+[32m       create[0m  output/tumblog/index11.html
+[32m       create[0m  output/tumblog/index12.html
+[32m       create[0m  output/tumblog/index13.html
+[32m       create[0m  output/tumblog/index14.html
+[32m       create[0m  output/tumblog/index15.html
+[19:11:45] ERROR: while rendering page 'content/tumblog/index.haml'
+[19:11:45] ERROR: haml filter error: "haml filter error: \"undefined local variable or method `euclids_algorithm' for #<Webby::Renderer:0x235a3d4>\""
+[32m       create[0m  output/tumblog/index16.html
+[32m       create[0m  output/tumblog/index17.html
+[32m       create[0m  output/tumblog/rss.xml
+[19:11:45] ERROR: while rendering page 'content/tumblog/rss.haml'
+[19:11:45] ERROR: haml filter error: "haml filter error: \"Unbalanced brackets.\""
+[32m       create[0m  output/tumblog/200512/4.html
+[32m       create[0m  output/tumblog/200512/bligi-release-0-01.html
+[32m       create[0m  output/tumblog/200512/it-s-her-birthday-today.html
+[32m       create[0m  output/tumblog/200512/it-s-my-birthday-today.html
+[32m       create[0m  output/tumblog/200512/mtu.html
+[32m       create[0m  output/tumblog/200512/my-google-mail-reader-features-for-the-new-year.html
+[32m       create[0m  output/tumblog/200512/my-trusty-editor-to-the-rescue.html
+[32m       create[0m  output/tumblog/200512/rails-milestone-1-0-released.html
+[32m       create[0m  output/tumblog/20058/1st-production-release-of-bligi.html
+[32m       create[0m  output/tumblog/20058/adding-tags-feature-to-bligi.html
+[32m       create[0m  output/tumblog/20058/algorithms-series-euclid-s-1-1e.html
+[19:11:45] ERROR: while rendering page 'content/tumblog/20058/algorithms-series-euclid-s-1-1e.haml'
+[19:11:45] ERROR: haml filter error: "undefined local variable or method `euclids_algorithm' for #<Webby::Renderer:0x241d7e4>"
+[32m       create[0m  output/tumblog/20058/back-from-camping-in-aigues-tortes.html
+[32m       create[0m  output/tumblog/20058/climbing-around-cavallers.html
+[32m       create[0m  output/tumblog/20058/finally-ironed-out-last-bligi-weening-problem.html
+[32m       create[0m  output/tumblog/20058/just-registered-for-mst121.html
+[32m       create[0m  output/tumblog/20058/markup-service-added.html
+[32m       create[0m  output/tumblog/20058/running-switchtower.html
+[32m       create[0m  output/tumblog/20058/studying-again.html
+[32m       create[0m  output/tumblog/20059/01-02-29.html
+[32m       create[0m  output/tumblog/20059/added-previewing-to-bligi-in-under-1-2-hr.html
+[32m       create[0m  output/tumblog/20059/added-tags_with_count-to-tagtools.html
+[32m       create[0m  output/tumblog/20059/being-robbed.html
+[32m       create[0m  output/tumblog/20059/release-nightmare.html
+[32m       create[0m  output/tumblog/20059/via-ferrata-regina-oliana-dam.html
+[32m       create[0m  output/tumblog/20061/jedit-for-ruby-rails-development.html
+[32m       create[0m  output/tumblog/200610/clients.html
+[32m       create[0m  output/tumblog/200610/hire-me.html
+[32m       create[0m  output/tumblog/200610/photo-gallery.html
+[32m       create[0m  output/tumblog/200610/saimon.html
+[32m       create[0m  output/tumblog/200610/welcome.html
+[32m       create[0m  output/tumblog/200611/dotime.html
+[32m       create[0m  output/tumblog/200612/alternative-implementation-of-globalize-model-translations.html
+[19:11:46] ERROR: while rendering page 'content/tumblog/200612/alternative-implementation-of-globalize-model-translations.haml'
+[19:11:46] ERROR: haml filter error: "undefined local variable or method `attribute_name' for #<Webby::Renderer:0x244f668>"
+[32m       create[0m  output/tumblog/200612/debugging-bugs-in-controller-filters.html
+[32m       create[0m  output/tumblog/200612/debugging-liquid-templates.html
+[19:11:46] ERROR: while rendering page 'content/tumblog/200612/debugging-liquid-templates.haml'
+[19:11:46] ERROR: haml filter error: "undefined local variable or method `e' for #<Webby::Renderer:0x23d48c8>"
+[32m       create[0m  output/tumblog/200612/dotime-on-rubyforge.html
+[32m       create[0m  output/tumblog/200612/jedit-liquid-mode-and-abbrevs.html
+[32m       create[0m  output/tumblog/200612/languages-i-would-like-to-learn.html
+[32m       create[0m  output/tumblog/200612/liquid-drops-and-includes.html
+[32m       create[0m  output/tumblog/200612/update-your-feed.html
+[32m       create[0m  output/tumblog/20063/ripe-for-a-ruby-port.html
+[32m       create[0m  output/tumblog/20064/rake-autocompletion.html
+[32m       create[0m  output/tumblog/20064/sneak-preview-of-perspectives-plugin.html
+[32m       create[0m  output/tumblog/20071/dotime-doing-well.html
+[32m       create[0m  output/tumblog/200710/more-validations.html
+[32m       create[0m  output/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html
+[32m       create[0m  output/tumblog/200711/macbook-with-fries.html
+[32m       create[0m  output/tumblog/200711/mephisto_i18n-update.html
+[32m       create[0m  output/tumblog/200711/my-macbook-has-just-been-fixed-3-weeks-later.html
+[32m       create[0m  output/tumblog/200712/baby-list.html
+[32m       create[0m  output/tumblog/200712/git-plugin-for-cruisecontrolrb.html
+[32m       create[0m  output/tumblog/20073/globalize-internal-storage-mechanism.html
+[19:11:46] ERROR: while rendering page 'content/tumblog/20073/globalize-internal-storage-mechanism.haml'
+[19:11:46] ERROR: haml filter error: "uninitialized constant Webby::Renderer::Product"
+[32m       create[0m  output/tumblog/20073/i-m-a-globalize-committer.html
+[32m       create[0m  output/tumblog/20073/introducing-capistrano-server-extensions.html
+[32m       create[0m  output/tumblog/20073/namespaced-view-translations.html
+[32m       create[0m  output/tumblog/20073/saimonmoore-net-down-for-maintenance.html
+[32m       create[0m  output/tumblog/20073/saimonmoore-net-is-now-globalized.html
+[32m       create[0m  output/tumblog/20073/tools-for-migrating-to-internal-storage.html
+[32m       create[0m  output/tumblog/20075/active-event-plugin.html
+[32m       create[0m  output/tumblog/20075/localized-urls.html
+[32m       create[0m  output/tumblog/20075/saimonmoore-net-now-runs-multiple-globalized-sites.html
+[32m       create[0m  output/tumblog/20076/talking-about-globalize-in-ostrava.html
+[32m       create[0m  output/tumblog/20077/after-ostrava.html
+[32m       create[0m  output/tumblog/20081/created-mongrel-dont-serve-static-patch-ticket.html
+[32m       create[0m  output/tumblog/20081/mocking-activerecord-recordinvalid-with-mocha.html
+[32m       create[0m  output/tumblog/20081/rspec-story-runner-driven-browser-acceptance-testing.html
+[19:11:47] ERROR: while rendering page 'content/tumblog/20081/rspec-story-runner-driven-browser-acceptance-testing.haml'
+[19:11:47] ERROR: haml filter error: "Unbalanced brackets."

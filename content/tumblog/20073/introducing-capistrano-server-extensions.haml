@@ -1,0 +1,52 @@
+--- 
+tumblog_type: regular
+title: Introducing Capistrano Server Extensions
+author: Saimon Moore
+filter: haml
+created_at: 2007-03-16 09:50:00 +01:00
+layout: tumblog/post
+---
+%p
+  I’ve just released a cool tool :) lamely called
+  %a{ :href => "http://rubyforge.org/projects/capserverext" }
+    Capistrano Server Extensions
+  \. It’s a
+  %a{ :href => "http://manuals.rubyonrails.com/read/book/17" }
+    Capistrano
+  extension based on the
+  %a{ :href => "http://deprec.rubyforge.org/" }
+    deprec
+  gem and allows you to very easily setup full rails stacks on Ubuntu servers using any combination of
+  %a{ :href => "http://sysoev.ru/en" }
+    Nginx
+  \/
+  %a{ :href => "http://httpd.apache.org" }
+    Apache
+  \/
+  %a{ :href => "http://www.mysql.com" }
+    MySQL
+  or
+  %a{ :href => "http://www.postgresql.org" }
+    PostgreSQL
+%p
+  e.g.
+%pre
+  %code
+    $ cap prepare_ssh
+    $ cap prepare_host
+%p
+  That’s it (more or less :)
+%p
+  For the full article read
+  %a{ :href => "http://www.webtypes.com/2007/03/15/announcing-capistrano-server-extensions" }
+    Announcing Capistrano Server Extensions
+  \.
+%p
+  I should take this opportunity to also announce that along with super fantastic
+  %a{ :href => "http://www.webtypes.com/" }
+    Thomas Maas
+  I’m a
+  %strong
+    %a{ :href => "http://webtypes.com" }
+      Web Type
+  too. So I’ll be writing articles on both these sites.

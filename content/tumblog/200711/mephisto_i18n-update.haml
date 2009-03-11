@@ -1,0 +1,27 @@
+--- 
+tumblog_type: regular
+title: Mephisto_i18n update
+author: Saimon Moore
+filter: haml
+created_at: 2007-11-02 15:23:00 +01:00
+layout: tumblog/post
+---
+%p
+  Just a quick heads up on the status of this for those who are interested.
+%p
+  Though it may seem that this project has died from lack of activity, I am still very much maintaining this project and have been adding fixes and tweaks on and off during the last few months.
+%p
+  In fact, I’ve just committed a couple of fixes:
+%ul
+  %li
+    Correct subdomain parsing for non-multisite mephisto instances (Bug was introduced when adding multisite support)
+  %li
+    Making the dynamic i18n link switcher drop method handle paged articles whose section is the home section.
+%p
+  The future status of this project is basically pending a rewrite of globalize. I had already written the next version of globalize (currently stored in a branch) with support for rfc4646 but with the new rails i18n api talks going on, I’m waiting for these to conclude and get the rewrite for globalize 2 done before updating this plugin for that new version.
+%p
+  So….
+%p
+  To all those currently/thinking of using the plugin, feel free to bug me with questions, bug reports and help. I’m still commited to maintaining this.
+%p
+  Btw, the latest version in trunk also has support for plugin template handlers, so you can now use erb, haml or whatever else takes your fancy.

@@ -1,0 +1,86 @@
+--- 
+tumblog_type: regular
+title: Mocking ActiveRecord::RecordInvalid with mocha
+author: Saimon Moore
+filter: haml
+created_at: 2008-01-23 13:12:00 +01:00
+layout: tumblog/post
+---
+%p
+  For future
+  %a{ :href => "http://pastie.caboo.se/private/yqzjw6icn5efmp5wpnw" }
+    reference
+%table.CodeRay
+  %tr
+    %td.line_numbers{ :title => "click to toggle", :onclick => "with (this.firstChild.style) { display = (display == '') ? 'none' : '' }" }
+      %pre
+        1
+        %tt
+        2
+        %tt
+        3
+        %tt
+        4
+        %tt
+        %strong
+          5
+        %tt
+        6
+        %tt
+        7
+        %tt
+        8
+        %tt
+    %td.code
+      %pre{ :ondblclick => "with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }" }
+        %tt
+        %span.r
+          def
+        %span.fu
+          mock_record_invalid
+        (model)
+        %tt
+        user_errors, record_invalid_error = mock(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            errors
+          %span.dl
+            '
+        ), mock(
+        %span.s
+          %span.dl
+            '
+          %span.k
+            record_invalid_error
+          %span.dl
+            '
+        )
+        %tt
+        user_errors.stubs(
+        %span.sy
+          \:full_messages
+        ).returns([])
+        %tt
+        model.stubs(
+        %span.sy
+          \:errors
+        ).returns(user_errors)
+        %tt
+        record_invalid_error.stubs(
+        %span.sy
+          \:exception
+        ).returns(
+        %span.co
+          ActiveRecord
+        \::
+        %span.co
+          RecordInvalid
+        \.new(model))
+        %tt
+        record_invalid_error
+        %tt
+        %span.r
+          end
+        %tt
