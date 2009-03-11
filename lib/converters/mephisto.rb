@@ -25,13 +25,15 @@ module Webby
       # This query will pull blog posts entries across blogs with id 1.
       QUERY = "SELECT id, permalink, body, body_html, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
 
-      def self.process(db, dbname, user, pass, host = 'localhost')
+      def self.process(db, dbname, user, pass, host = 'localhost', port = nil)
         host ||= 'localhost'
         db = case db.to_s
               when 'mysql'
-                Sequel.mysql(dbname, :user => user, :password => pass, :host => host)
+                port ||= 3306
+                Sequel.mysql(dbname, :user => user, :password => pass, :host => host, :port => port)
               when 'postgresql'
-                Sequel.connect("postgres://#{user}:#{pass}@#{host}/#{dbname}")
+                port ||= 5432
+                Sequel.connect("postgres://#{user}:#{pass}@#{host}:#{port}/#{dbname}")
              end
         FileUtils.mkdir_p "content"
 
