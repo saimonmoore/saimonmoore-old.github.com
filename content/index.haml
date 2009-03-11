@@ -1,0 +1,28 @@
+---
+title:        Page Title
+filter:
+  - haml
+---
+
+%h1 Welcome
+
+%p
+  This is the personal homepage of Saimon Moore, a web application developer specializing in
+  %a{:href => 'http://www.ruby-lang.org/en/'} Ruby
+  and
+  = succeed '.' do
+    %a{:href => 'http://www.rubyonrails.com/'} Rails
+%p
+  I live in Barcelona, Spain and am currently available for
+  = succeed '.' do
+    %a{:href => '/about'} freelancing
+  Feel free to
+  %a{:href => '/contact'} contact
+  me regarding
+  = succeed '.' do
+    %a{:href => '/portfolio'} projects  
+
+%p
+  I periodically write stuff on my
+  = succeed '.' do
+    %a{:href => '/blog'} weblog

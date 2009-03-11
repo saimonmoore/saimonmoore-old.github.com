@@ -23,27 +23,30 @@ filter: haml
   %body
     #header
       %h1
-        Spring Bloom
+        Simple Thoughts
       %p
-        Design. Style. Usability.
+        Saimon Moore's occasional musings
       %ul
         %li
-          %a{ :href => "#" }
+          %a{ :href => "/" }
             Homepage
         %li
-          %a{ :href => "#" }
+          %a{ :href => "/blog.html" }
             My Blog
         %li
-          %a{ :href => "#" }
+          %a{ :href => "/portfolio.html" }
             Portfolio
         %li
-          %a{ :href => "#" }
+          %a{ :href => "/about.html" }
             About Me
         %li
-          %a{ :href => "#" }
+          %a{ :href => "/contact-me.html" }
             Contact Me
     #content
       #sidebar
+        %h1
+          Search
+        %input{ :type => "text", :value => "Start Your Search..." }      
         %h1
           Latest News
         %p
@@ -75,12 +78,7 @@ filter: haml
           %li
             %a{ :href => "http://www.w3csites.com/profile.asp?u=christopher" }
               W3C Sites
-        %h1
-          Search
-        %input{ :type => "text", :value => "Start Your Search..." }
       #main
-        %h1
-          Welcome To Spring Bloom
         = @content
     #footer
       %p

@@ -1,0 +1,44 @@
+---
+title:        About me
+created_at:   2009-03-11 14:36:41.009522 +01:00
+filter:
+  - haml
+---
+%h1
+  Saimon
+%p
+  == Software developer with over #{((Date.today - Date.new(2000,1,1)) / 365).to_i}
+  years solid
+  %a{ :href => "/assets/2006/10/12/cv.html" }
+    experience
+  in open source web development.
+%p
+  I have experience in:
+  %ul
+    %li
+      Ruby
+    %li
+      RubyOnRails
+    %li
+      Javascript (Dom/Prototype/Scriptaculous…)
+    %li
+      Java
+    %li
+      Jsp
+    %li
+      Jhtml
+    %li
+      Relational Databases (Oracle, Postgresql, Mysql…)
+    %li
+      Unix Systems (Linux,
+      %span.caps
+        HPUX
+      , Solaris)
+%p
+  More detail can be found in my
+  = succeed '.' do
+    %a{ :href => "/assets/2006/10/12/cv.html" } CV
+%p
+  If you find my profile may fit your project then
+  = succeed '.' do
+    %a{ :href => "/hire-me.html" } Hire me
