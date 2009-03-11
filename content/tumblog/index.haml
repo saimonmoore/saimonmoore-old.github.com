@@ -1,0 +1,26 @@
+---
+title:  Simple Thoughts
+author: Saimon Moore
+layout: tumblog/default
+filter: haml
+dirty:  true
+---
+- prev = nil
+- posts = @pages.find(:all, :layout => 'tumblog/post', :sort_by => :created_at, :reverse => true)
+- paginate(posts, 4) do |p|
+  .post
+    - if prev != p.created_at.strftime('%Y%m%d')
+      = tumblog_date(p.created_at)
+    - prev = p.created_at.strftime('%Y%m%d')
+
+    %a{ :href => p.url }
+      %img.permalink{ :src => "/images/tumblog/permalink.gif", :alt => "permalink" }
+    %div{ :class => p.tumblog_type }
+      - if p.title
+        %h2
+          = link_to_page(p)
+      = render(p)
+
+- content_for :footer do
+  = link_to("&#171; Prev", @pager.prev) if @pager.prev?
+  = link_to("Next &#187;", @pager.next) if @pager.next?
