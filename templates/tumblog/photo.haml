@@ -1,0 +1,15 @@
+---
+title:      <%= title %>
+created_at: <%= Time.now.to_y %>
+author:     Your Name
+filter:
+  - haml
+layout:       tumblog/post
+tumblog_type: photo
+---
+%p
+  %img{ :title => "Up a Tree", :src => "http://www.madcitychickens.com/images/bttrcups_tree.jpg", :alt => "Up a Tree" }
+%p.caption
+  via
+  %a{ :href => "http://www.madcitychickens.com/" }
+    Mad City Chickens

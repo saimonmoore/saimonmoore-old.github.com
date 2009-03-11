@@ -1,0 +1,32 @@
+---
+extension: html
+filter:    haml
+---
+!!! Strict
+%html{ "xml:lang" => "en", :lang => "en-us", :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }
+    %title
+      = @page.title
+    %meta{ :name => "author", :content => @page.author }
+    %link{ :href => "/tumblog/rss.xml", :title => "RSS", :rel => "alternate", :type => "application/atom+xml" }
+    %link{ :href => "/css/tumblog.css", :rel => "stylesheet", :media => "screen, projection", :type => "text/css" }
+  %body
+    %h1
+      %a{ :href => "/" }
+        Fowl Friends
+      %a{ :href => "/tumblog/rss.xml" }
+        %img#rss{ :src => "/images/tumblog/rss.gif", :alt => "RSS" }
+    #content
+      #description
+        %div
+          %p
+            %a{ :href => "/tumblog/archive" }
+              Archive
+      = @content
+      #footer
+        = content_for :footer
+        #credit
+          Powered by
+          %a{ :href => "http://webby.rubyforge.org/" }
+            Webby

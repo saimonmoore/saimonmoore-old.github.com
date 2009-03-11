@@ -1,0 +1,12 @@
+---
+filter: haml
+layout: tumblog/default
+---
+.post
+  = tumblog_date(@page.created_at)
+  %a{ :href => @page.url }
+    %img.permalink{ :src => "/images/tumblog/permalink.gif", :alt => "permalink" }
+  %div{ :class => @page.tumblog_type }
+    %h2
+      = link_to_page(@page)
+    = @content
