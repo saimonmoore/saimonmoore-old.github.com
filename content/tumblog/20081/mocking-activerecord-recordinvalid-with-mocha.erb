@@ -1,0 +1,32 @@
+--- 
+tumblog_type: regular
+entry_id: 1936
+title: Mocking ActiveRecord::RecordInvalid with mocha
+author: Saimon Moore
+filter: erb
+created_at: 2008-01-23 13:12:00 +01:00
+layout: tumblog/post
+---
+<p>For future <a href="http://pastie.caboo.se/private/yqzjw6icn5efmp5wpnw">reference</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>  <span class="r">def</span> <span class="fu">mock_record_invalid</span>(model)<tt>
+</tt>    user_errors, record_invalid_error = mock(<span class="s"><span class="dl">'</span><span class="k">errors</span><span class="dl">'</span></span>), mock(<span class="s"><span class="dl">'</span><span class="k">record_invalid_error</span><span class="dl">'</span></span>)<tt>
+</tt>    user_errors.stubs(<span class="sy">:full_messages</span>).returns([])<tt>
+</tt>    model.stubs(<span class="sy">:errors</span>).returns(user_errors)<tt>
+</tt>    record_invalid_error.stubs(<span class="sy">:exception</span>).returns(<span class="co">ActiveRecord</span>::<span class="co">RecordInvalid</span>.new(model))<tt>
+</tt>    record_invalid_error<tt>
+</tt>  <span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>

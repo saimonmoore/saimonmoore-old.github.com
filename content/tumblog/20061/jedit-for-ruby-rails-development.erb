@@ -1,0 +1,113 @@
+--- 
+tumblog_type: regular
+entry_id: 198
+title: jEdit for ruby/rails development
+author: Saimon Moore
+filter: erb
+created_at: 2006-01-24 08:35:00 +01:00
+layout: tumblog/post
+---
+<p>I was recently reading through my feeds when I came across the following
+<a href="http://akshayrawat.net/blog/?p=3">post</a>. Akshay was musing over how great jEdit
+is for ruby/rails development.</p>
+
+    <p>I totally agree with him so I commented on his post and while writing the
+comment I decided it was high time to write my own article on using jEdit for
+ruby/rails development.</p>
+
+    <p>I first found <a href="http://www.jedit.org/">jEdit</a> about 6 to 7 years ago and ever
+since then it&#8217;s been my number one programmers editor. I&#8217;d dabbled with ide&#8217;s
+like eclipse and intellij for java development but always in combination with
+jEdit for web work.</p>
+
+    <p>Ever since I switched to ruby/rails development I&#8217;ve found that jEdit adapted
+extremely well and thanks to Rob Mckinnon&#8217;s
+<a href="http://www.jedit.org/ruby">Ruby plug-in for jEdit</a> , all the more so.</p>
+
+    <p>jEdit is a programmers editor written by <a href="http://factor-language.blogspot.com/">Slava Pestov</a>
+
+ (author of the <a href="http://factorcode.org/">Factor</a> language) in java. I&#8217;m not going to go
+into details about what jEdit is and isn&#8217;t. I&#8217;m just going to go over how I use
+jEdit for my rails development and why I think it&#8217;s a great development
+environment for rails work on any platform.</p>
+
+    <p>It comes with edit modes (syntax highlighting) for over a hundred different
+languages (ruby,(x)html,css,javascript,yaml etc&#8230;).
+Writing your own is not that difficult if you find you have to.
+I&#8217;ve written a couple myself (For the <a href="http://jakarta.apache.org/velocity">velocity</a>
+templating engine and the <a href="http://www.tads.org/"><span class="caps">TADS</span></a> language)
+In fact I&#8217;m thinking about writing one for rhtml soon ;) I currently have rhtml
+set up as html mode.</p>
+
+    <p>jEdit also has a very powerful macro system based on beanshell (macros can be written
+ in ruby, python or any bsf scripting language thanks to the superscript plug-in).
+ i.e. you can hook in ruby/rake calls.</p>
+
+    <p>One of the main features I love about this editor is practically everything has
+a configurable key shortcut which means I very rarely have to touch the mouse at
+all and that saves on a lot of time.</p>
+
+    <p><strong><em>The shortcuts menu option&#8230;</em></strong></p>
+
+    <p><img src="/assets/2006/10/12/shortcuts.png" alt=""></p>
+
+    <p>It has a very modular structure allowing you to lazy load in a very large number
+of plug-ins, available <a href=http://plugins.jedit.org/>here</a> or via jEdit itself via the
+Plugin Manager (Recommended &#8211; For those stuck behind a corporate firewall,
+
+	<p><a href="http://www.geocities.com/rozmanov/ntlm/"><span class="caps">APS</span></a> comes in handy).</p>
+(Only loaded on first use).</p>
+<img src="/assets/2006/10/12/plugins-a-n.png" alt=""></p>
+<img src="/assets/2006/10/12/plugins-o-z.png" alt=""></p>
+very handy for ruby development. He then decided to tie them all together into
+a plug-in.</p>
+You can also have it as a quick pop-up&#8230;</p></li>
+    </ul>
+if you have the rdocs tab open it&#8217;ll also automatically point to the
+documentation of the method you&#8217;ve currently selected.</p>
+syntax error in your ruby code.</p>
+typed and indented for you.</pre></li>
+    </ul>
+documentation included as well. You can esily search ri with a quick shortcut.</p></li>
+    </ul>
+have an &#8220;Introduce variable refactoring&#8221; which I don&#8217;t use myself but it&#8217;s a
+start.</p></li>
+    </ul>
+for all it&#8217;s edit modes.</p></li>
+migrations, just like <span class=caps><span class="caps">DHH</span></span> uses) available <a href="/assets/2006/10/12/ruby">here</a></p>
+(docked in at the bottom).</p>
+very handy. This in combination with the rectangular selection (column insert)
+mode and the clipboard history  makes for very powerful editing.</p>
+jEdit written to cover many different needs. Macros are quick and easy way to
+extend jEdit&#8217;s functionality without having to write a full-blown plug-in (in java).
+As I mentioned you can write your macros in ruby and each macro can be assigned
+a shortcut. If you find you&#8217;re missing functionality that <i><span class="caps">XXX</span></i> editor you used
+before had, chances are someone&#8217;s gone ahead and written a macro for it. If not
+you can write it yourself or ask someone in the large jEdit community to do
+it for you (if they happen to feel like it and you ask nicely).
+I forgot to mention that you can download macros from the community from within
+jEdit itself via the MacroManager plug-in (you&#8217;ll find a few I&#8217;ve written myself
+up there).</p>
+Let me tell you that there was a time when jvm&#8217;s were quite laggy but not anymore.
+I run jEdit using sun&#8217;s 1.5 jvm. I start it with the following command:</p></p>
+
+
+<p><strong><em>Java and performance</em></strong></p>
+
+<p>Quite a few people out there complain about how java apps are low-performant.
+
+<code></code><pre>java -mx64m -jar /usr/local/share/jedit/4.3pre2/jedit.jar -background -nogui &amp;amp;</pre>
+
+    <p>This is added to my fluxbox init file, so that jedit is started up in the
+background every time I restart X.
+I&#8217;ve assigned the &#8216;e&#8217; alias to the following startup command:</p>
+
+<code></code><pre>jedit -reuseview</pre>
+
+    <p>So whenever I want to start editing a file, there is no startup lag at all.</p>
+
+    <p>Right,</p>
+
+    <p>I&#8217;ll leave you with a final screen shot of jedit split into 4 screens working on
+a few different kinds of rails files. I&#8217;m using the &#8220;profont&#8221; font and a custom
+jedit editor colour scheme that is similar to the <a href="http://encytemedia.com/blog/articles/2006/01/03/textmate-vibrant-ink-theme-and-prototype-bundle">Vibrant Ink</a> textmate theme.</p><p></p>

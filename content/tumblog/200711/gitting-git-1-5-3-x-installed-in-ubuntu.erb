@@ -1,0 +1,52 @@
+--- 
+tumblog_type: regular
+entry_id: 1923
+title: Gitting git-1.5.3.x installed in Ubuntu
+author: Saimon Moore
+filter: erb
+created_at: 2007-11-07 12:11:00 +01:00
+layout: tumblog/post
+---
+<p>I&#8217;m looking into <a href="http://git.or.cz/">git</a> as an alternative to subversion.</p>
+
+
+	<p>As most of my servers use a non-standard port for sshd I was interested in trying out git-1.5.3.x for it&#8217;s support for ssh://name@host:port/ but ubuntu gutsy only had 1.5.2.5 available so off to #git I went:</p>
+
+
+	<p>For Ubuntu Gutsy:</p>
+
+
+	<ol>
+	<li>apt-get install devscripts fakeroot</li>
+		<li>dget -x http://ftp.debian.org/debian/pool/main/g/git-core/git-core_1.5.3.5-1.dsc</li>
+		<li>cd git-core-1.5.3.5</li>
+		<li>apt-get build-dep git-core</li>
+		<li>dpkg-buildpackage -rfakeroot -us -uc</li>
+	</ol>
+
+
+	<p><del>For Ubuntu Dapper</del>:</p>
+
+
+	<p><strong>Update</strong>: Apparently the version of dpkg-buildpackage that comes with dapper is too old, so in the end I upgraded Dapper &gt; Edgy &gt; Feisty &gt; Gutsy</p>
+
+
+	<ol>
+	<li><del>apt-get install devscripts fakeroot</del></li>
+		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1<sub>bpo40+1.dsc (as dget doesn&#8217;t exist in devscripts on dapper)</del></li>
+		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1</sub>bpo40+1.diff.gz</del></li>
+		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4.orig.tar.gz</del></li>
+		<li><del>dpkg-source -x git-core_1.5.3.4-1~bpo40+1.dsc</del></li>
+		<li><del>cd git-core-1.5.3.4</del></li>
+		<li><del>apt-get build-dep git-core</del></li>
+		<li><del>dpkg-buildpackage -rfakeroot -us -uc</del></li>
+	</ol>
+
+
+	<p><del>(You may need to manually install libsvn-core-perl &#38;&#38; tcl8.4 )</del></p>
+
+
+	<p>Many thanks to MadCoder on #git for helping me out with this.</p>
+
+
+	<p>I&#8217;ll be posting about my exploits with git in future posts.</p>
