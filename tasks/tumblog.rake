@@ -10,6 +10,16 @@ namespace :tumblog do
     desc "Convert postgresql mephisto posts into tumblog posts"
     task :pg_mephisto do |t|
       Webby::Converters::Mephisto.process(:postgresql, ENV['DBNAME'], ENV['DBUSER'], ENV['DBPASS'], ENV['DBHOST'], ENV['DBPORT'])
+    end
+    
+    desc "Import mysql mephisto comments into disqus"
+    task :mysql_mephisto_comments do |t|
+      Webby::Converters::Mephisto.process(ENV['DISQUS_ACCOUNT'], ENV['DISQUS_API_KEY'], :mysql, ENV['DBNAME'], ENV['DBUSER'], ENV['DBPASS'], ENV['DBHOST'], ENV['DBPORT'])
+    end
+    
+    desc "Import postgresql mephisto comments into disqus"
+    task :pg_mephisto_comments do |t|
+      Webby::Converters::Mephisto.comments(ENV['DISQUS_ACCOUNT'], ENV['DISQUS_API_KEY'], :postgresql, ENV['DBNAME'], ENV['DBUSER'], ENV['DBPASS'], ENV['DBHOST'], ENV['DBPORT'])
     end    
   end
 
