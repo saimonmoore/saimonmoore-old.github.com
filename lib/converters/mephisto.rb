@@ -38,6 +38,7 @@ module Webby
         FileUtils.mkdir_p "content"
 
         db[QUERY].each do |post|
+          entry_id = post[:id]
           title = post[:title]
           slug = post[:permalink]
           date = post[:published_at]
@@ -52,7 +53,8 @@ module Webby
              'author' => 'Saimon Moore',
              'filter' => (convert ? 'haml' : 'erb'),
              'title' => title.to_s,
-             'tumblog_type' => 'regular'
+             'tumblog_type' => 'regular',
+             'entry_id' => entry_id,
            }.delete_if { |k,v| v.nil? || v == ''}.to_yaml
 
            converted_content = nil
