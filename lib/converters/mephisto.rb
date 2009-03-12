@@ -24,7 +24,7 @@ module Webby
 
       # This query will pull blog posts entries across blogs with id 1.
       QUERY = "SELECT id, permalink, body, body_html, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
-      COMMENTS_QUERY = "SELECT id, article_id, title, permalink, body, body_html, published_at, author, author_url, author_email, author_ip FROM contents WHERE site_id = 1 AND type = 'Comment' AND published_at IS NOT NULL ORDER BY published_at DESC"
+      COMMENTS_QUERY = "SELECT id, article_id, title, permalink, body, body_html, published_at, author, author_url, author_email, author_ip FROM contents WHERE site_id = 1 AND type = 'Comment' AND body IS NOT NULL AND permalink IS NOT NULL AND published_at IS NOT NULL ORDER BY published_at DESC"
 
       def self.comments(disqus_account, disqus_api_key, db, dbname, user, pass, host = 'localhost', port = nil, convert=false)
         require 'disqus'
