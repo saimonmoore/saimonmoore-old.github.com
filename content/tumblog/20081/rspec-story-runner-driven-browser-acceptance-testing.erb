@@ -1,0 +1,813 @@
+--- 
+tumblog_type: regular
+title: RSpec Story Runner Driven (Browser) Acceptance Testing
+author: Saimon Moore
+filter: erb
+created_at: 2008-01-18 12:30:00 +01:00
+layout: tumblog/post
+---
+<p>I&#8217;ve been using rspec now for quite a while now (thanks to chrissturm) and have been loving it. It feels a lot more natural and intuitive and I&#8217;m even getting the hand of learning when/how to mock/stub (though I still have some fixtures lying around).
+I&#8217;ve been meaning to learn up on using the new story runner feature and while googling I came upon a <a href="http://www.kerrybuckley.com/2007/11/07/driving-selenium-from-the-rspec-story-runner-rbehave">post</a> by Kerry Buckley in which he provides a quick overview of how to setup story runner and also describes how he got story runner to drive selenium acceptance testing.</p>
+
+
+	<p>Just a quick blurb about what story runner is.</p>
+
+
+	<p>Story runner basically allows you to write specifications in a plain text file, written in natural language. You basically write a story (paraphrasing <a href="http://dannorth.net/whats-in-a-story">Dan North</a>  &#8220;a description of a requirement and its business benefit, and a set of criteria by which we all agree that it is <strong>done</strong>&#8221;.)</p>
+
+
+	<p>For each story you can then write a number of different scenarios (imagine that feature in different situations) and for each scenario you write a set of criteria which determines how that scenario can be completed successfully.</p>
+
+
+e.g.
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt> Story: UI<tt>
+</tt>  As a developer                                                  #<tt>
+</tt>  I want to go to the uimockups page                              # Description of intent<tt>
+</tt>  So that I can implement the mockup                              #<tt>
+</tt><tt>
+</tt>   Scenario: Going to the /uimockups page when not logged in      &lt;= Scenario Description<tt>
+</tt>     Given an anonymous user                                      #<tt>
+</tt>     When the user goes to /uimockups                             #<tt>
+</tt>     Then the document title should be 'personal'                 # criteria, actions &amp; expectations<tt>
+</tt>     And the page should contain the text 'done by Webtypes'      #  <tt>
+</tt>     And the page should have a field named 'strip-search-input'  #<tt>
+</tt>     And the page should have a form named 'strip-search'         #<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>Given a text file like this, you then write a small ruby script (see /stories/stories/project.rb below) which then takes the text, parses it look for the highlighted keywords. Each <strong>Given</strong>, <strong>When</strong> and <strong>Then</strong> is a <strong>Step</strong>. The <strong>Ands</strong> are each the same kind as the previous Step.</p>
+
+
+	<p>Run as is, you&#8217;ll get this same story output back to you but each of the lines under <strong>Scenario</strong> will be marked with <strong>&#8220;pending&#8221;</strong> which basically means that the story is yet to be implemented. e.g.</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt><strong>25</strong><tt>
+</tt>26<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>saimon@artemis~/dev/projects/myrailsapp$ ruby stories/stories/project.rb<tt>
+</tt>(in /Users/saimon/dev/projects/myrailsapp)<tt>
+</tt>Running 1 scenarios<tt>
+</tt><tt>
+</tt>Story: UI<tt>
+</tt><tt>
+</tt>  As a developer<tt>
+</tt>  I want to go to the ui page<tt>
+</tt>  So that I can see the mockup<tt>
+</tt><tt>
+</tt>  Scenario: Going to the /ui page when not logged in<tt>
+</tt><tt>
+</tt>    Given an anonymous user (PENDING)<tt>
+</tt><tt>
+</tt>    When the user goes to /ui (PENDING)<tt>
+</tt><tt>
+</tt>    Then the document title should be 'personal' (PENDING)<tt>
+</tt>    And the page should contain the text 'done by Webtypes' (PENDING)<tt>
+</tt>    And the page should have a field named 'strip-search-input' (PENDING)<tt>
+</tt>    And the page should have a form named 'strip-search' (PENDING)<tt>
+</tt><tt>
+</tt>1 scenarios: 0 succeeded, 0 failed, 1 pending<tt>
+</tt><tt>
+</tt>Pending Steps:<tt>
+</tt>1) UI (Going to the /ui page when not logged in): Unimplemented step: an anonymous user<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>To actually get the story to pass, you need to implement each of the <strong>Steps</strong> in ruby. i.e. Here&#8217;s an example of the implementation of the 2nd step:</p>
+
+
+	<ul>
+	<li> &#8220;When the user goes to /ui (PENDING)&#8221;</li>
+	</ul>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>steps_for(<span class="sy">:project</span>) <span class="r">do</span><tt>
+</tt>  <span class="co">When</span> <span class="s"><span class="dl">&quot;</span><span class="k">the user goes to $path</span><span class="dl">&quot;</span></span> <span class="r">do</span> |path|<tt>
+</tt>    get path<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>As you can see it&#8217;s basically parsing the line for a step keyword (in this case &#8216;When&#8217;), and then takes the rest of the line and tries to match it against any of the <strong>When</strong> steps it knows about. It also goes one step further and allows you to add in variables so that you can extract dynamic criteria directly from the story line ($path) in this case.</p>
+
+
+	<p>So once, it has been matched, it ends up executing :</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>get <span class="rx"><span class="dl">/</span><span class="k">uimockups<tt>
+</tt></span></span></pre></td>
+</tr></table>
+
+
+	<p>The cool thing about it is that once you&#8217;ve implemented a step, it&#8217;s just reused every time it&#8217;s matched in the story. You can also have a stable set of steps which you use in multiple stories. You could even conceivably build up a library of them to be used in other applications.</p>
+
+
+	<p>I was at the <span class="caps">BCN</span> Ruby/Rails group meeting last night and one of the attendants expressed concerns about the brittleness of the syntax. In fact, there&#8217;s no problem because story runner will mark any line that it hasn&#8217;t been able to match against any of the steps known to it as <strong>pending</strong> so you can easily determine a syntax problem. And if an exception is raised by anything it has matched then it&#8217;ll provide the appropriate stack trace pointing you to the step that caused the exception.</p>
+
+
+	<p>After watching Pat Maddox&#8217;s <a href="http://evang.eli.st/blog/2007/10/8/story-runner-top-to-bottom-screencast">screen-cast</a> I&#8217;m convinced that using story runner is a good way of starting out your speccing. You can start by writing a story that describes a feature and then drill into it as you implement the steps. Along the way you&#8217;ll find you need to implement controllers, models, helpers and views and before you do you can then implement the appropriate specs (only enough to get the functionality in the story passing) which in turn drives the implementation of the object in question.</p>
+
+
+	<p>Now, finally, I can get to the real reason I wrote this post.</p>
+
+
+	<p>I&#8217;m interested in being able to do my integration tests via story runner and occasionally do the odd browser acceptance testing and as I also had been meaning to play with <a href="http://code.google.com/p/firewatir/">FireWatir</a> &#38; <a href="http://safariwatir.rubyforge.org/">SafariWatir</a> I decided to adapt his code to using watir.</p>
+
+
+	<p>But I added another requirement to the mix. What I really wanted was seamless integration between normal integration tests using plain rspec and browser acceptance testing hen running the same scenarios or even be able to mix and match.</p>
+
+
+	<p>After a bit I come up with this setup (very similar to Kerry&#8217;s original setup):</p>
+
+
+	<p>Directory Structure:</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>+-- lib<tt>
+</tt>| +-- tasks/<tt>
+</tt>|   +-- acceptance.rake<tt>
+</tt>+-- stories/<tt>
+</tt>| +-- all.rb<tt>
+</tt>| +-- helper.rb<tt>
+</tt>| +-- steps/<tt>
+</tt>| | +-- project.rb<tt>
+</tt>| | +-- watir.rb<tt>
+</tt>| +-- stories/<tt>
+</tt>| | +-- project.rb<tt>
+</tt>| | +-- project.txt<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>Note: As per Kerry&#8217;s article I&#8217;ve further subdivided the top-level stories directory into stories and steps subdirectories. You don&#8217;t have to if you don&#8217;t have that many stories to write but I like the organized feeling it provides.</p>
+
+
+<a href="http://pastie.caboo.se/private/zevarlg1uucrilfr9pizkq">/stories/all.rb</a>
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>dir = <span class="co">File</span>.dirname(<span class="pc">__FILE__</span>)<tt>
+</tt>require <span class="s"><span class="dl">&quot;</span><span class="il"><span class="dl">#{</span>dir<span class="dl">}</span></span><span class="k">/helper</span><span class="dl">&quot;</span></span><tt>
+</tt><span class="co">Dir</span>[<span class="co">File</span>.expand_path(<span class="s"><span class="dl">&quot;</span><span class="il"><span class="dl">#{</span>dir<span class="dl">}</span></span><span class="k">/stories/**/*.rb</span><span class="dl">&quot;</span></span>)].uniq.each <span class="r">do</span> |file|<tt>
+</tt>  require file<tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p><a href="http://pastie.caboo.se/private/xugk5rwortonhfenapk9w">/stories/stories/project.txt</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt><span class="co">Story</span>: <span class="co">UI</span><tt>
+</tt>  <span class="co">As</span> a developer<tt>
+</tt>  <span class="co">I</span> want to go to the ui page<tt>
+</tt>  <span class="co">So</span> that <span class="co">I</span> can see the mockup<tt>
+</tt><tt>
+</tt>  <span class="co">Scenario</span>: <span class="co">Going</span> to the <span class="rx"><span class="dl">/</span><span class="k">ui page when not logged in<tt>
+</tt>    When the user goes to </span><span class="dl">/</span><span class="mod">ui</span></span><tt>
+</tt>    <span class="co">Then</span> the document title should be <span class="s"><span class="dl">'</span><span class="k">personal</span><span class="dl">'</span></span><tt>
+</tt>    <span class="co">And</span> the page should contain the text <span class="s"><span class="dl">'</span><span class="k">done by Webtypes</span><span class="dl">'</span></span><tt>
+</tt>    <span class="co">And</span> the page should have a field named <span class="s"><span class="dl">'</span><span class="k">strip-search-input</span><span class="dl">'</span></span><tt>
+</tt>    <span class="co">And</span> the page should have a form named <span class="s"><span class="dl">'</span><span class="k">strip-search</span><span class="dl">'</span></span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p><a href="http://pastie.caboo.se/private/z2ixmrkt0fxmrofmpuj8uw">/stories/stories/project.rb</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt><span class="c">#Call me with: [BROWSER=firefox|safari|ie] ruby stories/stories/project.rb</span><tt>
+</tt>require <span class="co">File</span>.join(<span class="co">File</span>.dirname(<span class="pc">__FILE__</span>), <span class="s"><span class="dl">&quot;</span><span class="k">../helper</span><span class="dl">&quot;</span></span>) <tt>
+</tt>run_story_with_steps_for (browser ? [<span class="sy">:watir_project</span>, <span class="sy">:project</span>] : [<span class="sy">:project</span>])<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p><a href="http://pastie.caboo.se/private/affqfxbpiwgd0hlsdnotg">/stories/steps/project.rb</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt><strong>25</strong><tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>steps_for(<span class="sy">:project</span>) <span class="r">do</span><tt>
+</tt>  <span class="co">Given</span> <span class="s"><span class="dl">&quot;</span><span class="k">a test user</span><span class="dl">&quot;</span></span> <span class="r">do</span><tt>
+</tt>    <span class="co">User</span>.delete_all<tt>
+</tt>    <span class="co">User</span>.create!(<span class="sy">:name</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">test</span><span class="dl">'</span></span>, <span class="sy">:openid_url</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">http://dummy.openid/</span><span class="dl">'</span></span>,<tt>
+</tt>                <span class="sy">:email</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">test@example.com</span><span class="dl">'</span></span>)<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">When</span> <span class="s"><span class="dl">&quot;</span><span class="k">the user goes to $path</span><span class="dl">&quot;</span></span> <span class="r">do</span> |path|<tt>
+</tt>    get path<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the document title should be '$title'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |title|<tt>
+</tt>    response.should have_tag(<span class="s"><span class="dl">'</span><span class="k">title</span><span class="dl">'</span></span>, title)<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should contain the text '$text'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |text|<tt>
+</tt>    response.should have_text(<span class="rx"><span class="dl">/</span><span class="il"><span class="dl">#{</span>text<span class="dl">}</span></span><span class="dl">/</span></span>)<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a field named '$field'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |field|<tt>
+</tt>    response.should have_tag(<span class="s"><span class="dl">&quot;</span><span class="k">input[type=text][id=?]</span><span class="dl">&quot;</span></span>, field)<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a form named '$form'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |form|<tt>
+</tt>    response.should have_tag(<span class="s"><span class="dl">&quot;</span><span class="k">form[id=?]</span><span class="dl">&quot;</span></span>, form)<tt>
+</tt>  <span class="r">end</span>  <tt>
+</tt><tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a submit button named '$name', with the label '$label'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |name, label|<tt>
+</tt>    response.should have_tag(<span class="s"><span class="dl">&quot;</span><span class="k">input[type=submit][id=?][value=?]</span><span class="dl">&quot;</span></span>, name,label)<tt>
+</tt>  <span class="r">end</span>  <tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p><a href="http://pastie.caboo.se/private/rmhcscvf6od8angsb6z9aq">/stories/steps/watir_project.rb</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt><strong>25</strong><tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt>34<tt>
+</tt><strong>35</strong><tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>steps_for(<span class="sy">:watir_project</span>) <span class="r">do</span><tt>
+</tt>  <span class="co">When</span> <span class="s"><span class="dl">&quot;</span><span class="k">the user goes to $path</span><span class="dl">&quot;</span></span> <span class="r">do</span> |path|<tt>
+</tt>    browser.goto <span class="s"><span class="dl">&quot;</span><span class="k">http://localhost</span><span class="il"><span class="dl">#{</span>path<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">When</span> <span class="s"><span class="dl">&quot;</span><span class="k">the user types '$text' into the $field field</span><span class="dl">&quot;</span></span> <span class="r">do</span> |text, field|<tt>
+</tt>    browser.text_field(<span class="sy">:name</span>,field).set(text)<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">When</span> <span class="s"><span class="dl">&quot;</span><span class="k">the user clicks the $button button</span><span class="dl">&quot;</span></span> <span class="r">do</span> |button|<tt>
+</tt>    browser.button(<span class="sy">:value</span>, button).click<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the document title should be '$title'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |title|<tt>
+</tt>    browser.title.should == title<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should contain the text '$text'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |text|<tt>
+</tt>    browser.text.include?(text).should be_true<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a field named '$field'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |field|<tt>
+</tt>    (browser.text_field(<span class="sy">:name</span>, field).exists? || browser.text_field(<span class="sy">:id</span>, field).exists?).should be_true<tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a form named '$form'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |form|<tt>
+</tt>    (browser.form(<span class="sy">:name</span>, form).exists? || browser.form(<span class="sy">:id</span>, form).exists?).should be_true<tt>
+</tt>  <span class="r">end</span>  <tt>
+</tt><tt>
+</tt>  <span class="co">Then</span> <span class="s"><span class="dl">&quot;</span><span class="k">the page should have a submit button named '$name', with the label '$label'</span><span class="dl">&quot;</span></span> <span class="r">do</span> |name, label|<tt>
+</tt>    tf = (browser.text_field(<span class="sy">:name</span>, field) || browser.text_field(<span class="sy">:id</span>, field)).exists?().should be_true<tt>
+</tt>    tf.value.should == label<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p><a href="http://pastie.caboo.se/private/gjdg9871z6skk76pomchvg">/stories/helper.rb</a> :</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt><strong>25</strong><tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt>34<tt>
+</tt><strong>35</strong><tt>
+</tt>36<tt>
+</tt>37<tt>
+</tt>38<tt>
+</tt>39<tt>
+</tt><strong>40</strong><tt>
+</tt>41<tt>
+</tt>42<tt>
+</tt>43<tt>
+</tt>44<tt>
+</tt><strong>45</strong><tt>
+</tt>46<tt>
+</tt>47<tt>
+</tt>48<tt>
+</tt>49<tt>
+</tt><strong>50</strong><tt>
+</tt>51<tt>
+</tt>52<tt>
+</tt>53<tt>
+</tt>54<tt>
+</tt><strong>55</strong><tt>
+</tt>56<tt>
+</tt>57<tt>
+</tt>58<tt>
+</tt>59<tt>
+</tt><strong>60</strong><tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt><span class="co">ENV</span>[<span class="s"><span class="dl">&quot;</span><span class="k">RAILS_ENV</span><span class="dl">&quot;</span></span>] = <span class="s"><span class="dl">&quot;</span><span class="k">test</span><span class="dl">&quot;</span></span><tt>
+</tt>require <span class="co">File</span>.expand_path(<span class="co">File</span>.dirname(<span class="pc">__FILE__</span>) + <span class="s"><span class="dl">&quot;</span><span class="k">/../config/environment</span><span class="dl">&quot;</span></span>)<tt>
+</tt>require <span class="s"><span class="dl">'</span><span class="k">spec/rails/story_adapter</span><span class="dl">'</span></span><tt>
+</tt><tt>
+</tt><span class="c"># watir gem</span><tt>
+</tt>require <span class="s"><span class="dl">'</span><span class="k">firewatir</span><span class="dl">'</span></span> <span class="r">if</span> <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] &amp;&amp; <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] == <span class="s"><span class="dl">'</span><span class="k">firefox</span><span class="dl">'</span></span><tt>
+</tt>require <span class="s"><span class="dl">'</span><span class="k">safariwatir</span><span class="dl">'</span></span> <span class="r">if</span> <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] &amp;&amp; <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] == <span class="s"><span class="dl">'</span><span class="k">safari</span><span class="dl">'</span></span><tt>
+</tt><tt>
+</tt><span class="r">def</span> <span class="fu">start_ff</span><tt>
+</tt>  <span class="co">FireWatir</span>::<span class="co">Firefox</span>.new<tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="r">def</span> <span class="fu">start_safari</span><tt>
+</tt>  safari = <span class="co">Watir</span>::<span class="co">Safari</span>.new<tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><tt>
+</tt><span class="c">#Require steps in steps dir</span><tt>
+</tt><span class="co">Dir</span>[<span class="co">File</span>.dirname(<span class="pc">__FILE__</span>) + <span class="s"><span class="dl">&quot;</span><span class="k">/steps/*.rb</span><span class="dl">&quot;</span></span>].uniq.each { |file| require file }<tt>
+</tt><tt>
+</tt><span class="c">#Require appropriate watir browser object</span><tt>
+</tt><span class="r">if</span> !<span class="gv">$ff</span> &amp;&amp; <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] == <span class="s"><span class="dl">'</span><span class="k">firefox</span><span class="dl">'</span></span><tt>
+</tt>  <span class="gv">$ff</span> = start_ff_with_logger<tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="r">if</span> !<span class="gv">$sf</span> &amp;&amp; <span class="co">ENV</span>[<span class="s"><span class="dl">'</span><span class="k">BROWSER</span><span class="dl">'</span></span>] == <span class="s"><span class="dl">'</span><span class="k">safari</span><span class="dl">'</span></span><tt>
+</tt>  <span class="gv">$sf</span> = start_safari_with_logger<tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="c">#Choose which browser to use in steps</span><tt>
+</tt><span class="r">def</span> <span class="fu">browser</span><tt>
+</tt>  <span class="gv">$ff</span> || <span class="gv">$sf</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="r">def</span> <span class="fu">run_story_with_steps_for</span> *steps<tt>
+</tt>  with_steps_for *(steps.flatten) <span class="r">do</span><tt>
+</tt>    <span class="c"># Pull the filename of the caller out of the stack. Must be a better way.</span><tt>
+</tt>    run caller[<span class="i">3</span>].sub(<span class="rx"><span class="dl">/</span><span class="ch">\.</span><span class="k">rb:.*</span><span class="dl">/</span></span>, <span class="s"><span class="dl">'</span><span class="k">.txt</span><span class="dl">'</span></span>), <span class="sy">:type</span> =&gt; <span class="co">RailsStory</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="c"># By default, RSpec adds an ActiveRecordSafetyListener to the story runner. </span><tt>
+</tt><span class="c"># This rolls back database changes between scenarios, which is great if your calling your code directly, </span><tt>
+</tt><span class="c"># but obviously means that if you write to the database, the server that Selenium's talking to can't see them. There's probably a cleaner way of disabling it.</span><tt>
+</tt><span class="r">class</span> <span class="cl">Spec::Story::Runner::ScenarioRunner</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">initialize</span><tt>
+</tt>    <span class="iv">@listeners</span> = []<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="r">module</span> ::<span class="co">ActionController</span> <span class="c">#:nodoc:</span><tt>
+</tt>  <span class="r">module</span> <span class="cl">TestProcess</span><tt>
+</tt>    <span class="c"># Work around Rails ticket http://dev.rubyonrails.org/ticket/1937</span><tt>
+</tt>    <span class="c"># Helps to remove annoying html parser warnings</span><tt>
+</tt>    <span class="r">def</span> <span class="fu">html_document</span><tt>
+</tt>      <span class="iv">@html_document</span> ||= <span class="co">HTML</span>::<span class="co">Document</span>.new(<span class="iv">@response</span>.body, <span class="pc">true</span>, <span class="pc">true</span>)<tt>
+</tt>    <span class="r">end</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>So once you&#8217;ve got all that setup, you can then run:</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>saimon@artemis~/dev/projects/myrailsapp$ <tt>
+</tt>ruby stories/stories/project.rb<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>to execute the project story using basic rspec. It provides the following output:</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>Running 1 scenarios<tt>
+</tt><tt>
+</tt>Story: UI<tt>
+</tt><tt>
+</tt>  As a developer<tt>
+</tt>  I want to go to the ui page<tt>
+</tt>  So that I can see the mockup<tt>
+</tt><tt>
+</tt>  Scenario: Going to the /ui page when not logged in<tt>
+</tt><tt>
+</tt>    Given an anonymous user<tt>
+</tt><tt>
+</tt>    When the user goes to /ui<tt>
+</tt><tt>
+</tt>    Then the document title should be 'personal'<tt>
+</tt>    And the page should contain the text 'done by Webtypes'<tt>
+</tt>    And the page should have a field named 'strip-search-input'<tt>
+</tt>    And the page should have a form named 'strip-search'<tt>
+</tt><tt>
+</tt>1 scenarios: 1 succeeded, 0 failed, 0 pending<tt>
+</tt><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>Woot! You can know just take that project.txt and send it to a client, a fellow developer, a project mailing list etc&#8230;</p>
+
+
+	<p>But, let&#8217;s go the extra step and run that same scenario against Firefox (go to  <a href="http://code.google.com/p/firewatir/wiki/FireWatir_Installation">FireWatir</a> and follow the instructions. They&#8217;re pretty simple.)</p>
+
+
+Start firefox with -jssh
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>saimon@artemis~/dev/projects/myrailsapp$ <tt>
+</tt>/Applications/Firefox.app/Contents/MacOS/firefox -jssh<tt>
+</tt><tt>
+</tt>run the story with the BROWSER environment variable:<tt>
+</tt><tt>
+</tt>saimon@artemis~/dev/projects/myrailsapp$ <tt>
+</tt>BROWSER=firefox ruby stories/stories/project.rb<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>and watch how FF is magically commanded to go through your stories scenarios. In the end it&#8217;s run the story against FF and provides the same passing output as the previous run.</p>
+
+
+	<p>One further step is to write a few rake commands to simplify running all your stories, with or without browser acceptance testing.</p>
+
+
+	<p>Add this file:</p>
+
+
+	<p><a href="http://pastie.caboo.se/private/u1d8uc3llb95ttcid2cgw">/lib/tasks/acceptance.rake</a></p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt><strong>15</strong><tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt><strong>25</strong><tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt>34<tt>
+</tt><strong>35</strong><tt>
+</tt>36<tt>
+</tt>37<tt>
+</tt>38<tt>
+</tt>39<tt>
+</tt><strong>40</strong><tt>
+</tt>41<tt>
+</tt>42<tt>
+</tt>43<tt>
+</tt>44<tt>
+</tt><strong>45</strong><tt>
+</tt>46<tt>
+</tt>47<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>desc <span class="s"><span class="dl">&quot;</span><span class="k">Run the acceptance tests, starting/stopping the test server.</span><span class="dl">&quot;</span></span><tt>
+</tt>task <span class="sy">:acceptance_with_browser</span> =&gt; [<span class="s"><span class="dl">'</span><span class="k">acceptance:server:start</span><span class="dl">'</span></span>] <span class="r">do</span><tt>
+</tt>  <span class="r">begin</span><tt>
+</tt>    <span class="co">Rake</span>::<span class="co">Task</span>[<span class="s"><span class="dl">'</span><span class="k">acceptance:run</span><span class="dl">'</span></span>].invoke<tt>
+</tt>  <span class="r">ensure</span><tt>
+</tt>    <span class="co">Rake</span>::<span class="co">Task</span>[<span class="s"><span class="dl">'</span><span class="k">acceptance:server:stop</span><span class="dl">'</span></span>].invoke<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><span class="s"><span class="dl">%w(</span><span class="k">firefox safari</span><span class="dl">)</span></span>.each <span class="r">do</span> |browser|<tt>
+</tt>  <span class="co">Object</span>.class_eval <span class="s"><span class="dl">&lt;&lt;-EOS</span></span><span class="s"><span class="k"><tt>
+</tt>    desc &quot;Run the acceptance tests using the </span><span class="il"><span class="dl">#{</span>browser<span class="dl">}</span></span><span class="k"> browser.&quot;<tt>
+</tt>    task :acceptance_with_</span><span class="il"><span class="dl">#{</span>browser<span class="dl">}</span></span><span class="k"> do<tt>
+</tt>      $browser = '</span><span class="il"><span class="dl">#{</span>browser<span class="dl">}</span></span><span class="k">'<tt>
+</tt>      Rake::Task['acceptance_with_browser'].invoke<tt>
+</tt>    end</span><span class="dl"><tt>
+</tt>  EOS</span></span><tt>
+</tt><span class="r">end</span><tt>
+</tt> <tt>
+</tt>namespace <span class="sy">:acceptance</span> <span class="r">do</span><tt>
+</tt>  desc <span class="s"><span class="dl">&quot;</span><span class="k">Run the acceptance tests.</span><span class="dl">&quot;</span></span><tt>
+</tt>  task <span class="sy">:run</span> <span class="r">do</span><tt>
+</tt>    system <span class="s"><span class="dl">&quot;</span><span class="il"><span class="dl">#{</span><span class="gv">$browser</span> ? <span class="s"><span class="dl">&quot;</span><span class="k">BROWSER='</span><span class="il"><span class="dl">#{</span><span class="gv">$browser</span><span class="dl">}</span></span><span class="k">' </span><span class="dl">&quot;</span></span> : <span class="s"><span class="dl">'</span><span class="dl">'</span></span><span class="dl">}</span></span><span class="k">ruby stories/all.rb</span><span class="dl">&quot;</span></span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  namespace <span class="sy">:server</span> <span class="r">do</span><tt>
+</tt>    desc <span class="s"><span class="dl">&quot;</span><span class="k">Start the mongrel server</span><span class="dl">&quot;</span></span><tt>
+</tt>    task <span class="sy">:start</span> <span class="r">do</span><tt>
+</tt>      system <span class="s"><span class="dl">'</span><span class="k">script/server -e test -d</span><span class="dl">'</span></span><tt>
+</tt>      sleep <span class="i">5</span><tt>
+</tt>    <span class="r">end</span><tt>
+</tt><tt>
+</tt>    desc <span class="s"><span class="dl">&quot;</span><span class="k">Stop the mongrel server</span><span class="dl">&quot;</span></span><tt>
+</tt>    task <span class="sy">:stop</span> <span class="r">do</span><tt>
+</tt>      <span class="r">if</span> <span class="co">File</span>.exist? <span class="co">MONGREL_SERVER_PID_FILE</span><tt>
+</tt>        pid = <span class="co">File</span>.read(<span class="co">MONGREL_SERVER_PID_FILE</span>).to_i<tt>
+</tt>        <span class="co">Process</span>.kill <span class="s"><span class="dl">'</span><span class="k">TERM</span><span class="dl">'</span></span>, pid<tt>
+</tt>        <span class="co">FileUtils</span>.rm <span class="co">MONGREL_SERVER_PID_FILE</span><tt>
+</tt>      <span class="r">else</span><tt>
+</tt>        puts <span class="s"><span class="dl">&quot;</span><span class="il"><span class="dl">#{</span><span class="co">MONGREL_SERVER_PID_FILE</span><span class="dl">}</span></span><span class="k"> not found</span><span class="dl">&quot;</span></span><tt>
+</tt>      <span class="r">end</span><tt>
+</tt>    <span class="r">end</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="co">MONGREL_SERVER_PID_FILE</span> = <span class="s"><span class="dl">'</span><span class="k">tmp/pids/mongrel.pid</span><span class="dl">'</span></span><tt>
+</tt><tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>Then you can do:</p>
+
+
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt><strong>5</strong><tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt>saimon@artemis~/dev/projects/myrailsapp$ <tt>
+</tt>rake acceptance:run<tt>
+</tt><tt>
+</tt>or <tt>
+</tt><tt>
+</tt>rake acceptance_with_firefox<tt>
+</tt><tt>
+</tt>or <tt>
+</tt><tt>
+</tt>rake acceptance_with_safari<tt>
+</tt></pre></td>
+</tr></table>
+
+
+	<p>I thoroughly enjoyed getting that setup and though I only plan on writing browser specs for specific issues/features it&#8217;s nice to have the choice and the geek factor is way up high :)</p>
+
+
+	<p>Have fun speccing&#8230;</p>

@@ -1,0 +1,404 @@
+--- 
+tumblog_type: regular
+title: The Internal Storage Mechanism For Globalize for Rails Model Translations
+author: Saimon Moore
+filter: erb
+created_at: 2007-03-17 06:41:00 +01:00
+layout: tumblog/post
+---
+<p>The <a href="globalize-rails.org">Globalize for Rails</a> <a href="http://svn.globalize-rails.org/svn/globalize/branches/for-1.2">for-1.2 release</a> introduced a new storage mechanism for Model Translations.</p>
+
+
+	<p>If you&#8217;re new to Globalize, let me give you <a href="#" onclick="$('globalize-intro').toggle('slide'); return false;">a bit of background to model translations (Click to view)</a> in Globalize. Those of you reading this in a feed reader and are familiar with globalize feel free to just read ahead to the <a href="#before12">Before for-1.2</a> section.</p>
+
+
+<ul>
+<li><a href="#globalize-intro" onclick="$('globalize-intro').toggle('slide');">Introduction To Model Translations</a></li>
+<li><a href="#before12">Before for-1.2</a></li>
+<li><a href="#intro_internal">Introducing the &#8220;Internal Storage Mechanism&#8221;</a></li>
+<li><a href="#explore_internal">Exploring the &#8220;Internal Storage Mechanism&#8221;</a></li>
+<li><a href="#troublespots">Trouble spots?</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<div id="globalize-intro" style="display:none;background-colour:#EFEEE0;">
+<h4><a name="intro_beginners">Intro to Model Translations for Globalize beginners</a></h4>
+
+	<p>By <a href="http://www.globalize-rails.org/globalize/">installing</a> the Globalize plugin in your rails application you have the possibility of localising your ActiveRecord models.</p>
+
+
+	<p>e.g. by defining your class like this:</p>
+
+
+<pre>
+<code>
+class Product &lt; ActiveRecord::Base
+
+  translates :name
+
+end
+</code>
+</pre>
+
+	<p>the Product model will automatically and transparently save the value of the &#8216;name&#8217; attribute distinctly depending on the current locale.</p>
+
+
+	<p>An example of what this means in code follows:</p>
+
+
+	<p><strong><em>Assumption</em></strong>
+Let&#8217;s assume that throughout this article our base <a href="http://en.wikipedia.org/wiki/Locale">locale</a> (By <em>base locale</em> I mean the default locale/language from which content in other languages will be translated from) is &#8216;en-US&#8217; and the following code has been executed (Usually this is added to your environment.rb file):</p>
+
+
+<pre>
+<code>
+include Globalize                                   #Include the Globalize module to save on typing
+Locale.set_base_language('en-US')
+</code>
+</pre>
+
+	<p>Let&#8217;s explore what that code definition has done for us:</p>
+
+
+<pre>
+<code>
+$ script/console
+Loading development environment
+&gt;&gt;Locale.set('en-US')                                         #We set the current locale to en-US (English)
+&gt;&gt;product = Product.create(:name =&gt; 'Socks')                  #Create a new product
+&gt;&gt;product.name                                                #Asking for the value of the 'name' attribute
+=&gt; "Socks"                                                    #has correctly shown 'Socks'
+
+&gt;&gt;Locale.set('es-ES')                                         #We change the current locale to es-ES (Spanish)
+&gt;&gt;product.reload                                              #Reload the product instance (Required when current locale changes)
+&gt;&gt; product.name
+=&gt; "Socks"                                                    #We're still getting 'Socks'
+&gt;&gt; product.name = 'Calcetines'                                #In Spanish, 'Socks' are called 'Calcetines'
+&gt;&gt; product.save                                               #Save the product instance
+&gt;&gt; product.name
+=&gt; "Calcetines"                                               #We now get the correctly translated value
+
+&gt;&gt;Locale.set('en-US')                                         #We change the current locale back to english
+&gt;&gt;product.reload                                              #Reload the product instance
+&gt;&gt; product.name
+=&gt; "Socks"                                                    #We correctly get back 'Socks'
+
+&gt;&gt;Locale.set('es-ES')                                         #Once more we change the current locale
+&gt;&gt;product.reload                                              #Reload the product instance
+&gt;&gt; product.name
+=&gt; "Calcetines"                                               #We correctly get back 'Calcetines'
+</code>
+</pre>
+
+	<p>So that little bit of code has afforded you quite some functionality. But what&#8217;s happening under the covers? With Globalized installed, it automatically overrides ActiveRecord::Base and ensures that when saving your product instance:</p>
+
+
+	<ul>
+	<li>if the currently active locale is the same as the base locale then the product data is saved as normal to the &#8216;products&#8217; table</li>
+		<li>but if the currently active locale is any other locale, then globalize will ensure that the data for this locale is saved to an external table (globalize_translations).</li>
+	</ul>
+
+
+	<p>Then when you reload a model instance in a particular locale and ask it for the value of an attribute marked as being translatable, globalize is intelligent enough to correctly look for the data either in the products own table (&#8216;products&#8217;) or in the external globalize_translations table.</p>
+
+
+The actual dynamics of this process is slightly different but you get the gist.
+</div>
+
+<h4><a name="before12">Before for-1.2</a></h4>
+
+	<p>Before the <a href="http://svn.globalize-rails.org/svn/globalize/branches/for-1.2">for-1.2 release</a>, Globalize used an external table (<em>globalize_translations</em>) to store translations.
+To achieve this, it need to override the <em>ActiveRecord::Base.find_every</em> method to rewrite the query sent to the database and coalesce the model table&#8217;s columns with the globalize_translations table.</p>
+
+
+	<p>This rewriting of the sql query implicitly sets up a number of limitations, the most obvious of which is that it disallows overriding the :select option to the <em>find</em> method because in effect that&#8217;s exactly what globalize is already doing.</p>
+
+
+	<p>This leads to other limitations like disallowing the :include option as well. (Why? Same reason as before)</p>
+
+
+	<p>There are workarounds for most of these limitations (For example, you can replace :include with :include_translated)
+especially if you&#8217;re writing your application from scratch.</p>
+
+
+	<p>But if you&#8217;re trying to globalize an existing application you&#8217;ve got to go through quite a number of hoops.</p>
+
+
+<h4><a name="intro_internal">Introducing the &#8220;Internal Storage Mechanism&#8221;</a></h4>
+
+	<p>The new internal storage mechanism gets rid of these limitations. Because it stores the translations within the models own table, all the translations are loaded every time the instance is loaded. This means that there is no need to override the sql query, which consequently means you no longer have any limitation on <em>ActiveRecord::Base.find</em>. Only a little bit of ruby magic is required to get things to work.</p>
+
+
+	<p>So let&#8217;s see an example of it in action:</p>
+
+
+	<p>If you read the intro to globalize, you&#8217;d have seen we used a Product model and assumed the base locale was set to &#8216;en-US&#8217;.</p>
+
+
+	<p>The only slight change you need to do to your ActiveRecord class definitions is switch on the internal storage mechanism like so:</p>
+
+
+<pre>
+<code>
+class Product &lt; ActiveRecord::Base
+
+  self.keep_translations_in_model = true
+  translates :name
+
+end
+</code>
+</pre>
+
+	<p>Note: This use of &#8220;self.keep_translations_in_model = true&#8221; in the class definition allows activation of this mechanism on a per class level since the normal external storage mechanism is active by default.
+However, you can also set the internal storage to be the default mechanism on an application-wide level by setting the following in your environment.rb:</p>
+
+
+<pre>
+<code>
+Globalize::DbTranslate.keep_translations_in_model = true
+</code>
+</pre>
+
+	<p>As this method depends on storing the translations within the  model&#8217;s own table we need to add in extra columns for all the attributes that are to be localised and one each for each locale to be supported in the application.</p>
+
+
+	<p>I&#8217;ve written a <a href="#" onclick="alert('Coming soon....'); return false;">tool</a> to automate this step but for now we&#8217;ll take a more manual approach and code up a migration. In our example application, we&#8217;ll have support for both english and spanish.</p>
+
+
+<pre><code>
+class AddLocalizedFieldsForProduct &lt; ActiveRecord::Migration
+  def self.up
+    add_column :products, :name_es, :string
+  end
+
+  def self.down
+    remove_column :products, :name_es
+  end
+end
+</code></pre>
+
+	<p>Notice, that since we&#8217;ve only a got a single attribute marked as translatable in our Product class definition and we&#8217;re only supporting a single extra locale (es-ES), we only need to add one extra column to the products table.</p>
+
+
+<pre>
+<code>
+'attribute' + language suffix
+
+e.g
+
+'name' + 'es' =&gt; 'name_es'
+</code>
+</pre>
+
+	<p>As you can see, the name of the new column is simply the original attribute name and a suffix which is simply the language part of the locale to be supported.</p>
+
+
+So let&#8217;s open up a console and see what we can do now that the internal storage mechanism is active.
+<pre>
+<code>
+$ script/console
+Loading development environment
+&gt;&gt;Locale.set('en-US')                           #We set the current locale to en-US (English)
+&gt;&gt;product = Product.create(:name =&gt; 'Shoes')    #Create a new product
+&gt;&gt;product.name                                  #Asking for the value of the 'name' attribute
+=&gt; "Socks"                                      #has correctly shown 'Shoes'
+
+&gt;&gt;Locale.set('es-ES')                           #We change the current locale to es-ES (Spanish)
+
+#Note: You no longer are required to reload the product instance on locale changes
+
+&gt;&gt; product.name
+=&gt; nil                                          #By default, if there are no translations nil is returned
+&gt;&gt; product.name = 'Zapatos'                     #In Spanish, 'Shoes' are called 'Zapatos'
+&gt;&gt; product.save                                 #Save the product instance
+&gt;&gt; product.name
+=&gt; "Zapatos"                                    #We now get the correctly translated value
+
+&gt;&gt;Locale.set('en-US')                           #We change the current locale back to english
+&gt;&gt; product.name
+=&gt; "Shoes"                                      #We correctly get back 'Shoes'
+
+&gt;&gt;Locale.set('es-ES')                           #Once more we change the current locale
+&gt;&gt; product.name
+=&gt; "Zapatos"                                    #We correctly get back 'Zapatos'
+</code>
+</pre>
+
+<h4><a name="explore_internal">Exploring the &#8220;Internal Storage Mechanism&#8221;</a></h4>
+
+	<p>So much for the simple example let&#8217;s see what else we can do:</p>
+
+
+<pre>
+<code>
+#Let's specify that the base locales content should be returned if untranslated
+class Product &lt; ActiveRecord::Base
+  self.keep_translations_in_model = true
+  translates :name, :base_as_default =&gt; true
+
+  belongs_to :sku
+  belongs_to :price_list
+  has_many :commerce_items
+end
+
+$ script/console
+Loading development environment
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product = Product.find(:last)    #Simple query
+&gt;&gt; product.name
+=&gt; "Shoes"
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; product.name
+=&gt; "Zapatos"
+
+&gt;&gt;product2 = Product.create(:name =&gt; 'Shirts')
+&gt;&gt;product.name
+=&gt; "Shirts"
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; product.name
+=&gt; "Shirts"    #_base_as_default_ = true means untranslated attributes will return the base locale value
+&gt;&gt; product.name = 'Camisas'
+&gt;&gt; product.save
+&gt;&gt; product.name
+=&gt; "Camisas"
+
+#Now for a slightly more complex query
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; products = Product.find(:all, :select =&gt; 'select distinct(name)', :include =&gt; :items)
+=&gt; [&lt;#Product :name =&gt; 'Socks'&gt;, &lt;#Product :name =&gt; 'Shoes' &gt;]
+&gt;&gt; products.first.name
+=&gt; "Socks"
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; products.first.name
+=&gt; "Calcetines"
+
+#Now for some conditions
+
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product = Product.find(:first, :conditions =&gt; {:name =&gt; 'Socks'})
+=&gt; &lt;#Product :name =&gt; 'Socks'&gt;
+&gt;&gt; product.name
+=&gt; "Socks"
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; product = Product.find(:first, :conditions =&gt; {:name =&gt; 'Calcetines})
+=&gt; nil    #Eh? What happened here?
+</code>
+</pre>
+
+Let&#8217;s look at the query that got executed:
+<pre>
+<code>
+select * from products where products.name = 'Calcetines';
+</code>
+</pre>
+
+	<p>Remember that for the Spanish locale, the translated data has been stored in the <em>name_es</em> column so obviously, the <em>find</em> method wasn&#8217;t being clever enough to recognize that it should have generated:</p>
+
+
+<pre>
+<code>
+select * from products where products.name_es = 'Calcetines';
+</code>
+</pre>
+
+	<p>It would have been too complex to add functionality to make this seamless and would have ended up defeating the whole purpose of this method as it would most likely need to override the sql query generation mechanism and we&#8217;d be back to the same problem as the external storage mechanism has.</p>
+
+
+	<p>However, there&#8217;s a simple solution to this problem.</p>
+
+
+<pre>
+<code>
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; product = Product.find(:first, :conditions =&gt; ["#{Product.localized_facet(:name)} = ?",'Calcetines'])
+=&gt; &lt;#Product :name =&gt; 'Calcetines'&gt;
+&gt;&gt; product.name
+=&gt; "Calcetines"
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product.name
+=&gt; "Socks"
+</code>
+</pre>
+
+	<p>For simple condition statements like that we can go one better and use dynamic finders:</p>
+
+
+<pre>
+<code>
+&gt;&gt;Locale.set('es-ES')
+&gt;&gt; product = Product.find_by_name('Calcetines')
+=&gt; &lt;#Product :name =&gt; 'Calcetines'&gt;
+&gt;&gt; product.name
+=&gt; "Calcetines"
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product = Product.find_by_name('Socks')
+&gt;&gt; product.name
+=&gt; "Socks"
+</code>
+</pre>
+
+	<p>Activating the internal storage mechanism, overrides the AR <em>method_missing</em> to ensure that dynamic finders correctly use the right column name for the current locale.</p>
+
+
+	<p>What other things can we do:</p>
+
+
+<pre>
+<code>
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product = Product.find_by_name('Socks')
+&gt;&gt; product.name
+=&gt; "Socks"
+&gt;&gt;Locale.set('en-US')
+&gt;&gt; product.name
+=&gt; "Calcetines"
+&gt;&gt; product._name  #Using the '_' prefix to the attribute means you want the base locale content
+=&gt; "Socks"
+
+&gt;&gt; product.name_before_type_cast
+=&gt; "Calcetines"
+&gt;&gt; product._name_before_type_cast
+=&gt; "Socks"
+
+</code>
+</pre>
+
+<h4><a name="troublespots">Trouble spots?</a></h4>
+
+	<p>Well, this all seems hunky dory, super fantastic, right? Right :)
+However, there are a few things that you should keep in mind.</p>
+
+
+	<h5>Maintenance of the database schema</h5>
+
+
+	<p>In our simple example, we only had to add one extra column to our products table as we were only supporting one other language. But let&#8217;s move onto something more realistic. Imagine you&#8217;re developing a <em>&#8220;typical&#8221;</em> web application with something like 10 models and which supports 6 different languages. And there an average of at least 5 translatable attributes per model. That works out to 300 extra fields in your tables. You can imagine the scope for errors here. Now imagine you&#8217;ve got a much larger application, schema evolution&#8230;extrapolate? :(</p>
+
+
+	<p>This is where the external mechanism&#8217;s advantage kicks in. No matter how many additional languages you want to support, or how your schema evolves, you never need to modify the schema to support these. With the internal mechanism, you have to be alert and ensure you add the right columns with the right suffix as your schema evolves.</p>
+
+
+	<p>Luckily two things go a long way to reduce the pain of this:</p>
+
+
+	<ul>
+	<li>ActiveRecord Migrations</li>
+		<li>the for-1.2 rake tasks that automatically generate a migration to add the required columns. (The subject of my next article)</li>
+	</ul>
+
+
+	<h5>Database row limitations</h5>
+
+
+	<p>The fact that you&#8217;re stuffing a table full of duplicated columns means that for some databases you may begin to reach certain limits, especially if those columns are blobs. e.g. MySQL InnoDB tables have a limit on row size that is easily reached by globalizing a table with about 4 varchar/text columns when you have to support 4 different languages. In this case, you need to switch to MyISAM tables which means you lose transactions (or you could switch your db to postgres or something like that).</p>
+
+
+	<p>So it&#8217;s important you keep these points in mind when deciding on which storage mechanism to use.</p>
+
+
+<h4><a name="conclusion">Conclusion</a></h4>
+
+	<p>Phew&#8230;That&#8217;s was quite a long article. Anyway I may have a very heavy writing style and may tend to <em>overwrite</em> but if anything I hope this has been a fairly enlightening walk through globalize&#8217;s new storage mechanism.</p>
+
+
+	<p>As I mentioned in this article, I&#8217;ve also written a couple of tools which should make migrating your existing globalized application to this system a breeze. Look out for the next article in this series where I&#8217;ll be writing a short tutorial on how to use these tools. It&#8217;ll be a lot shorter, I promise :)</p>
