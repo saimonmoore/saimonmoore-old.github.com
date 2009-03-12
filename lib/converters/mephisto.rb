@@ -97,7 +97,7 @@ module Webby
             puts "thread for: #{slug} thread:#{thread.inspect} created: #{r['message']['created']}"
             # puts "forum threads: #{forum.forum_threads(true).inspect}"
             raise "Unable to find/create thread for article: #{slug}" unless (thread && thread['id'])
-            post_args = {:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :parent_post => article_id.to_s, :created_at => date.strftime('%Y-%m-%dT%H:%M')}
+            post_args = {:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :created_at => date.strftime('%Y-%m-%dT%H:%M')}
             r = Disqus::Api.create_post(post_args)
             if r['succeeded']
               puts "================> created disqus comment for: #{slug}"
