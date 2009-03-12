@@ -25,7 +25,7 @@ module Webby
       # This query will pull blog posts entries across blogs with id 1.
       QUERY = "SELECT id, permalink, body, body_html, published_at, title FROM contents WHERE site_id = 1 AND user_id = 1 AND type = 'Article' AND published_at IS NOT NULL ORDER BY published_at"
 
-      def self.process(db, dbname, user, pass, host = 'localhost', port = nil)
+      def self.process(db, dbname, user, pass, host = 'localhost', port = nil, convert=false)
         host ||= 'localhost'
         db = case db.to_s
               when 'mysql'
@@ -57,7 +57,7 @@ module Webby
 
            converted_content = nil
           begin
-            converted_content = Haml::HTML.new(content, {}).render
+            converted_content = convert ? Haml::HTML.new(content, {}).render : content
           rescue Exception => err
             puts "Unable to convert '#{dir}/#{name}' to haml..."            
             puts "err: #{err.message} trace: #{err.backtrace.join("\n")}"
