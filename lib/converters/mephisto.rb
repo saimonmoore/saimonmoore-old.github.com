@@ -6,6 +6,7 @@ require 'haml/html'
 require 'sequel'
 require 'fastercsv'
 require 'fileutils'
+require 'hpricot_scrub'
 # require File.join(File.dirname(__FILE__),"csv.rb")
 
 # NOTE: This converter requires Sequel and the MySQL gems.
@@ -59,12 +60,33 @@ module Webby
           article_id = comment[:article_id]
           title = comment[:title]
           slug = comment[:permalink]
-          author_name = comment[:author_name]
+          author_name = comment[:author]
           author_url = comment[:author_url]
           author_email = comment[:author_email]
           author_ip = comment[:author_ip]
           date = comment[:published_at]
           content = comment[:body_html]
+
+          # hpricot_scrub
+          config = {
+            :elem_rules => {
+              "a" => {
+                "href"  =>  true
+              },
+              "b" => true,
+              "hr"  =>  true,
+              "i"  => true,
+              "u"  =>  true,
+              "blockquote"  => true,
+              "pre" => true
+            },
+            :default_elem_rule => :strip,
+            :default_comment_rule => false,
+            :default_attribute_rule => true
+          }
+          doc = Hpricot(content)
+          # scrub out tags disqus doesn't accept, but convert pre tags to blockquotes
+          content = doc.scrub(config).to_s.gsub(/<pre>/, '<blockquote>').gsub(/<\/pre>/, '</blockquote>')
           dir = "#{date.year}#{date.month}"
           
           article_url = "http://saimonmoore.net/tumblog/" + slug + '.html'
@@ -75,11 +97,12 @@ module Webby
             puts "thread for: #{slug} thread:#{thread.inspect} created: #{r['message']['created']}"
             # puts "forum threads: #{forum.forum_threads(true).inspect}"
             raise "Unable to find/create thread for article: #{slug}" unless (thread && thread['id'])
-            r = Disqus::Api.create_post(:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :parent_post => article_id.to_s, :created_at => date.strftime('%Y-%m-%dT%H:%M'))
+            post_args = {:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :parent_post => article_id.to_s, :created_at => date.strftime('%Y-%m-%dT%H:%M')}
+            r = Disqus::Api.create_post(post_args)
             if r['succeeded']
-              puts "created disqus comment for: #{slug}"
+              puts "================> created disqus comment for: #{slug}"
             else
-              puts "failed to create comment for: #{slug} Reason: #{r['code']} Comment: #{comment.inspect}"
+              puts "!!!!!!!!!!!!!!!! failed to create comment for: #{slug} Reason: #{r['code']} Comment: #{post_args.inspect} r: #{r.inspect}"
             end
           end
         end
