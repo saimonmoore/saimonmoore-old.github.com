@@ -42,7 +42,7 @@ module Webby
           slug = post[:permalink]
           date = post[:published_at]
           content = post[:body_html]
-          name = slug + ".haml"
+          name = slug + convert ? ".haml" : '.erb'
           dir = "content/tumblog/#{date.year}#{date.month}"
           FileUtils.mkdir_p dir
 
@@ -50,7 +50,7 @@ module Webby
              'layout' => 'tumblog/post',
              'created_at' => date,
              'author' => 'Saimon Moore',
-             'filter' => 'haml',
+             'filter' => convert ? 'haml' : 'erb',
              'title' => title.to_s,
              'tumblog_type' => 'regular'
            }.delete_if { |k,v| v.nil? || v == ''}.to_yaml
