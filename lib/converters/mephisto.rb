@@ -42,7 +42,7 @@ module Webby
           slug = post[:permalink]
           date = post[:published_at]
           content = post[:body_html]
-          name = slug + convert ? ".haml" : '.erb'
+          name = slug + (convert ? ".haml" : '.erb')
           dir = "content/tumblog/#{date.year}#{date.month}"
           FileUtils.mkdir_p dir
 
@@ -50,14 +50,14 @@ module Webby
              'layout' => 'tumblog/post',
              'created_at' => date,
              'author' => 'Saimon Moore',
-             'filter' => convert ? 'haml' : 'erb',
+             'filter' => (convert ? 'haml' : 'erb'),
              'title' => title.to_s,
              'tumblog_type' => 'regular'
            }.delete_if { |k,v| v.nil? || v == ''}.to_yaml
 
            converted_content = nil
           begin
-            converted_content = convert ? Haml::HTML.new(content, {}).render : content
+            converted_content = (convert ? Haml::HTML.new(content, {}).render : content)
           rescue Exception => err
             puts "Unable to convert '#{dir}/#{name}' to haml..."            
             puts "err: #{err.message} trace: #{err.backtrace.join("\n")}"
