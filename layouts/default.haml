@@ -46,7 +46,7 @@ filter: haml
       #sidebar
         %h1
           Search
-        %input{ :type => "text", :value => "Start Your Search..." }      
+        = render(:partial => 'google_search')
         %h1
           Latest News
         %p

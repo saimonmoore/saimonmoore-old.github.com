@@ -1,0 +1,24 @@
+---
+filter: haml
+---
+%form{:id => 'searchbox_012187754410586928778:x4dfbhjpn9e', :action => "", :onsubmit => "return false;" }
+  %div
+    %input{ :name => "q", :size => "40", :type => "text" }
+    %input{ :type => "submit", :value => "Search" }
+%script{ :type => "text/javascript", :src => "http://www.google.com/coop/cse/brand?form=searchbox_012187754410586928778%3Ax4dfbhjpn9e&lang=en" }
+%div{:id => 'results_012187754410586928778:x4dfbhjpn9e', :style => "display:none" }
+  .cse-closeResults
+    %a
+      &times; Close
+  .cse-resultsContainer
+%style{ :type => "text/css" }
+  @import url(http://www.google.com/cse/api/overlay.css);
+%script{ :src => "http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAG3Ga-xU7zL31KExsSTI14BS-49VQo_p-qSq5CEC0nV14qleuFxSk18V8N2WARm9AmTm6PA5iW3Fphg&hl=en", :type => "text/javascript" }
+%script{ :src => "http://www.google.com/cse/api/overlay.js", :type => "text/javascript" }
+:javascript
+  function OnLoad() {
+  new CSEOverlay("012187754410586928778:x4dfbhjpn9e",
+  document.getElementById("searchbox_012187754410586928778:x4dfbhjpn9e"),
+  document.getElementById("results_012187754410586928778:x4dfbhjpn9e"));
+  }
+  GSearch.setOnLoadCallback(OnLoad);
