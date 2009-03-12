@@ -36,9 +36,13 @@ module Webby
         Disqus::defaults[:account] = disqus_account
         Disqus::defaults[:api_key] = disqus_api_key
         
+        puts disqus_account
+        puts disqus_api_key
+        
         # Assume only one blog
         forum = Disqus::Forum.list.first
         raise "Need at least one disqus forum to import comments into..." unless forum
+        puts "forum api_key: #{forum.key}"
         
         host ||= 'localhost'
         db = case db.to_s
@@ -64,18 +68,14 @@ module Webby
           dir = "#{date.year}#{date.month}"
           
           article_url = "http://saimonmoore.net/tumblog/" + slug + '.html'
-          r = Disqus::Api.get_thread_by_url(:forum_api_key => forum.key, :url => article_url)
-          # {"message"=>{"slug"=>"thread", "forum"=>"98781", "num_comments"=>0, "title"=>"http://localhost:4331/tumblog/20081/created-mongrel-dont-serve-static-patch-ticket.html", "url"=>"http://localhost:4331/tumblog/20081/created-mongrel-dont-serve-static-patch-ticket.html", "id"=>"13518564", "forum_obj"=>{"name"=>"Simple Thoughts", "shortname"=>"saimonmoorenet", "id"=>"98781", "created_at"=>"2009-03-12 06:33:27.380739"}, "identifier"=>nil, "hidden"=>true, "created_at"=>"2009-03-12T10:42", "allow_comments"=>true}, "succeeded"=>true, "code"=>"ok"}
-          
-          unless r['succeeded']
-            # create a new thread for the post
-            r = Disqus::Api.thread_by_identifier(:forum_api_key => forum.key, :title => article_url, :identifier => nil)
-          end
+          r = Disqus::Api.thread_by_identifier(:forum_api_key => forum.key, :title => article_url, :identifier => article_id.to_s)
           
           if r['succeeded']
-            thread = r['message']
-            raise "Unable to find/create thread for article: #{slug}" unless thread && thread['id']
-            r = Disqus::Api.create_post(:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :parent_post => article_id.to_s, :created_at => comment.published_at.strftime('%Y-%m-%dT%H:%M'))
+            thread = r['message']['thread']
+            puts "thread for: #{slug} thread:#{thread.inspect} created: #{r['message']['created']}"
+            # puts "forum threads: #{forum.forum_threads(true).inspect}"
+            raise "Unable to find/create thread for article: #{slug}" unless (thread && thread['id'])
+            r = Disqus::Api.create_post(:forum_api_key => forum.key, :thread_id => thread['id'], :message => content, :author_name => author_name, :author_email => author_email, :ip_address => author_ip, :parent_post => article_id.to_s, :created_at => date.strftime('%Y-%m-%dT%H:%M'))
             if r['succeeded']
               puts "created disqus comment for: #{slug}"
             else
