@@ -12,8 +12,8 @@ layout: tumblog/default
     %h2
       = link_to_page(@page)
     = @content
-    -# #disqus_thread
-    -#   %script{:type=>"text/javascript", :src=>"http://disqus.com/forums/saimonmoorenet/embed.js"}
-    -#   %noscript
-    -#     %a{:href=>"http://saimonmoorenet.disqus.com/?url=ref"}
-    -#       View the discussion thread.
+    #disqus_thread
+      %script{:type=>"text/javascript", :src=>"http://disqus.com/forums/saimonmoorenet/embed.js"}
+      %noscript
+        %a{:href=>"http://saimonmoorenet.disqus.com/?url=ref"}
+          View the discussion thread.

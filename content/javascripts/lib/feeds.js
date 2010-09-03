@@ -46,6 +46,35 @@ function github_entry(commit, repo){
   return it;
 }
 
+function instapaper_entry(article){
+  var it = new Element("li", {'class':'read-later'});
+  var dt = new Element("span", {'class': 'feed-item-date', html: format_date(article.pubDate)+" &middot; "});
+  var link = new Element("span", {'class': 'feed-item-link'}).adopt(new Element('a', {'href': article.link, text: "View"}));
+  var tx = new Element("span", {'class': 'feed-item-text', text: article.title});
+  tx.inject(it);
+  dt.inject(it);
+  link.inject(it);
+  return it;
+}
+
+function display_links(max, feedUrl){
+  new Request.JSONP({url: "http://pipes.yahoo.com/pipes/pipe.run",
+    callbackKey: '_callback',
+    data: {
+     '_id': '9oyONQzA2xGOkM4FqGIyXQ',
+     '_render': 'json',
+     'feed': 'http://www.instapaper.com/rss/578539/CLZC9n8HO9v6JLYPV4tjcIb0CU'
+    },
+    onComplete: function(data){
+      var list = new Element("ul");
+      var item = null;
+      for (var i=0; i<max; i++){
+        item = instapaper_entry(data.value.items[i]);
+        item.inject(list);
+      }
+      list.inject($('instapaper')).fade('in');
+    }}).send();
+}
 
 // http://twitter.com/status/user_timeline/excsm.json
 function display_tweets(max){

@@ -16,6 +16,7 @@ filter: haml
       window.addEvent('domready', function() {
         display_tweets(5);
         display_commits(5, [{uri: 'http://github.com/api/v2/json/commits/list/saimonmoore/nodered/master', repo: 'nodered'}]);
+        display_links(10, "http://www.instapaper.com/rss/578539/CLZC9n8HO9v6JLYPV4tjcIb0CU");
       });
     %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }
     %meta{ :content => "en-gb", "http-equiv" => "content-language" }
@@ -31,9 +32,8 @@ filter: haml
   %body
     #header
       %h1
-        Simple Thoughts
-      %p
-        Saimon Moore's occasional musings
+        Saimon Moore
+      %p=@page.subtitle
       %ul
         %li
           %a{ :href => "/" }
@@ -66,6 +66,7 @@ filter: haml
             Github
         %h1
           Links
+        #instapaper
 
         %ul{:id => 'links'}
 

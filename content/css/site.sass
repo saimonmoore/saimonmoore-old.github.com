@@ -9,7 +9,6 @@ layout:    nil
   :margin 0
   :padding 0
 
-
 a
   :color #b484da
   :text-decoration none
@@ -180,6 +179,14 @@ body
     :line-height 30px
     :padding 0 10px
 
+  ul
+    :margin 2px
+
+    li
+      :margin 2px
+      :padding 2px
+      :list-style-type circle
+
 
 #footer
   :margin 10px auto
@@ -199,3 +206,28 @@ body
     :line-height 20px
     :padding 10px
     :text-align center
+
+.feed-item
+  :list-style-type none
+  :margin 0.8em 0.3em
+
+.feed-item-text
+  :display block
+
+  .feed-item-date
+    @extend .feed-item-text
+
+.feed-item-text
+  :margin-top 0.3em
+  :margin-left 1em
+  :font-style italic
+
+
+.article-item
+  :padding 0.5em 0
+  :display block
+
+.article-meta
+  :font-size 0.8em
+
+
