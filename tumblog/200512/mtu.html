@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      MTU
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                19th
+              </div>
+                Mon
+            </div>
+        <a class='comments' href='/tumblog/200512/mtu.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/200512/mtu.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200512/mtu.html">MTU</a>
+          </h2>
+          <p>Rails 1.0 was released the other day and I promptly upgraded which involved all of:</p>   <pre><code> gem update rails -y  rake update_javascripts </code></pre>      <p>As this last command only updated the core scriptaculous scripts and I was using others too, I decided to improve on the rake task.</p>       <p>I came up with a quick hack that did the job by checking out scriptaculous head and then copying over the required files.</p>       <p>Technoweenie pointed out that it would be far better not to checkout the code every time which was a good idea, so I quickly corrected the code.</p>       <p>I then tried to test the task, but I started getting a host not found exception for dev.rubyonrails.org. I pinged it and it was indeed failing. I asked around on #rubyonrails and others weren&#8217;t having any probs at all. I quickly checked other sites, and didn&#8217;t have any problems with them. &#8220;Strange&#8221;, I thought.</p>       <p>To cut a long story short, after a great deal of investigating with tracepath, ethereal and google I had a productive little chat on #gentoo-uk with NeddySeagoon who came up with the answer:  &#8220;A server on a hop between me and the target site most probably had it&#8217;s dns poisoned. It should be fixed within 48 hours max.&#8221;</p>       <p>Sure enough, 48 hours later I could access dev.rubyonrails.org and test out the rake task (which you can find <a href=http://rails.techno-weenie.net/tip/2005/12/14/rake_task_to_update_scriptaculous_javascripts_directly_from_svn_trunk>here</a>  ). I lost a lot of time with that networking interlude, but I didn&#8217;t come away empty-handed.</p>       <p>On the way to enlightenment by NeddySeagoon I learned about <a href=http://en.wikipedia.org/wiki/MTU_%28networking%29><acronym title=Maximum Transmission Unit><span class=caps><span class="caps">MTU</span></span></acronym></a> and how over cautious sysadmins can sometime cause problems with packets travelling over the pppoE channel.</p>       <p>So I learnt a bit more about networking..which is good ;)</p><p></p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

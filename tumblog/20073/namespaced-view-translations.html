@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Namespaced View Translations
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Mar<br />
+                18th
+              </div>
+                Sun
+            </div>
+        <a class='comments' href='/tumblog/20073/namespaced-view-translations.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/20073/namespaced-view-translations.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20073/namespaced-view-translations.html">Namespaced View Translations</a>
+          </h2>
+          <p>ViewTranslations are a very handy way of translating all of your content that isn&#8217;t represented by an ActiveRecord model, which is actually quite a lot of content.</p>
+          
+          
+          	<p>And they work great:</p>
+          
+          
+          <pre>
+          <code>
+          #In es locale
+          
+          "translate me".t =&gt; "Traduceme"
+          
+          "%s, can you translate this?" / 'saimon' =&gt; '¿Saimon, puedes traducir esto?'
+          
+          "%d translations" / 0 =&gt; "No hay traducciónes"
+          "%d translations" / 1 =&gt; "1 traducción"
+          "%d translations" / 10 =&gt; "10 traducciónes"
+          </code>
+          </pre>
+          
+          	<p>But imagine you&#8217;re using view translations all over the place in your application.</p>
+          
+          
+          	<p>You use them to translate the static content of your view templates.
+          You use them to translate the urls in your links.
+          You use them to translate your administration interface.</p>
+          
+          
+          	<p>After a while the list of translations starts to become a bit too unwieldy.</p>
+          
+          
+          	<p>Let&#8217;s say that you decide to bring in professional translators, who may be decidedly non technical, to translate your site&#8217;s content.</p>
+          
+          
+          	<p>You point them to your new spiffy, paginated, searchable list of words/phrases to be translated and leave them to it.</p>
+          
+          
+          	<p>The day after your boss phones you up and bellows:</p>
+          
+          
+          	<p>- None of the site&#8217;s links are working in Slovenian?</p>
+          
+          
+          	<p>Oops! You start to investigate and find that the stupid translators, went ahead and translated:</p>
+          
+          
+          <pre>
+          <code>
+          'section' =&gt; 'sección' (In Spanish)
+          </code>
+          </pre>
+          
+          	<p>which you were using to translate the url:</p>
+          
+          
+          <pre>
+          <code>
+          http://example.com/section =&gt; http://example.com/seccion
+          </code>
+          </pre>
+          
+          	<p>- Jeez, don&#8217;t translators know you can&#8217;t use non-ascii characters in urls?</p>
+          
+          
+          	<p>- Umm, well no. They&#8217;re translators. That&#8217;s your job.</p>
+          
+          
+          	<p>- Ah, well, ok I&#8217;ll just give them a list of words that are urls and should be translated without accents.</p>
+          
+          
+          	<p>- But we use the word &#8216;section&#8217; in the view as well&#8230;</p>
+          
+          
+          	<p>- ummm&#8230; Let me think&#8230;.. (time passes)</p>
+          
+          
+          	<p>- Also we need the site in Greek which has a lot of strange characters. And come to think of it, this list of urls is getting pretty hard to maintain.</p>
+          
+          
+          	<p>-Well, what we need is to be able to have two sorts of translation of the word &#8216;section&#8217;, one for the front end and one for the urls.</p>
+          
+          
+          	<h5>Using namespaced view translations</h5>
+          
+          
+          	<p>And that&#8217;s what <em><strong>namespaced</strong> view translations</em> are all about:</p>
+          
+          
+          <pre>
+          <code>
+          #In es locale
+          
+          "section".t         =&gt; "sección"  #The default translation with no namespace
+          
+          "section" &gt;&gt; 'urls' =&gt; "seccion"  #The translation in the 'urls' namespace
+          or
+          "section".tn(:urls)
+          or
+          "draw".translate_with_namespace(:urls)
+          
+          #The translation in the 'admin' namespace
+          "section" &gt;&gt; 'admin' =&gt; "sección"
+          
+          # Text interpolation of the translation in the 'admin' namespace
+          "%s, can you translate this?".tn(:admin, 'saimon') =&gt; '¿Saimon, puedes traducir esto?'
+          
+          #Numeric interpolation of the translation in the 'admin' namespace with a zero value
+          "%d translations".tn(:admin, 0) =&gt; "No hay traducciónes"
+          
+          #Numeric interpolation of the translation in the 'admin' namespace with non-zero values
+          "%d translations".tn(:admin, 1) =&gt; "1 traducción"
+          "%d translations".tn(:admin, 10) =&gt; "10 traducciónes"
+          
+          #Translation in the 'admin' namespace with a default value if no
+          #translation is available
+          "should be translated".tn(:admin,nil, 'untranslated') =&gt; "untranslated"
+          </code>
+          </pre>
+          
+          	<h5>Adding namespaced view translations to the database</h5>
+          
+          
+          	<p>Adding translations with namespaces to the database uses a differently named method but
+          is basically the same syntax as Locale.set_translation:</p>
+          
+          
+          <pre>
+          <code>
+          Locale.set('es-ES')
+          
+          #No namespace
+          Locale.set_translation("section", "sección")
+          
+          #With namespace 'urls'
+          Locale.set_translation_with_namespace("section", "urls", "seccion")
+          </code>
+          </pre>
+          
+          	<p>or adding translations with plural forms:</p>
+          
+          
+          <pre>
+          <code>
+          Locale.set('es-ES')
+          
+          #No namespace
+          Locale.set_translation("draw %d times", "dibujar una vez", "dibujar %d veces")
+          
+          #With namespace 'lottery'
+          Locale.set_translation_with_namespace("draw %d times", "lottery", "seleccionar una vez", "seleccionar %d veces")
+          </code>
+          </pre>
+          
+          	<h5>Filtering translations by namespace</h5>
+          
+          
+          	<p>Once you have view translations categorised under different namespaces, you&#8217;ll most likely want to create a friendly interface for your translators so that they don&#8217;t translate phrases in the &#8216;urls&#8217; namespace for example and can concentrate on the translations of the front-end.</p>
+          
+          
+          <pre>
+          <code>
+          url_translations = ViewTranslations.find(:all, :conditions =&gt; {:namespace =&gt; 'urls', :language =&gt; spanish})
+          </code>
+          </pre>
+          
+          	<p>Of course that&#8217;s very simplistic and you&#8217;d probably want to also distinguish between translations with plural forms, paginate etc but you get the idea.</p>
+          
+          
+          	<h5>Upgrading your schema</h5>
+          
+          
+          	<p>I needed to change the globalize view_translations table and add an extra varchar column to support namespaced view translations. So in order to use the for-1.2 release with your application, you need to upgrade your schema.</p>
+          
+          
+          	<p>If you install the <strong>for-1.2</strong> release via:</p>
+          
+          
+          <pre>
+          <code>
+          script/plugin install http://svn.globalize-rails.org/svn/globalize/branches/for-1.2
+          </code>
+          </pre>
+          
+          	<p>then the plugin&#8217;s install hook will automatically update your globalize tables for you  if they already exist.</p>
+          
+          
+          	<p>If you don&#8217;t use the <em>script/plugin install</em> method, then you can simply run the following rake task which does the same thing:</p>
+          
+          
+          <pre>
+          <code>
+          rake globalize:upgrade_schema_to_1_dot_2
+          </code>
+          </pre>
+          
+          	<p>If this is the first time you&#8217;re installing Globalize then just run the default globalize setup rake task:</p>
+          
+          
+          <pre>
+          <code>
+          rake globalize:setup
+          </code>
+          </pre>
+          
+          	<p>That concludes this article. Watch out for the next <a href="#" onclick="alert('Coming soon...'); return false;">article</a> in the series where I&#8217;ll be talking about <strong>Globalize::SupportedLocales</strong>, a class that encapsulates the idea of an application&#8217;s supported locales.</p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

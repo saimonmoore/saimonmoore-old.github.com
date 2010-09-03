@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      more validations
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Oct<br />
+                23rd
+              </div>
+                Tue
+            </div>
+        <a class='comments' href='/tumblog/200710/more-validations.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/200710/more-validations.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200710/more-validations.html">more validations</a>
+          </h2>
+          <p>I wrote up a validates_condition_between validations class method the other day. It  basically validates that the values of two attributes matches the condition supplied. Only one condition can be used at a time. I searched around for something like this but couldn&#8217;t find anything so I wrote it.</p>
+          
+          
+          	<p>Usage:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><tt>
+          </tt>   <span class="r">class</span> <span class="cl">Person</span> &lt; <span class="co">ActiveRecord</span>::<span class="co">Base</span><tt>
+          </tt>     validates_condition_between <span class="sy">:start_time</span>, <span class="sy">:end_time</span>, <span class="sy">:condition</span>=&gt;<span class="sy">:greater_than</span><tt>
+          </tt>     validates_condition_between <span class="sy">:credit</span>, <span class="sy">:max_credit</span>, <span class="sy">:condition</span>=&gt;<span class="sy">:less_than_or_equal_to</span>, <span class="sy">:allow_blank</span> =&gt; <span class="pc">true</span><tt>
+          </tt>     validates_condition_between <span class="sy">:key</span>, <span class="sy">:keys</span>, <span class="sy">:condition</span>=&gt;<span class="sy">:inclusion</span>, <span class="sy">:allow_nil</span> =&gt; <span class="pc">true</span><tt>
+          </tt>   <span class="r">end</span>  <tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>I&#8217;ve stuck it in the following plugin (just the one validation for now):</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>script/plugin install svn://rubyforge.org/var/svn/sidirodromos/plugins/more_validations<tt>
+          </tt></pre></td>
+          </tr></table>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

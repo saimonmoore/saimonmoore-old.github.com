@@ -1,0 +1,1184 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<feed xmlns='http://www.w3.org/2005/Atom'>
+  <title>
+    Simple Thoughts
+  </title>
+  <subtitle>
+    Occasional musings by Saimon Moore
+  </subtitle>
+  <link href='http://http://saimonmoore.net/tumblog/' rel='self' />
+  <link href='http://http://saimonmoore.net/' />
+  <updated>
+    2010-09-03T22:11:58+02:00
+  </updated>
+  <author>
+    <name>
+      Saimon Moore
+    </name>
+    <email>
+      saimonmoore@gmail.com
+    </email>
+  </author>
+  <id>
+    http://
+    http://saimonmoore.net
+    /
+  </id>
+  <entry>
+    <title>
+      fairtilizer.com is now known as official.fm
+    </title>
+    <link href='/tumblog/201009/' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2010-09-03
+      :
+      1283522928
+    </id>
+    <updated>
+      2010-09-03T16:08:48+02:00
+    </updated>
+    <content type='html'>
+      I've been working on fairtilizer.com pretty much full time for the last 2 years. This august the team flipped the switch on a new branding Official.fm, the idea being massiveattack.official.fm.
+      As I was off on holidaysi, huge congratulations to the officialfm team are due.
+      Hopefully will be blogging more often now (I think I said that about 2 years ago too :)
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Created mongrel dont-serve-static patch ticket
+    </title>
+    <link href='/tumblog/20081/created-mongrel-dont-serve-static-patch-ticket.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2008-01-24
+      :
+      1201175460
+    </id>
+    <updated>
+      2008-01-24T12:51:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;If anyone&amp;#8217;s interested, I&amp;#8217;ve updated the &lt;a href=&quot;http://webtypes.com/2007/3/21/globalizing-mephisto-part-2&quot;&gt;patch&lt;/a&gt; for mongrel trunk (r949 / &lt;span class=&quot;caps&quot;&gt;REL&lt;/span&gt;_1-1-3) and posted it &lt;a href=&quot;http://rubyforge.org/tracker/index.php?func=detail&amp;#38;aid=17446&amp;#38;group_id=1306&amp;#38;atid=5147&quot;&gt;here&lt;/a&gt; to the mongrel project&lt;/p&gt;
+      
+      
+      	&lt;p&gt;I&amp;#8217;m hoping this get&amp;#8217;s in. Am I too hopefull? :)&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Mocking ActiveRecord::RecordInvalid with mocha
+    </title>
+    <link href='/tumblog/20081/mocking-activerecord-recordinvalid-with-mocha.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2008-01-23
+      :
+      1201090320
+    </id>
+    <updated>
+      2008-01-23T13:12:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;For future &lt;a href=&quot;http://pastie.caboo.se/private/yqzjw6icn5efmp5wpnw&quot;&gt;reference&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;mock_record_invalid&lt;/span&gt;(model)&lt;tt&gt;
+      &lt;/tt&gt;    user_errors, record_invalid_error = mock(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;), mock(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;record_invalid_error&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;    user_errors.stubs(&lt;span class=&quot;sy&quot;&gt;:full_messages&lt;/span&gt;).returns([])&lt;tt&gt;
+      &lt;/tt&gt;    model.stubs(&lt;span class=&quot;sy&quot;&gt;:errors&lt;/span&gt;).returns(user_errors)&lt;tt&gt;
+      &lt;/tt&gt;    record_invalid_error.stubs(&lt;span class=&quot;sy&quot;&gt;:exception&lt;/span&gt;).returns(&lt;span class=&quot;co&quot;&gt;ActiveRecord&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;RecordInvalid&lt;/span&gt;.new(model))&lt;tt&gt;
+      &lt;/tt&gt;    record_invalid_error&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      RSpec Story Runner Driven (Browser) Acceptance Testing
+    </title>
+    <link href='/tumblog/20081/rspec-story-runner-driven-browser-acceptance-testing.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2008-01-18
+      :
+      1200655800
+    </id>
+    <updated>
+      2008-01-18T12:30:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;I&amp;#8217;ve been using rspec now for quite a while now (thanks to chrissturm) and have been loving it. It feels a lot more natural and intuitive and I&amp;#8217;m even getting the hand of learning when/how to mock/stub (though I still have some fixtures lying around).
+      I&amp;#8217;ve been meaning to learn up on using the new story runner feature and while googling I came upon a &lt;a href=&quot;http://www.kerrybuckley.com/2007/11/07/driving-selenium-from-the-rspec-story-runner-rbehave&quot;&gt;post&lt;/a&gt; by Kerry Buckley in which he provides a quick overview of how to setup story runner and also describes how he got story runner to drive selenium acceptance testing.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Just a quick blurb about what story runner is.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Story runner basically allows you to write specifications in a plain text file, written in natural language. You basically write a story (paraphrasing &lt;a href=&quot;http://dannorth.net/whats-in-a-story&quot;&gt;Dan North&lt;/a&gt;  &amp;#8220;a description of a requirement and its business benefit, and a set of criteria by which we all agree that it is &lt;strong&gt;done&lt;/strong&gt;&amp;#8221;.)&lt;/p&gt;
+      
+      
+      	&lt;p&gt;For each story you can then write a number of different scenarios (imagine that feature in different situations) and for each scenario you write a set of criteria which determines how that scenario can be completed successfully.&lt;/p&gt;
+      
+      
+      e.g.
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt; Story: UI&lt;tt&gt;
+      &lt;/tt&gt;  As a developer                                                  #&lt;tt&gt;
+      &lt;/tt&gt;  I want to go to the uimockups page                              # Description of intent&lt;tt&gt;
+      &lt;/tt&gt;  So that I can implement the mockup                              #&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;   Scenario: Going to the /uimockups page when not logged in      &amp;lt;= Scenario Description&lt;tt&gt;
+      &lt;/tt&gt;     Given an anonymous user                                      #&lt;tt&gt;
+      &lt;/tt&gt;     When the user goes to /uimockups                             #&lt;tt&gt;
+      &lt;/tt&gt;     Then the document title should be 'personal'                 # criteria, actions &amp;amp; expectations&lt;tt&gt;
+      &lt;/tt&gt;     And the page should contain the text 'done by Webtypes'      #  &lt;tt&gt;
+      &lt;/tt&gt;     And the page should have a field named 'strip-search-input'  #&lt;tt&gt;
+      &lt;/tt&gt;     And the page should have a form named 'strip-search'         #&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;Given a text file like this, you then write a small ruby script (see /stories/stories/project.rb below) which then takes the text, parses it look for the highlighted keywords. Each &lt;strong&gt;Given&lt;/strong&gt;, &lt;strong&gt;When&lt;/strong&gt; and &lt;strong&gt;Then&lt;/strong&gt; is a &lt;strong&gt;Step&lt;/strong&gt;. The &lt;strong&gt;Ands&lt;/strong&gt; are each the same kind as the previous Step.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Run as is, you&amp;#8217;ll get this same story output back to you but each of the lines under &lt;strong&gt;Scenario&lt;/strong&gt; will be marked with &lt;strong&gt;&amp;#8220;pending&amp;#8221;&lt;/strong&gt; which basically means that the story is yet to be implemented. e.g.&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;23&lt;tt&gt;
+      &lt;/tt&gt;24&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;25&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;26&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;saimon@artemis~/dev/projects/myrailsapp$ ruby stories/stories/project.rb&lt;tt&gt;
+      &lt;/tt&gt;(in /Users/saimon/dev/projects/myrailsapp)&lt;tt&gt;
+      &lt;/tt&gt;Running 1 scenarios&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;Story: UI&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  As a developer&lt;tt&gt;
+      &lt;/tt&gt;  I want to go to the ui page&lt;tt&gt;
+      &lt;/tt&gt;  So that I can see the mockup&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  Scenario: Going to the /ui page when not logged in&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    Given an anonymous user (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    When the user goes to /ui (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    Then the document title should be 'personal' (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;    And the page should contain the text 'done by Webtypes' (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;    And the page should have a field named 'strip-search-input' (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;    And the page should have a form named 'strip-search' (PENDING)&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;1 scenarios: 0 succeeded, 0 failed, 1 pending&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;Pending Steps:&lt;tt&gt;
+      &lt;/tt&gt;1) UI (Going to the /ui page when not logged in): Unimplemented step: an anonymous user&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;To actually get the story to pass, you need to implement each of the &lt;strong&gt;Steps&lt;/strong&gt; in ruby. i.e. Here&amp;#8217;s an example of the implementation of the 2nd step:&lt;/p&gt;
+      
+      
+      	&lt;ul&gt;
+      	&lt;li&gt; &amp;#8220;When the user goes to /ui (PENDING)&amp;#8221;&lt;/li&gt;
+      	&lt;/ul&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;steps_for(&lt;span class=&quot;sy&quot;&gt;:project&lt;/span&gt;) &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;When&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the user goes to $path&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |path|&lt;tt&gt;
+      &lt;/tt&gt;    get path&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;As you can see it&amp;#8217;s basically parsing the line for a step keyword (in this case &amp;#8216;When&amp;#8217;), and then takes the rest of the line and tries to match it against any of the &lt;strong&gt;When&lt;/strong&gt; steps it knows about. It also goes one step further and allows you to add in variables so that you can extract dynamic criteria directly from the story line ($path) in this case.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;So once, it has been matched, it ends up executing :&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;get &lt;span class=&quot;rx&quot;&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;uimockups&lt;tt&gt;
+      &lt;/tt&gt;&lt;/span&gt;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;The cool thing about it is that once you&amp;#8217;ve implemented a step, it&amp;#8217;s just reused every time it&amp;#8217;s matched in the story. You can also have a stable set of steps which you use in multiple stories. You could even conceivably build up a library of them to be used in other applications.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;I was at the &lt;span class=&quot;caps&quot;&gt;BCN&lt;/span&gt; Ruby/Rails group meeting last night and one of the attendants expressed concerns about the brittleness of the syntax. In fact, there&amp;#8217;s no problem because story runner will mark any line that it hasn&amp;#8217;t been able to match against any of the steps known to it as &lt;strong&gt;pending&lt;/strong&gt; so you can easily determine a syntax problem. And if an exception is raised by anything it has matched then it&amp;#8217;ll provide the appropriate stack trace pointing you to the step that caused the exception.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;After watching Pat Maddox&amp;#8217;s &lt;a href=&quot;http://evang.eli.st/blog/2007/10/8/story-runner-top-to-bottom-screencast&quot;&gt;screen-cast&lt;/a&gt; I&amp;#8217;m convinced that using story runner is a good way of starting out your speccing. You can start by writing a story that describes a feature and then drill into it as you implement the steps. Along the way you&amp;#8217;ll find you need to implement controllers, models, helpers and views and before you do you can then implement the appropriate specs (only enough to get the functionality in the story passing) which in turn drives the implementation of the object in question.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Now, finally, I can get to the real reason I wrote this post.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;I&amp;#8217;m interested in being able to do my integration tests via story runner and occasionally do the odd browser acceptance testing and as I also had been meaning to play with &lt;a href=&quot;http://code.google.com/p/firewatir/&quot;&gt;FireWatir&lt;/a&gt; &amp;#38; &lt;a href=&quot;http://safariwatir.rubyforge.org/&quot;&gt;SafariWatir&lt;/a&gt; I decided to adapt his code to using watir.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;But I added another requirement to the mix. What I really wanted was seamless integration between normal integration tests using plain rspec and browser acceptance testing hen running the same scenarios or even be able to mix and match.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;After a bit I come up with this setup (very similar to Kerry&amp;#8217;s original setup):&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Directory Structure:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;+-- lib&lt;tt&gt;
+      &lt;/tt&gt;| +-- tasks/&lt;tt&gt;
+      &lt;/tt&gt;|   +-- acceptance.rake&lt;tt&gt;
+      &lt;/tt&gt;+-- stories/&lt;tt&gt;
+      &lt;/tt&gt;| +-- all.rb&lt;tt&gt;
+      &lt;/tt&gt;| +-- helper.rb&lt;tt&gt;
+      &lt;/tt&gt;| +-- steps/&lt;tt&gt;
+      &lt;/tt&gt;| | +-- project.rb&lt;tt&gt;
+      &lt;/tt&gt;| | +-- watir.rb&lt;tt&gt;
+      &lt;/tt&gt;| +-- stories/&lt;tt&gt;
+      &lt;/tt&gt;| | +-- project.rb&lt;tt&gt;
+      &lt;/tt&gt;| | +-- project.txt&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;Note: As per Kerry&amp;#8217;s article I&amp;#8217;ve further subdivided the top-level stories directory into stories and steps subdirectories. You don&amp;#8217;t have to if you don&amp;#8217;t have that many stories to write but I like the organized feeling it provides.&lt;/p&gt;
+      
+      
+      &lt;a href=&quot;http://pastie.caboo.se/private/zevarlg1uucrilfr9pizkq&quot;&gt;/stories/all.rb&lt;/a&gt;
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;dir = &lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.dirname(&lt;span class=&quot;pc&quot;&gt;__FILE__&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;dir&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;/helper&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;co&quot;&gt;Dir&lt;/span&gt;[&lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.expand_path(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;dir&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;/stories/**/*.rb&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)].uniq.each &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |file|&lt;tt&gt;
+      &lt;/tt&gt;  require file&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/xugk5rwortonhfenapk9w&quot;&gt;/stories/stories/project.txt&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;co&quot;&gt;Story&lt;/span&gt;: &lt;span class=&quot;co&quot;&gt;UI&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;As&lt;/span&gt; a developer&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;I&lt;/span&gt; want to go to the ui page&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;So&lt;/span&gt; that &lt;span class=&quot;co&quot;&gt;I&lt;/span&gt; can see the mockup&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Scenario&lt;/span&gt;: &lt;span class=&quot;co&quot;&gt;Going&lt;/span&gt; to the &lt;span class=&quot;rx&quot;&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ui page when not logged in&lt;tt&gt;
+      &lt;/tt&gt;    When the user goes to &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mod&quot;&gt;ui&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; the document title should be &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;personal&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;And&lt;/span&gt; the page should contain the text &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;done by Webtypes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;And&lt;/span&gt; the page should have a field named &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;strip-search-input&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;And&lt;/span&gt; the page should have a form named &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;strip-search&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/z2ixmrkt0fxmrofmpuj8uw&quot;&gt;/stories/stories/project.rb&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;#Call me with: [BROWSER=firefox|safari|ie] ruby stories/stories/project.rb&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.join(&lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.dirname(&lt;span class=&quot;pc&quot;&gt;__FILE__&lt;/span&gt;), &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;../helper&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &lt;tt&gt;
+      &lt;/tt&gt;run_story_with_steps_for (browser ? [&lt;span class=&quot;sy&quot;&gt;:watir_project&lt;/span&gt;, &lt;span class=&quot;sy&quot;&gt;:project&lt;/span&gt;] : [&lt;span class=&quot;sy&quot;&gt;:project&lt;/span&gt;])&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/affqfxbpiwgd0hlsdnotg&quot;&gt;/stories/steps/project.rb&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;23&lt;tt&gt;
+      &lt;/tt&gt;24&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;25&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;26&lt;tt&gt;
+      &lt;/tt&gt;27&lt;tt&gt;
+      &lt;/tt&gt;28&lt;tt&gt;
+      &lt;/tt&gt;29&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;30&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;31&lt;tt&gt;
+      &lt;/tt&gt;32&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;steps_for(&lt;span class=&quot;sy&quot;&gt;:project&lt;/span&gt;) &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Given&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;a test user&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;User&lt;/span&gt;.delete_all&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;User&lt;/span&gt;.create!(&lt;span class=&quot;sy&quot;&gt;:name&lt;/span&gt; =&amp;gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;, &lt;span class=&quot;sy&quot;&gt;:openid_url&lt;/span&gt; =&amp;gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;http://dummy.openid/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;,&lt;tt&gt;
+      &lt;/tt&gt;                &lt;span class=&quot;sy&quot;&gt;:email&lt;/span&gt; =&amp;gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;test@example.com&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;When&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the user goes to $path&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |path|&lt;tt&gt;
+      &lt;/tt&gt;    get path&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the document title should be '$title'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |title|&lt;tt&gt;
+      &lt;/tt&gt;    response.should have_tag(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;, title)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should contain the text '$text'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |text|&lt;tt&gt;
+      &lt;/tt&gt;    response.should have_text(&lt;span class=&quot;rx&quot;&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;text&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a field named '$field'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |field|&lt;tt&gt;
+      &lt;/tt&gt;    response.should have_tag(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;input[type=text][id=?]&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, field)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a form named '$form'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |form|&lt;tt&gt;
+      &lt;/tt&gt;    response.should have_tag(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;form[id=?]&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, form)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;  &lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a submit button named '$name', with the label '$label'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |name, label|&lt;tt&gt;
+      &lt;/tt&gt;    response.should have_tag(&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;input[type=submit][id=?][value=?]&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, name,label)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;  &lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/rmhcscvf6od8angsb6z9aq&quot;&gt;/stories/steps/watir_project.rb&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;23&lt;tt&gt;
+      &lt;/tt&gt;24&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;25&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;26&lt;tt&gt;
+      &lt;/tt&gt;27&lt;tt&gt;
+      &lt;/tt&gt;28&lt;tt&gt;
+      &lt;/tt&gt;29&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;30&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;31&lt;tt&gt;
+      &lt;/tt&gt;32&lt;tt&gt;
+      &lt;/tt&gt;33&lt;tt&gt;
+      &lt;/tt&gt;34&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;35&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;steps_for(&lt;span class=&quot;sy&quot;&gt;:watir_project&lt;/span&gt;) &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;When&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the user goes to $path&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |path|&lt;tt&gt;
+      &lt;/tt&gt;    browser.goto &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;http://localhost&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;path&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;When&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the user types '$text' into the $field field&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |text, field|&lt;tt&gt;
+      &lt;/tt&gt;    browser.text_field(&lt;span class=&quot;sy&quot;&gt;:name&lt;/span&gt;,field).set(text)&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;When&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the user clicks the $button button&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |button|&lt;tt&gt;
+      &lt;/tt&gt;    browser.button(&lt;span class=&quot;sy&quot;&gt;:value&lt;/span&gt;, button).click&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the document title should be '$title'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |title|&lt;tt&gt;
+      &lt;/tt&gt;    browser.title.should == title&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should contain the text '$text'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |text|&lt;tt&gt;
+      &lt;/tt&gt;    browser.text.include?(text).should be_true&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a field named '$field'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |field|&lt;tt&gt;
+      &lt;/tt&gt;    (browser.text_field(&lt;span class=&quot;sy&quot;&gt;:name&lt;/span&gt;, field).exists? || browser.text_field(&lt;span class=&quot;sy&quot;&gt;:id&lt;/span&gt;, field).exists?).should be_true&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a form named '$form'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |form|&lt;tt&gt;
+      &lt;/tt&gt;    (browser.form(&lt;span class=&quot;sy&quot;&gt;:name&lt;/span&gt;, form).exists? || browser.form(&lt;span class=&quot;sy&quot;&gt;:id&lt;/span&gt;, form).exists?).should be_true&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;  &lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Then&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;the page should have a submit button named '$name', with the label '$label'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |name, label|&lt;tt&gt;
+      &lt;/tt&gt;    tf = (browser.text_field(&lt;span class=&quot;sy&quot;&gt;:name&lt;/span&gt;, field) || browser.text_field(&lt;span class=&quot;sy&quot;&gt;:id&lt;/span&gt;, field)).exists?().should be_true&lt;tt&gt;
+      &lt;/tt&gt;    tf.value.should == label&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/gjdg9871z6skk76pomchvg&quot;&gt;/stories/helper.rb&lt;/a&gt; :&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;23&lt;tt&gt;
+      &lt;/tt&gt;24&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;25&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;26&lt;tt&gt;
+      &lt;/tt&gt;27&lt;tt&gt;
+      &lt;/tt&gt;28&lt;tt&gt;
+      &lt;/tt&gt;29&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;30&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;31&lt;tt&gt;
+      &lt;/tt&gt;32&lt;tt&gt;
+      &lt;/tt&gt;33&lt;tt&gt;
+      &lt;/tt&gt;34&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;35&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;36&lt;tt&gt;
+      &lt;/tt&gt;37&lt;tt&gt;
+      &lt;/tt&gt;38&lt;tt&gt;
+      &lt;/tt&gt;39&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;40&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;41&lt;tt&gt;
+      &lt;/tt&gt;42&lt;tt&gt;
+      &lt;/tt&gt;43&lt;tt&gt;
+      &lt;/tt&gt;44&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;45&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;46&lt;tt&gt;
+      &lt;/tt&gt;47&lt;tt&gt;
+      &lt;/tt&gt;48&lt;tt&gt;
+      &lt;/tt&gt;49&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;50&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;51&lt;tt&gt;
+      &lt;/tt&gt;52&lt;tt&gt;
+      &lt;/tt&gt;53&lt;tt&gt;
+      &lt;/tt&gt;54&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;55&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;56&lt;tt&gt;
+      &lt;/tt&gt;57&lt;tt&gt;
+      &lt;/tt&gt;58&lt;tt&gt;
+      &lt;/tt&gt;59&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;60&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;RAILS_ENV&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;] = &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.expand_path(&lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.dirname(&lt;span class=&quot;pc&quot;&gt;__FILE__&lt;/span&gt;) + &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;/../config/environment&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;spec/rails/story_adapter&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;# watir gem&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;firewatir&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] &amp;amp;&amp;amp; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] == &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;firefox&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;require &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;safariwatir&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] &amp;amp;&amp;amp; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] == &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;safari&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;start_ff&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;FireWatir&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;Firefox&lt;/span&gt;.new&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;start_safari&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  safari = &lt;span class=&quot;co&quot;&gt;Watir&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;Safari&lt;/span&gt;.new&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;#Require steps in steps dir&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;co&quot;&gt;Dir&lt;/span&gt;[&lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.dirname(&lt;span class=&quot;pc&quot;&gt;__FILE__&lt;/span&gt;) + &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;/steps/*.rb&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;].uniq.each { |file| require file }&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;#Require appropriate watir browser object&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;if&lt;/span&gt; !&lt;span class=&quot;gv&quot;&gt;$ff&lt;/span&gt; &amp;amp;&amp;amp; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] == &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;firefox&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;gv&quot;&gt;$ff&lt;/span&gt; = start_ff_with_logger&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;if&lt;/span&gt; !&lt;span class=&quot;gv&quot;&gt;$sf&lt;/span&gt; &amp;amp;&amp;amp; &lt;span class=&quot;co&quot;&gt;ENV&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] == &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;safari&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;gv&quot;&gt;$sf&lt;/span&gt; = start_safari_with_logger&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;#Choose which browser to use in steps&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;browser&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;gv&quot;&gt;$ff&lt;/span&gt; || &lt;span class=&quot;gv&quot;&gt;$sf&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;run_story_with_steps_for&lt;/span&gt; *steps&lt;tt&gt;
+      &lt;/tt&gt;  with_steps_for *(steps.flatten) &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;c&quot;&gt;# Pull the filename of the caller out of the stack. Must be a better way.&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    run caller[&lt;span class=&quot;i&quot;&gt;3&lt;/span&gt;].sub(&lt;span class=&quot;rx&quot;&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;rb:.*&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;/&lt;/span&gt;&lt;/span&gt;, &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;.txt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;), &lt;span class=&quot;sy&quot;&gt;:type&lt;/span&gt; =&amp;gt; &lt;span class=&quot;co&quot;&gt;RailsStory&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;# By default, RSpec adds an ActiveRecordSafetyListener to the story runner. &lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;# This rolls back database changes between scenarios, which is great if your calling your code directly, &lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;c&quot;&gt;# but obviously means that if you write to the database, the server that Selenium's talking to can't see them. There's probably a cleaner way of disabling it.&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;cl&quot;&gt;Spec::Story::Runner::ScenarioRunner&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;initialize&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;iv&quot;&gt;@listeners&lt;/span&gt; = []&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;module&lt;/span&gt; ::&lt;span class=&quot;co&quot;&gt;ActionController&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#:nodoc:&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;cl&quot;&gt;TestProcess&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;c&quot;&gt;# Work around Rails ticket http://dev.rubyonrails.org/ticket/1937&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;c&quot;&gt;# Helps to remove annoying html parser warnings&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;r&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;fu&quot;&gt;html_document&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      &lt;span class=&quot;iv&quot;&gt;@html_document&lt;/span&gt; ||= &lt;span class=&quot;co&quot;&gt;HTML&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;Document&lt;/span&gt;.new(&lt;span class=&quot;iv&quot;&gt;@response&lt;/span&gt;.body, &lt;span class=&quot;pc&quot;&gt;true&lt;/span&gt;, &lt;span class=&quot;pc&quot;&gt;true&lt;/span&gt;)&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;So once you&amp;#8217;ve got all that setup, you can then run:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;saimon@artemis~/dev/projects/myrailsapp$ &lt;tt&gt;
+      &lt;/tt&gt;ruby stories/stories/project.rb&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;to execute the project story using basic rspec. It provides the following output:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;Running 1 scenarios&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;Story: UI&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  As a developer&lt;tt&gt;
+      &lt;/tt&gt;  I want to go to the ui page&lt;tt&gt;
+      &lt;/tt&gt;  So that I can see the mockup&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  Scenario: Going to the /ui page when not logged in&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    Given an anonymous user&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    When the user goes to /ui&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    Then the document title should be 'personal'&lt;tt&gt;
+      &lt;/tt&gt;    And the page should contain the text 'done by Webtypes'&lt;tt&gt;
+      &lt;/tt&gt;    And the page should have a field named 'strip-search-input'&lt;tt&gt;
+      &lt;/tt&gt;    And the page should have a form named 'strip-search'&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;1 scenarios: 1 succeeded, 0 failed, 0 pending&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;Woot! You can know just take that project.txt and send it to a client, a fellow developer, a project mailing list etc&amp;#8230;&lt;/p&gt;
+      
+      
+      	&lt;p&gt;But, let&amp;#8217;s go the extra step and run that same scenario against Firefox (go to  &lt;a href=&quot;http://code.google.com/p/firewatir/wiki/FireWatir_Installation&quot;&gt;FireWatir&lt;/a&gt; and follow the instructions. They&amp;#8217;re pretty simple.)&lt;/p&gt;
+      
+      
+      Start firefox with -jssh
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;saimon@artemis~/dev/projects/myrailsapp$ &lt;tt&gt;
+      &lt;/tt&gt;/Applications/Firefox.app/Contents/MacOS/firefox -jssh&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;run the story with the BROWSER environment variable:&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;saimon@artemis~/dev/projects/myrailsapp$ &lt;tt&gt;
+      &lt;/tt&gt;BROWSER=firefox ruby stories/stories/project.rb&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;and watch how FF is magically commanded to go through your stories scenarios. In the end it&amp;#8217;s run the story against FF and provides the same passing output as the previous run.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;One further step is to write a few rake commands to simplify running all your stories, with or without browser acceptance testing.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Add this file:&lt;/p&gt;
+      
+      
+      	&lt;p&gt;&lt;a href=&quot;http://pastie.caboo.se/private/u1d8uc3llb95ttcid2cgw&quot;&gt;/lib/tasks/acceptance.rake&lt;/a&gt;&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;12&lt;tt&gt;
+      &lt;/tt&gt;13&lt;tt&gt;
+      &lt;/tt&gt;14&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;15&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;16&lt;tt&gt;
+      &lt;/tt&gt;17&lt;tt&gt;
+      &lt;/tt&gt;18&lt;tt&gt;
+      &lt;/tt&gt;19&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;20&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;21&lt;tt&gt;
+      &lt;/tt&gt;22&lt;tt&gt;
+      &lt;/tt&gt;23&lt;tt&gt;
+      &lt;/tt&gt;24&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;25&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;26&lt;tt&gt;
+      &lt;/tt&gt;27&lt;tt&gt;
+      &lt;/tt&gt;28&lt;tt&gt;
+      &lt;/tt&gt;29&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;30&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;31&lt;tt&gt;
+      &lt;/tt&gt;32&lt;tt&gt;
+      &lt;/tt&gt;33&lt;tt&gt;
+      &lt;/tt&gt;34&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;35&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;36&lt;tt&gt;
+      &lt;/tt&gt;37&lt;tt&gt;
+      &lt;/tt&gt;38&lt;tt&gt;
+      &lt;/tt&gt;39&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;40&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;41&lt;tt&gt;
+      &lt;/tt&gt;42&lt;tt&gt;
+      &lt;/tt&gt;43&lt;tt&gt;
+      &lt;/tt&gt;44&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;45&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;46&lt;tt&gt;
+      &lt;/tt&gt;47&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;desc &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Run the acceptance tests, starting/stopping the test server.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;task &lt;span class=&quot;sy&quot;&gt;:acceptance_with_browser&lt;/span&gt; =&amp;gt; [&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;acceptance:server:start&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;] &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;begin&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;Rake&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;Task&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;acceptance:run&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;].invoke&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;ensure&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;co&quot;&gt;Rake&lt;/span&gt;::&lt;span class=&quot;co&quot;&gt;Task&lt;/span&gt;[&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;acceptance:server:stop&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;].invoke&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;%w(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;firefox safari&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;)&lt;/span&gt;&lt;/span&gt;.each &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt; |browser|&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;co&quot;&gt;Object&lt;/span&gt;.class_eval &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;lt;&amp;lt;-EOS&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;k&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;    desc &amp;quot;Run the acceptance tests using the &lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;browser&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt; browser.&amp;quot;&lt;tt&gt;
+      &lt;/tt&gt;    task :acceptance_with_&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;browser&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt; do&lt;tt&gt;
+      &lt;/tt&gt;      $browser = '&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;browser&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;'&lt;tt&gt;
+      &lt;/tt&gt;      Rake::Task['acceptance_with_browser'].invoke&lt;tt&gt;
+      &lt;/tt&gt;    end&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;  EOS&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt; &lt;tt&gt;
+      &lt;/tt&gt;namespace &lt;span class=&quot;sy&quot;&gt;:acceptance&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  desc &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Run the acceptance tests.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  task &lt;span class=&quot;sy&quot;&gt;:run&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    system &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;gv&quot;&gt;$browser&lt;/span&gt; ? &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;BROWSER='&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;gv&quot;&gt;$browser&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;' &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; : &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ruby stories/all.rb&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;  namespace &lt;span class=&quot;sy&quot;&gt;:server&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    desc &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Start the mongrel server&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    task &lt;span class=&quot;sy&quot;&gt;:start&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      system &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;script/server -e test -d&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      sleep &lt;span class=&quot;i&quot;&gt;5&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;    desc &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Stop the mongrel server&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    task &lt;span class=&quot;sy&quot;&gt;:stop&lt;/span&gt; &lt;span class=&quot;r&quot;&gt;do&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      &lt;span class=&quot;r&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.exist? &lt;span class=&quot;co&quot;&gt;MONGREL_SERVER_PID_FILE&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;        pid = &lt;span class=&quot;co&quot;&gt;File&lt;/span&gt;.read(&lt;span class=&quot;co&quot;&gt;MONGREL_SERVER_PID_FILE&lt;/span&gt;).to_i&lt;tt&gt;
+      &lt;/tt&gt;        &lt;span class=&quot;co&quot;&gt;Process&lt;/span&gt;.kill &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;TERM&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;, pid&lt;tt&gt;
+      &lt;/tt&gt;        &lt;span class=&quot;co&quot;&gt;FileUtils&lt;/span&gt;.rm &lt;span class=&quot;co&quot;&gt;MONGREL_SERVER_PID_FILE&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      &lt;span class=&quot;r&quot;&gt;else&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;        puts &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;il&quot;&gt;&lt;span class=&quot;dl&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;co&quot;&gt;MONGREL_SERVER_PID_FILE&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt; not found&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;      &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;    &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;  &lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;r&quot;&gt;end&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;span class=&quot;co&quot;&gt;MONGREL_SERVER_PID_FILE&lt;/span&gt; = &lt;span class=&quot;s&quot;&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;tmp/pids/mongrel.pid&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;/span&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;Then you can do:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;1&lt;tt&gt;
+      &lt;/tt&gt;2&lt;tt&gt;
+      &lt;/tt&gt;3&lt;tt&gt;
+      &lt;/tt&gt;4&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;5&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;6&lt;tt&gt;
+      &lt;/tt&gt;7&lt;tt&gt;
+      &lt;/tt&gt;8&lt;tt&gt;
+      &lt;/tt&gt;9&lt;tt&gt;
+      &lt;/tt&gt;&lt;strong&gt;10&lt;/strong&gt;&lt;tt&gt;
+      &lt;/tt&gt;11&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;&lt;tt&gt;
+      &lt;/tt&gt;saimon@artemis~/dev/projects/myrailsapp$ &lt;tt&gt;
+      &lt;/tt&gt;rake acceptance:run&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;or &lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;rake acceptance_with_firefox&lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;or &lt;tt&gt;
+      &lt;/tt&gt;&lt;tt&gt;
+      &lt;/tt&gt;rake acceptance_with_safari&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;I thoroughly enjoyed getting that setup and though I only plan on writing browser specs for specific issues/features it&amp;#8217;s nice to have the choice and the geek factor is way up high :)&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Have fun speccing&amp;#8230;&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Git plugin for CruiseControlRB
+    </title>
+    <link href='/tumblog/200712/git-plugin-for-cruisecontrolrb.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-12-19
+      :
+      1198067040
+    </id>
+    <updated>
+      2007-12-19T13:24:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;A couple of thursday&amp;#8217;s ago I went to the first ever &lt;span class=&quot;caps&quot;&gt;BCN&lt;/span&gt; ruby/rails group meeting and though short had some interesting chats. I was also trying to convince people how great git was but I complained that &lt;a href=&quot;http://cruisecontrolrb.thoughtworks.com/&quot;&gt;cruisecontrolrb&lt;/a&gt; was lacking support for git.&lt;/p&gt;
+      
+      
+      I resolved to fix that. After some googling I couldn&amp;#8217;t find anything already out there, so I wrote a plugin myself. You can grab it via &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;git clone git://saimonmoore.net/cruisecontrolrb.git&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;You&amp;#8217;ll notice the whole cruisecontrol-1.2.1 app is bundled in that repo. If you want to use the plugin for an existing cruisecontrol setup then just grab the plugin from vendor/plugins and apply this &lt;a href=&quot;http://jira.public.thoughtworks.org/browse/CCRB-167&quot;&gt;patch&lt;/a&gt; (this may make itself into the next ccrb release so check)&lt;/p&gt;
+      
+      
+      	&lt;p&gt;To add a git-based project:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;./cruise add cruisecontrolrb --scm git --url git://saimonmoore.net/cruisecontrolrb.git&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+      
+      
+      	&lt;p&gt;then just start the server:&lt;/p&gt;
+      
+      
+      &lt;table class=&quot;CodeRay&quot;&gt;&lt;tr&gt;
+        &lt;td class=&quot;line_numbers&quot; title=&quot;click to toggle&quot; onclick=&quot;with (this.firstChild.style) { display = (display == '') ? 'none' : '' }&quot;&gt;&lt;pre&gt;&lt;tt&gt;
+      &lt;/tt&gt;&lt;/pre&gt;&lt;/td&gt;
+        &lt;td class=&quot;code&quot;&gt;&lt;pre ondblclick=&quot;with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }&quot;&gt;./cruise start&lt;/pre&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Baby list
+    </title>
+    <link href='/tumblog/200712/baby-list.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-12-10
+      :
+      1197270180
+    </id>
+    <updated>
+      2007-12-10T08:03:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;These are some of the things we (need/think we need/would like to have) for when Sofia makes her grand entrance:&lt;/p&gt;
+      
+      
+      	&lt;ul&gt;
+      	&lt;li&gt;Adjustable Chair &amp;#8211; &lt;a href=&quot;http://www.amazon.com/Stokke-Natural-Tripp-Trapp-Chair/dp/B00009IMAY&quot;&gt;Stokke Tripp Trapp&lt;/a&gt;&lt;/li&gt;
+      		&lt;li&gt;Baby Walki Talkies&lt;/li&gt;
+      		&lt;li&gt;Baby dresser (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000TEPO1M/sr=1-12/qid=1197150538/ref=sr_1_12?ie=UTF8&amp;#38;m=A2LBKNDJ2KZUGQ&amp;#38;n=44536031&amp;#38;mcb=core&quot;&gt;something like this but foldable&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;bouncing cradle (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000N1Z8ZI/sr=1-60/qid=1197236430/ref=sr_1_60?ie=UTF8&amp;#38;m=A2LBKNDJ2KZUGQ&amp;#38;n=54227031&amp;#38;mcb=core&quot;&gt;something like this&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;play mat (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000O6ZQ9K/sr=1-3/qid=1197199408/ref=sr_1_3?ie=UTF8&amp;#38;m=A2LBKNDJ2KZUGQ&amp;#38;n=44389031&amp;#38;mcb=core&quot;&gt;this looks nice&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;baby carriers (&lt;a href=&quot;http://www.mothercare.com/gp/node/n/44458031?ie=UTF8&amp;#38;mcb=core&quot;&gt;front&lt;/a&gt; / &lt;a href=&quot;http://www.mothercare.com/gp/node/n/44459031?ie=UTF8&amp;#38;mcb=core&quot;&gt;back (for mountain excursions) so not exactly these shown but more or less&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;Bugaboo baby nest (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000X1KUZQ/sr=1-35/qid=1197199546/ref=sr_1_35?ie=UTF8&amp;#38;m=A2LBKNDJ2KZUGQ&amp;#38;n=44339031&amp;#38;mcb=core&quot;&gt;in red&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;bugaboo baby footmuff (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000IEWVLY/sr=1-6/qid=1197199694/ref=sr_1_6?ie=UTF8&amp;#38;mcb=core&quot;&gt;in red&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;bugaboo parasol (&lt;a href=&quot;http://www.mothercare.com/gp/product/B000IEYP5E/sr=1-15/qid=1197199769/ref=sr_1_15?ie=UTF8&amp;#38;m=A2LBKNDJ2KZUGQ&amp;#38;n=42764041&amp;#38;mcb=core&quot;&gt;in red&lt;/a&gt;)&lt;/li&gt;
+      		&lt;li&gt;Not sure what else for now&lt;/li&gt;
+      	&lt;/ul&gt;
+      
+      
+      	&lt;p&gt;If you want to buy one of these, then please choose which one you&amp;#8217;d like to buy and let us know so we can remove it from the list so as to avoid others buying the same item.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Saimon and Maria&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      My MacBook has just been fixed (3 weeks later)
+    </title>
+    <link href='/tumblog/200711/my-macbook-has-just-been-fixed-3-weeks-later.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-11-16
+      :
+      1195202460
+    </id>
+    <updated>
+      2007-11-16T09:41:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;fearoffish: This is for you :)&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Just a quick note to say that Apple has replaced my faulty HD, quicker than they said they would. I was expecting it in a week but it&amp;#8217;s a week early. Suffice to say that doesn&amp;#8217;t exone the fact that it took them 3 weeks to do so but I have to give credit where credit&amp;#8217;s due. :)&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      My Macbook's HD just fried itself
+    </title>
+    <link href='/tumblog/200711/macbook-with-fries.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-11-07
+      :
+      1194434520
+    </id>
+    <updated>
+      2007-11-07T12:22:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;rant&gt;
+      I bought a Macbook ~4 months ago.
+      
+      	&lt;p&gt;Last week my Macbook refused to startup after a reboot. I took it in to an Apple shop and they said it would take a week to repair. It&amp;#8217;s been more than a week and they&amp;#8217;ve now told me, that they get the HD&amp;#8217;s from the Netherlands and that they&amp;#8217;ve run out of stock. Yep, you heard right, they&amp;#8217;ve run out of stocks of HD&amp;#8217;s belonging to 4 month old macbooks.&lt;/p&gt;
+      
+      
+      I&amp;#8217;ll post again when it has actually been replaced.
+      &lt;/rant&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Gitting git-1.5.3.x installed in Ubuntu
+    </title>
+    <link href='/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-11-07
+      :
+      1194433860
+    </id>
+    <updated>
+      2007-11-07T12:11:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;I&amp;#8217;m looking into &lt;a href=&quot;http://git.or.cz/&quot;&gt;git&lt;/a&gt; as an alternative to subversion.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;As most of my servers use a non-standard port for sshd I was interested in trying out git-1.5.3.x for it&amp;#8217;s support for ssh://name@host:port/ but ubuntu gutsy only had 1.5.2.5 available so off to #git I went:&lt;/p&gt;
+      
+      
+      	&lt;p&gt;For Ubuntu Gutsy:&lt;/p&gt;
+      
+      
+      	&lt;ol&gt;
+      	&lt;li&gt;apt-get install devscripts fakeroot&lt;/li&gt;
+      		&lt;li&gt;dget -x http://ftp.debian.org/debian/pool/main/g/git-core/git-core_1.5.3.5-1.dsc&lt;/li&gt;
+      		&lt;li&gt;cd git-core-1.5.3.5&lt;/li&gt;
+      		&lt;li&gt;apt-get build-dep git-core&lt;/li&gt;
+      		&lt;li&gt;dpkg-buildpackage -rfakeroot -us -uc&lt;/li&gt;
+      	&lt;/ol&gt;
+      
+      
+      	&lt;p&gt;&lt;del&gt;For Ubuntu Dapper&lt;/del&gt;:&lt;/p&gt;
+      
+      
+      	&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;: Apparently the version of dpkg-buildpackage that comes with dapper is too old, so in the end I upgraded Dapper &amp;gt; Edgy &amp;gt; Feisty &amp;gt; Gutsy&lt;/p&gt;
+      
+      
+      	&lt;ol&gt;
+      	&lt;li&gt;&lt;del&gt;apt-get install devscripts fakeroot&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1&lt;sub&gt;bpo40+1.dsc (as dget doesn&amp;#8217;t exist in devscripts on dapper)&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1&lt;/sub&gt;bpo40+1.diff.gz&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4.orig.tar.gz&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;dpkg-source -x git-core_1.5.3.4-1~bpo40+1.dsc&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;cd git-core-1.5.3.4&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;apt-get build-dep git-core&lt;/del&gt;&lt;/li&gt;
+      		&lt;li&gt;&lt;del&gt;dpkg-buildpackage -rfakeroot -us -uc&lt;/del&gt;&lt;/li&gt;
+      	&lt;/ol&gt;
+      
+      
+      	&lt;p&gt;&lt;del&gt;(You may need to manually install libsvn-core-perl &amp;#38;&amp;#38; tcl8.4 )&lt;/del&gt;&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Many thanks to MadCoder on #git for helping me out with this.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;I&amp;#8217;ll be posting about my exploits with git in future posts.&lt;/p&gt;
+    </content>
+  </entry>
+  <entry>
+    <title>
+      Mephisto_i18n update
+    </title>
+    <link href='/tumblog/200711/mephisto_i18n-update.html' />
+    <id>
+      tag:
+      http://saimonmoore.net
+      ,
+      2007-11-02
+      :
+      1194013380
+    </id>
+    <updated>
+      2007-11-02T15:23:00+01:00
+    </updated>
+    <content type='html'>
+      &lt;p&gt;Just a quick heads up on the status of this for those who are interested.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Though it may seem that this project has died from lack of activity, I am still very much maintaining this project and have been adding fixes and tweaks on and off during the last few months.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;In fact, I&amp;#8217;ve just committed a couple of fixes:&lt;/p&gt;
+      
+      
+      	&lt;ul&gt;
+      	&lt;li&gt;Correct subdomain parsing for non-multisite mephisto instances (Bug was introduced when adding multisite support)&lt;/li&gt;
+      		&lt;li&gt;Making the dynamic i18n link switcher drop method handle paged articles whose section is the home section.&lt;/li&gt;
+      	&lt;/ul&gt;
+      
+      
+      	&lt;p&gt;The future status of this project is basically pending a rewrite of globalize. I had already written the next version of globalize (currently stored in a branch) with support for rfc4646 but with the new rails i18n api talks going on, I&amp;#8217;m waiting for these to conclude and get the rewrite for globalize 2 done before updating this plugin for that new version.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;So&amp;#8230;.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;To all those currently/thinking of using the plugin, feel free to bug me with questions, bug reports and help. I&amp;#8217;m still commited to maintaining this.&lt;/p&gt;
+      
+      
+      	&lt;p&gt;Btw, the latest version in trunk also has support for plugin template handlers, so you can now use erb, haml or whatever else takes your fancy.&lt;/p&gt;
+    </content>
+  </entry>
+</feed>

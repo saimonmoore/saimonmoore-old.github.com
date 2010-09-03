@@ -1,0 +1,465 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Making migrating to Globalize's internal storage mechanism easy
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Mar<br />
+                17th
+              </div>
+                Sat
+            </div>
+        <a class='comments' href='/tumblog/20073/tools-for-migrating-to-internal-storage.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/20073/tools-for-migrating-to-internal-storage.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20073/tools-for-migrating-to-internal-storage.html">Making migrating to Globalize's internal storage mechanism easy</a>
+          </h2>
+          <p>As I mentioned in my <a href="http://saimonmoore.net/2007/3/17/globalize-internal-storage-mechanism">previous article</a>, the <a href="http://saimonmoore.net/2007/3/17/globalize-internal-storage-mechanism#troublespots">week spot</a> of the internal storage mechanism, is taking care of adding the extra columns to the schema.</p>
+          
+          
+          	<p>I also mentioned that using ActiveRecord::Migrations would make your life a lot easier and, really, if you aren&#8217;t already using them as standard in your rails development, your missing out on a lot of automation.</p>
+          
+          
+          	<p>However, you&#8217;ve still got to mundanely type these things out, and we all know what us humans are like (We&#8217;ll I know myself at least :).</p>
+          
+          
+          	<p>So, currently in the <a href="http://svn.globalize-rails.org/svn/globalize/branches/for-1.2">for-1.2 branch</a>  you can find a rails generator that will automate this procedure for you.</p>
+          
+          
+          	<h5>How does this work?</h5>
+          
+          
+          	<p>Imagine we have the following models:</p>
+          
+          
+          <pre>
+          <code>
+          #Assuming:
+          
+          Globalize::DbTranslate.keep_translations_in_model = false
+          
+          #or unset
+          
+          class Noddy &lt; ActiveRecord::Base; end
+          
+          class Dummy &lt; ActiveRecord::Base
+            self.keep_translations_in_model = true
+            translates :name, :base_as_default =&gt; true
+          end
+          
+          class Epi &lt; ActiveRecord::Base
+            self.keep_translations_in_model = true
+            set_table_name :epifanias
+          
+            translates :name, :surnames
+          end
+          
+          class Blas &lt; ActiveRecord::Base
+            self.keep_translations_in_model = true
+            translates :hobby
+          end
+          </code>
+          </pre>
+          
+          	<p>Let&#8217;s open up a shell and see</p>
+          
+          
+          <pre>
+          <code>
+          $ cd myapp
+          $ script/generate globalize internal es,fr
+                exists  db/migrate
+                exists  db/migrate
+                create  db/migrate/006_globalize_add_translated_fields_for_dummy_epi_blas.rb
+          </code>
+          </pre>
+          
+          	<p>The script has created a migration for us&#8230;Let&#8217;s have a look see:</p>
+          
+          
+          <pre>
+          <code>
+          class GlobalizeAddTranslatedFieldsForDummyEpiBlas &lt; ActiveRecord::Migration
+            def self.up
+              #Fields for Dummy
+              add_column :dummies, :name_es, :string
+              add_column :dummies, :name_fr, :string
+              #Fields for Epi
+              add_column :epifanias, :name_es, :string
+              add_column :epifanias, :surnames_es, :string
+              add_column :epifanias, :name_fr, :string
+              add_column :epifanias, :surnames_fr, :string
+              #Fields for Blas
+              add_column :blas, :hobby_es, :string
+              add_column :blas, :hobby_fr, :string
+            end
+          
+            def self.down
+              #Fields for Dummy
+              remove_column :dummies, :name_es
+              remove_column :dummies, :name_fr
+              #Fields for Epi
+              remove_column :epifanias, :name_es
+              remove_column :epifanias, :surnames_es
+              remove_column :epifanias, :name_fr
+              remove_column :epifanias, :surnames_fr
+              #Fields for Blas
+              remove_column :blas, :hobby_es
+              remove_column :blas, :hobby_fr
+            end
+          end
+          </code>
+          </pre>
+          
+          	<p>Cool! The migration contains all the missing columns required to support es (Spanish) and fr (French) apart from the base locale.</p>
+          
+          
+          	<p>As it&#8217;s a generator we can also tell it to rollback that change:</p>
+          
+          
+          <pre>
+          <code>
+          $ script/destroy globalize internal es,fr
+              notempty  db/migrate
+              notempty  db
+              rm  db/migrate/006_globalize_add_translated_fields_for_dummy_epi_blas.rb
+              notempty  db/migrate
+              notempty  db
+          </code>
+          </pre>
+          
+          	<p>So once you&#8217;ve created your application, this generator makes it easy to maintain your schema if you decide to you use the internal storage mechanism.</p>
+          
+          
+          	<p><strong>Note for the future</strong>: Currently you need to specify the languages your application supports on the command line. I&#8217;ve commited some code to Globalize trunk which encapsulates the idea of an application&#8217;s supported locales into a dedicated class. So for trunk I&#8217;ll be updating this generator to first check whether the SupportLocales.supported_locales attribute has been defined, so you won&#8217;t need to type in the locales on the command line (less chance for errors).</p>
+          
+          
+          	<p>That&#8217;s what&#8217;s available to you in the for-1.2 release to help out with migrating to the new storage mechanism.</p>
+          
+          
+          	<p>However, I&#8217;ve gone a step further and written a migration tool that more or less does all the work required for you to convert an existing application using the external storage system into one using the internal storage mechanism.</p>
+          
+          
+          	<p>Let&#8217;s look at the class definitions again. This time we&#8217;re assuming this application is using the external storage mechanism already:</p>
+          
+          
+          <pre>
+          <code>
+          #Assuming:
+          Globalize::DbTranslate.keep_translations_in_model = false       #or unset
+          </code>
+          </pre>
+          
+          <pre>
+          <code>
+          class Blas &lt; ActiveRecord::Base
+            self.keep_translations_in_model = false
+            translates :hobby
+          end
+          
+          class Dummy &lt; ActiveRecord::Base
+            translates :name, :base_as_default =&gt; true
+          end
+          
+          class Epi &lt; ActiveRecord::Base
+            set_table_name :epifanias
+          
+            translates :name, :surnames
+          end
+          
+          class Noddy &lt; ActiveRecord::Base; end
+          </code>
+          </pre>
+          
+          	<p>Let&#8217;s also look at the current contents of the database tables these models represent:</p>
+          
+          
+          <pre>
+          <code>
+          #_blas_
+          id  name    hobby
+          1   Tony    skiing
+          2   George  football
+          3   Sandra  tennis
+          
+          #_dummies_
+          id  name
+          1   Epiphany
+          2   Socks
+          
+          #_epifanias_
+          id  name    surnames
+          1  Saimon    Moore
+          2  Thomas    Maas
+          3  Maria     Perez
+          
+          #_noddies_ has no data
+          </code>
+          </pre>
+          
+          	<p>Let&#8217;s imagine that this is an application that already has some model translations using the external storage mechanism i.e. in the <em>globalize_translations</em> table.</p>
+          
+          
+          These are the current translations for these models (supports spanish (es) and (polish):
+          <pre>
+          <code>
+          id  item_id  table_name     facet       text          language_id
+          103     1       blas        hobby       esquipl         4
+          100     1       blas        hobby       esqui           7
+          104     2       blas        hobby       futbolpl        4
+          101     2       blas        hobby       futbol          7
+          105     3       blas        hobby       tenispl         4
+          102     3       blas        hobby       tenis           7
+          120     1       dummies     name        Saimon (pl)     4
+          118     1       dummies     name        Saimon (es)     7
+          121     2       dummies     name        Epifania (pl)   4
+          119     2       dummies     name        Epifania (es)   7
+          109     1       epifanias   name        Saimon pl       4
+          115     1       epifanias   surnames    Moore pl        4
+          106     1       epifanias   name        Saimon es       7
+          112     1       epifanias   surnames    Moore es        7
+          110     2       epifanias   name        Thomas pl       4
+          116     2       epifanias   surnames    Maas pl         4
+          107     2       epifanias   name        Thomas es       7
+          113     2       epifanias   surnames    Maas es         7
+          111     3       epifanias   name        Maria pl        4
+          117     3       epifanias   surnames    Perez pl        4
+          108     3       epifanias   name        Maria es        7
+          114     3       epifanias   surnames    Perez es        7
+          </code>
+          </pre>
+          
+          	<p>So let&#8217;s open up a console and type:</p>
+          
+          
+          <pre>
+          <code>
+          $ rake globalize:migrate_to_internal_storage LANGS=es,pl
+          Logging to /home/saimon/dev/projects/localize_for-1.2/config/../log/internal_storage_migration_development.log
+          Migrate source for 'Blas'? (Yes/No/All)
+          Y
+          Migrating ruby source for: /home/saimon/dev/projects/localize_for-1.2/config/../app/models/blas.rb
+          Migrate source for 'Dummy'? (Yes/No/All)
+          Y
+          Migrating ruby source for: /home/saimon/dev/projects/localize_for-1.2/config/../app/models/dummy.rb
+          Migrate source for 'Epi'? (Yes/No/All)
+          Y
+          Migrating ruby source for: /home/saimon/dev/projects/localize_for-1.2/config/../app/models/epi.rb
+          Generate &#38; execute db migrations? (Yes/No)
+          Y
+          Generating db migrations...
+                exists  db/migrate
+                exists  db/migrate
+                create  db/migrate/006_globalize_add_translated_fields_for_dummy_epi_blas.rb
+          Executing db migrations...
+          (in /home/saimon/dev/projects/localize_for-1.2)
+          == GlobalizeAddTranslatedFieldsForDummyEpiBlas: migrating =====================
+          -- add_column(:dummies, :name_es, :string)
+             -&gt; 0.6783s
+          -- add_column(:dummies, :name_pl, :string)
+             -&gt; 0.1232s
+          -- add_column(:epifanias, :name_es, :string)
+             -&gt; 0.1216s
+          -- add_column(:epifanias, :surnames_es, :string)
+             -&gt; 0.1105s
+          -- add_column(:epifanias, :name_pl, :string)
+             -&gt; 0.1438s
+          -- add_column(:epifanias, :surnames_pl, :string)
+             -&gt; 0.0994s
+          -- add_column(:blas, :hobby_es, :string)
+             -&gt; 0.1217s
+          -- add_column(:blas, :hobby_pl, :string)
+             -&gt; 0.1217s
+          == GlobalizeAddTranslatedFieldsForDummyEpiBlas: migrated (1.5246s) ============
+          
+          Migrate translations for 'Blas'? (Yes/No/All)
+          Y
+          Also delete old external translations for 'Blas'? (Yes/No default: Y)
+          Y
+          Migrated translations for Blas
+          Migrate translations for 'Dummy'? (Yes/No/All)
+          Y
+          Also delete old external translations for 'Dummy'? (Yes/No default: Y)
+          Y
+          Migrated translations for Dummy
+          Migrate translations for 'Epi'? (Yes/No/All)
+          Y
+          Also delete old external translations for 'Epi'? (Yes/No default: Y)
+          Y
+          Migrated translations for Epi
+          </code>
+          </pre>
+          
+          	<p>Whoa! What was all that?</p>
+          
+          
+          	<p>Well, let&#8217;s have a look at what happened:</p>
+          
+          
+          	<p>The class definitions have been modified:</p>
+          
+          
+          <pre>
+          <code>
+          class Blas &lt; ActiveRecord::Base
+            self.keep_translations_in_model = true
+            translates :hobby
+          end
+          
+          class Dummy &lt; ActiveRecord::Base
+            self.keep_translations_in_model = true
+            translates :name, :base_as_default =&gt; true
+          end
+          
+          class Epi &lt; ActiveRecord::Base
+            set_table_name :epifanias
+          
+            self.keep_translations_in_model = true
+            translates :name, :surnames
+          end
+          </code>
+          </pre>
+          
+          	<p>It has modified our model class definitions to mark them to use the internal storage mechanism.</p>
+          
+          
+          	<p>Ah but what about the database?</p>
+          
+          
+          	<p>Well let&#8217;s have a look if anything changed?</p>
+          
+          
+          <pre>
+          <code>
+          #_blas_
+          id  name  hobby       hobby_es  hobby_pl
+          1  Tony    skiing     esqui     esquipl
+          2  George  football   futbol    futbolpl
+          3  Sandra  tennis     tenis     tenispl
+          
+          #_dummies_
+          id  name     name_es        name_pl
+          1  Epiphany  Saimon (es)    Saimon (pl)
+          2  Socks     Epifania (es)  Epifania (pl)
+          
+          #_epifanias_
+          id  name  surnames  name_es      surnames_es  name_pl       surnames_pl
+          1  Simon  Moore     Saimon es    Moore es     Saimon pl     Moore pl
+          2  Thomas Maas      Thomas es    Maas es      Thomas pl     Maas pl
+          3  Maria  Perez     Maria es     Perez es     Maria pl      Perez pl
+          </code>
+          </pre>
+          
+          	<p>That&#8217;s nice. The script has automatically created a migration to add all the extra language columns to the model tables <span class="caps">AND</span> has migrated the actual translation data that was previously in the <em>globalize_translations</em> table to their respective places in the model tables.</p>
+          
+          
+          	<p>Let&#8217;s have a look at the migration it created for us:</p>
+          
+          
+          <pre>
+          <code>
+          class GlobalizeAddTranslatedFieldsForDummyEpiBlas &lt; ActiveRecord::Migration
+            def self.up
+              #Fields for Dummy
+              add_column :dummies, :name_es, :string
+              add_column :dummies, :name_pl, :string
+              #Fields for Epi
+              add_column :epifanias, :name_es, :string
+              add_column :epifanias, :surnames_es, :string
+              add_column :epifanias, :name_pl, :string
+              add_column :epifanias, :surnames_pl, :string
+              #Fields for Blas
+              add_column :blas, :hobby_es, :string
+              add_column :blas, :hobby_pl, :string
+            end
+          
+            def self.down
+              #Fields for Dummy
+              remove_column :dummies, :name_es
+              remove_column :dummies, :name_pl
+              #Fields for Epi
+              remove_column :epifanias, :name_es
+              remove_column :epifanias, :surnames_es
+              remove_column :epifanias, :name_pl
+              remove_column :epifanias, :surnames_pl
+              #Fields for Blas
+              remove_column :blas, :hobby_es
+              remove_column :blas, :hobby_pl
+            end
+          end
+          </code>
+          </pre>
+          
+          	<p>Also notice that the script is very wary and asks you at every stage for consent before any action. You can also decide to let it automatically migrate all models it has determined should be migrated.</p>
+          
+          
+          	<p>And finally, it even allows you to remove the old translations from <em>globalize_translations</em>.</p>
+          
+          
+          	<p>This script isn&#8217;t currently in trunk, as we&#8217;re testing it a bit but if you&#8217;d like to try it out you can get it by checking it out from <a href="http://svn.globalize-rails.org/svn/globalize/branches/saimon/for-1.2/features">here</a></p>
+          
+          
+          	<p>These tools should make the migration to the internal storage a lot less painful for you.</p>
+          
+          
+          	<p>Well, that&#8217;s it for now.</p>
+          
+          
+          	<p>My next article will cover <a href="#" onclick="alert('Coming soon...'); return false;">namespaced view translations</a></p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

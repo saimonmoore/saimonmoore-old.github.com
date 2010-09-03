@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Simple Thoughts
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                24th
+              </div>
+                Sun
+            </div>
+        <a href='/tumblog/200612/dotime-on-rubyforge.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200612/dotime-on-rubyforge.html">DoTime on rubyforge</a>
+          </h2>
+          <p>I&#8217;ve just released <a href="http://www.saimonmoore.net/2006/11/15/dotime">DoTime</a>  on <a href="http://rubyforge.org/projects/dotime/">rubyforge</a></p>
+          
+          
+          	<p>The gem has already propagated so you can now just do:</p>
+          
+          
+          <pre><code>
+          sudo gem install dotime -y
+          </code></pre>
+          
+          	<p>to get the latest release directly from rubyforge.</p>
+          
+          
+          	<p>For changes in this release see this <a href="http://rubyforge.org/forum/forum.php?forum_id=11077">post</a></p>
+          
+          
+          	<p>Thanks to <a href="http://seattlerb.rubyforge.org/hoe">hoe</a> the process was completely painless.</p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                14th
+              </div>
+                Thu
+            </div>
+        <a href='/tumblog/200612/debugging-bugs-in-controller-filters.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200612/debugging-bugs-in-controller-filters.html">Debugging bugs in controller filters</a>
+          </h2>
+          <p>I just spent the best part of the last two hours trying to trackdown the reason why the filter chain was being halted when accessing a particular controller action.</p>
+          
+          
+          	<p>Turns out it was due to a &#8216;bug&#8217; in the &#8220;unobtrusive javascript plugin&#8217;s&#8221;http://www.ujs4rails.com/ behaviour caching filter.</p>
+          
+          
+          	<p>So here are tips for debugging filter problems, especially if the problematic filter happens to be a proc defined via class_eval :) (These don&#8217;t give any clues as to who they are or where they come from).</p>
+          
+          
+          	<ul>
+          	<li>Use <a href="http://rubyforge.org/projects/ruby-debug/">ruby-debug</a> if you aren&#8217;t already. (Especially if you&#8217;re running ruby 1.8.5. <a href="http://blog.nanorails.com/articles/2006/07/14/a-better-rails-debugger-ruby-debug">Here&#8217;s</a> a simple tutorial on its use. Just add the debugger keyword to just before the filter call in the BeforeFilterProxy in filters.rb.</li>
+          		<li>find the controller instance and print out the list of before_filter&#8217;s assigned to the controller. e.g. p c.class.before_filters. Any unexpected filters will show up here and you can then go searching for the filter definition.</li>
+          		<li>If you find what you think is the culprit, start another debugging session by using &#8216;debugger&#8217; right in the filter definition.</li>
+          	</ul>
+          
+          
+          	<p>Hope that helps others.</p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                13th
+              </div>
+                Wed
+            </div>
+        <a href='/tumblog/200612/liquid-drops-and-includes.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200612/liquid-drops-and-includes.html">Liquid, drops and includes</a>
+          </h2>
+          <p>I just spent an hour trying to figure out why an assigned liquid drop I was using was not being rendered within the liquid template.</p>
+          
+          
+          	<p>The strange reason being that I had an include with the same name as the drop&#8217;s assigned key.</p>
+          
+          
+          	<p>e.g.</p>
+          
+          
+          Before&#8230;
+          <pre><code>
+          {% include 'flash' %}
+          
+          In _flash.liquid
+          
+           {{flash.notice}} &lt;--- Doesn't render anything
+          
+          </code></pre>
+          
+          After&#8230;
+          <pre><code>
+          {% include 'messages' %}
+          
+          In _messages.liquid
+          
+           {{flash.notice}} &lt;--- Renders correctly
+          
+          </code></pre>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                11th
+              </div>
+                Mon
+            </div>
+        <a href='/tumblog/200612/jedit-liquid-mode-and-abbrevs.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200612/jedit-liquid-mode-and-abbrevs.html">jEdit Liquid mode and abbrevs</a>
+          </h2>
+          <p>My current project is based on <a href="http://mephistoblog.com">Mephisto</a>. Consequently I&#8217;m editing <a href="http://home.leetsoft.com/liquid">liquid</a> templates a lot.</p>
+          
+          
+          	<p>I quickly got bored of editing them using plain text mode so I very quickly wrote up a liquid mode for <a href="http://www.jedit.org">jEdit</a>.</p>
+          
+          
+          	<p>You can find it <a href="/assets/2006/12/7/liquid.xml">here</a></p>
+          
+          
+          	<h4>Usage</h4>
+          
+          
+          	<p>Add the following to $home/.jedit/modes/catalog :</p>
+          
+          
+          <code>
+          &lt;MODE NAME="liquid" FILE="liquid.xml" FILE_NAME_GLOB="*.liquid" /&gt;
+          </code>
+          
+          	<p>While I was at it I added a few <a href="http://saimonmoore.net/assets/2006/12/7/liquid">abbreviations</a> for the liquid mode. Just add that file to $home/.jedit/SuperAbbrevs and restart jedit.</p>
+        </div>
+      </div>
+      <div id='footer'>
+        <a href="/tumblog/6/">&#171; Prev</a>
+        <a href="/tumblog/8/">Next &#187;</a>
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

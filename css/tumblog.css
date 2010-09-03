@@ -1,0 +1,165 @@
+body {
+  margin: 0px;
+  background-color: white;
+  font-family: Verdana, Geneva, Arial, sans-serif;
+}
+
+a {
+  color: #6498cc;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  width: 600px;
+  padding: 0px 100px 20px 100px;
+  margin: 50px auto 40px auto;
+  border-bottom: solid 1px #cccccc;
+  text-align: center;
+  font: Bold 55px "Trebuchet MS", Geneva, Arial, sans-serif;
+  letter-spacing: -2px;
+  line-height: 50px;
+  position: relative;
+}
+h1 a {
+  color: #444444;
+  text-decoration: none;
+}
+h1 a:hover {
+  text-decoration: none;
+}
+h1 img {
+  border-width: 0px;
+  position: absolute;
+  right: 0px;
+  bottom: 10px;
+  width: 43px;
+  height: 23px;
+}
+
+div#content {
+  width: 420px;
+  margin: auto;
+  position: relative;
+}
+
+div#description {
+  position: absolute;
+  right: -170px;
+  width: 160px;
+  text-align: right;
+  font: Normal 17px Verdana, Geneva, Arial, sans-serif;
+  line-height: 20px;
+  color: #777777;
+}
+div#description a {
+  color: #777777;
+  text-decoration: underline;
+}
+
+div.post {
+  position: relative;
+  margin-bottom: 40px;
+  padding-right: 20px;
+}
+div.post a.comments {
+  position: absolute;
+  top: 40px;
+  left: -260px;
+  text-align: right;
+  width: 230px;
+}
+div.post div.year {
+  position: absolute;
+  top: -50px;
+  left: -260px;
+  text-align: right;
+  width: 230px;
+  white-space: nowrap;
+  font: Normal 34px Verdana, Geneva, Arial, sans-serif;
+  letter-spacing: -2px;
+  color: #cccccc;
+  text-transform: uppercase;
+  line-height: 35px;
+}
+div.post div.date {
+  position: absolute;
+  left: -260px;
+  text-align: right;
+  width: 230px;
+  white-space: nowrap;
+  font: Normal 34px Verdana, Geneva, Arial, sans-serif;
+  letter-spacing: -2px;
+  color: #cccccc;
+  text-transform: uppercase;
+  line-height: 35px;
+}
+div.post div.date div.date_brick {
+  float: right;
+  height: 30px;
+  width: 45px;
+  background-color: #6498cc;
+  color: #bbd5f1;
+  font: Bold 12px Verdana, Geneva, Arial, sans-serif;
+  text-align: center;
+  line-height: 12px;
+  margin-left: 10px;
+  padding-top: 5px;
+  letter-spacing: 0px;
+  overflow: hidden;
+}
+div.post img.permalink {
+  width: 14px;
+  height: 13px;
+  border-width: 0px;
+  background-color: black;
+  display: none;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  z-index: 10;
+}
+div.post:hover img.permalink {
+  display: inline;
+}
+div.post h2 {
+  font: Bold 18px "Trebuchet MS", Geneva, Arial, sans-serif;
+  color: #6498cc;
+  letter-spacing: -1px;
+  margin: 0px 0px 5px 0px;
+}
+div.post h2 a {
+  color: #6498cc;
+  text-decoration: none;
+}
+div.post div.caption {
+  font-size: 14px;
+  font-weight: bold;
+  color: #444444;
+  margin-top: 10px;
+  padding: 0px 20px 0px 20px;
+}
+div.post div.caption a {
+  color: #444444;
+}
+
+div#footer {
+  margin: 40px 0px 30px 0px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #444444;
+}
+div#footer a {
+  text-decoration: none;
+  color: #444444;
+}
+div#footer a:hover {
+  text-decoration: underline;
+}
+div#footer div#credit {
+  font: Normal 13px Verdana, Geneva, Arial, sans-serif;
+  margin-top: 15px;
+}

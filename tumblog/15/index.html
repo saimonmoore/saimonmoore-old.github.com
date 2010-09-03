@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Simple Thoughts
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Aug<br />
+                31st
+              </div>
+                Wed
+            </div>
+        <a href='/tumblog/20058/adding-tags-feature-to-bligi.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20058/adding-tags-feature-to-bligi.html">Adding 'tags' feature to bligi</a>
+          </h2>
+          <p>This morning I got up and started to add tags to my Entry object in Bligi using the &#8216;acts_as_taggable&#8217; mixin from the <a href=http://www.sporkmonger.com/projects/tagtools/>TagTools</a> project.</p>       <p>Though the rdoc is not up to date the tests available allowed me to get things setup relatively easily.</p>       <p>Only snag was avoiding duplicate tags, which I thought would be handled by the mixin. I&#8217;ll just add a validates clause to the Tag object and that should do the trick.</p>       <p>Thanks <a href=http://www.sporkmonger.com/>Bob</a> !</p><p></p>
+        </div>
+      </div>
+      <div class='post'>
+        <a href='/tumblog/20058/algorithms-series-euclid-s-1-1e.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20058/algorithms-series-euclid-s-1-1e.html">Algorithms series - Euclid's (1.1E)</a>
+          </h2>
+          <p>A while ago I received a copy of <a href=http://www-cs-faculty.stanford.edu/%7Eknuth/taocp.html>The Art of Computer Programming by Donald E. Knuth</a></p>       <p>I&#8217;ve just started reading volume 1 (Algorithms) and while I&#8217;m working through it I decided I&#8217;d blog on what I&#8217;m learning. So all the posts in the algorithms category are my attempts at understanding the material.</p>       <p>First up&#8230;</p>       <h4>Euclid&#8217;s Algorithm <sup><a href=#fn1>1</a></sup></h4>       <blockquote>         <p>An algorithm to find the greatest common divisor of two numbers m,n.</p>     </blockquote>       <p>Basically:</p>  <ol> <li>Divide m by n</li> <li>If remainder r = 0 ? n is the answer. Done!</li> <li>Reduce m,n i.e. m &lt;- n , n &lt;- r go to step 1.</li> </ol>       <p>Here&#8217;s the algorithm in pseudo code:</p>  <pre><code> 1. r = m % n 2. if r == 0 result = n; return 3. m = n; n = r 4. recurse </code> </pre>   <pre><code> e.g. For m = 10 and n = 6  1. m/n =&amp;gt; r = 4 2. m = 6; n = 4 3. m/n =&amp;gt; r = 2 4. m = 4; n = 2; 5. m/n =&amp;gt; r = 0 6. result = n = 2  i.e the greatest common divisor of 10 and 6 is 2 </code></pre>  <p>...and my initial blind attempt at a ruby implementation.</p>  <p>My idea on this is to write the code as I think it should work without checking/running and post it as is. I&#8217;ll then try it out<sup><a href=#fn2>2</a></sup> and refactor/correct it if necessary in a number of iterations posted as comments. This will enable me to chart my progress of learning ruby.</p>  <p>If you have a more succinct and elegant form of either the pseudo-code or the ruby code or indeed any other programming language I&#8217;d appreciate if you could post it as a comment, thanks.</p>  <pre><code> module Algorithms   class EuclidAlgorithm      #Find the greatest common divisor of m &amp;amp; n     def solve(m,n)       r = m % n       return n if r = 0       m = n; n = r;       self.solve(m,n)     end   end end  euclids_algorithm = Algorithms::EuclidAlgorithm.new puts greatest_common_divisor = #{euclids_algorithm.solve(ARGV[0],ARGV[1])}</code></pre>   <p id=fn1><sup>1</sup> Algorithm 1.1E in Knuth&#8217;s</p>  <p id=fn2><sup>2</sup> At some point in the near future I&#8217;ll add a feature to bligi to allow you to execute the code online.</p><p></p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Aug<br />
+                30th
+              </div>
+                Tue
+            </div>
+        <a href='/tumblog/20058/just-registered-for-mst121.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20058/just-registered-for-mst121.html">Just registered for MST121</a>
+          </h2>
+          <p>That&#8217;s &#8216;Using Mathematics&#8217;...</p>       <p>I&#8217;m a student again. ;)</p>       <p>I&#8217;m planning on blogging all through my degree so let&#8217;s hope it teaches me to be rigorous enough to do so&#8230;</p><p></p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Aug<br />
+                25th
+              </div>
+                Thu
+            </div>
+        <a href='/tumblog/20058/1st-production-release-of-bligi.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20058/1st-production-release-of-bligi.html">1st Production Release of Bligi</a>
+          </h2>
+          <p>Woohoo&#8230; Finally, first public release of Bligi 0.0.1.</p>
+          <p>I&#8217;ve had great fun writing this app and am looking forward to writing up the rest.</p>
+          <p>Thanks to the guys at TextDrive for helping me out with the weaning issues, and thanks to the guys at codehaus for putting me on to ruby and the rails framework.  This has just been pure joy.  </p>
+          <p>I&#8217;m hoping to now have a two week release cycle and when I get to 0.1.0, I&#8217;ll release the code.</p>
+        </div>
+      </div>
+      <div id='footer'>
+        <a href="/tumblog/14/">&#171; Prev</a>
+        <a href="/tumblog/16/">Next &#187;</a>
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Gitting git-1.5.3.x installed in Ubuntu
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Nov<br />
+                7th
+              </div>
+                Wed
+            </div>
+        <a class='comments' href='/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html">Gitting git-1.5.3.x installed in Ubuntu</a>
+          </h2>
+          <p>I&#8217;m looking into <a href="http://git.or.cz/">git</a> as an alternative to subversion.</p>
+          
+          
+          	<p>As most of my servers use a non-standard port for sshd I was interested in trying out git-1.5.3.x for it&#8217;s support for ssh://name@host:port/ but ubuntu gutsy only had 1.5.2.5 available so off to #git I went:</p>
+          
+          
+          	<p>For Ubuntu Gutsy:</p>
+          
+          
+          	<ol>
+          	<li>apt-get install devscripts fakeroot</li>
+          		<li>dget -x http://ftp.debian.org/debian/pool/main/g/git-core/git-core_1.5.3.5-1.dsc</li>
+          		<li>cd git-core-1.5.3.5</li>
+          		<li>apt-get build-dep git-core</li>
+          		<li>dpkg-buildpackage -rfakeroot -us -uc</li>
+          	</ol>
+          
+          
+          	<p><del>For Ubuntu Dapper</del>:</p>
+          
+          
+          	<p><strong>Update</strong>: Apparently the version of dpkg-buildpackage that comes with dapper is too old, so in the end I upgraded Dapper &gt; Edgy &gt; Feisty &gt; Gutsy</p>
+          
+          
+          	<ol>
+          	<li><del>apt-get install devscripts fakeroot</del></li>
+          		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1<sub>bpo40+1.dsc (as dget doesn&#8217;t exist in devscripts on dapper)</del></li>
+          		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4-1</sub>bpo40+1.diff.gz</del></li>
+          		<li><del>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.3.4.orig.tar.gz</del></li>
+          		<li><del>dpkg-source -x git-core_1.5.3.4-1~bpo40+1.dsc</del></li>
+          		<li><del>cd git-core-1.5.3.4</del></li>
+          		<li><del>apt-get build-dep git-core</del></li>
+          		<li><del>dpkg-buildpackage -rfakeroot -us -uc</del></li>
+          	</ol>
+          
+          
+          	<p><del>(You may need to manually install libsvn-core-perl &#38;&#38; tcl8.4 )</del></p>
+          
+          
+          	<p>Many thanks to MadCoder on #git for helping me out with this.</p>
+          
+          
+          	<p>I&#8217;ll be posting about my exploits with git in future posts.</p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

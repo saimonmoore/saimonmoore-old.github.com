@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Mephisto_i18n update
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Nov<br />
+                2nd
+              </div>
+                Fri
+            </div>
+        <a class='comments' href='/tumblog/200711/mephisto_i18n-update.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/200711/mephisto_i18n-update.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200711/mephisto_i18n-update.html">Mephisto_i18n update</a>
+          </h2>
+          <p>Just a quick heads up on the status of this for those who are interested.</p>
+          
+          
+          	<p>Though it may seem that this project has died from lack of activity, I am still very much maintaining this project and have been adding fixes and tweaks on and off during the last few months.</p>
+          
+          
+          	<p>In fact, I&#8217;ve just committed a couple of fixes:</p>
+          
+          
+          	<ul>
+          	<li>Correct subdomain parsing for non-multisite mephisto instances (Bug was introduced when adding multisite support)</li>
+          		<li>Making the dynamic i18n link switcher drop method handle paged articles whose section is the home section.</li>
+          	</ul>
+          
+          
+          	<p>The future status of this project is basically pending a rewrite of globalize. I had already written the next version of globalize (currently stored in a branch) with support for rfc4646 but with the new rails i18n api talks going on, I&#8217;m waiting for these to conclude and get the rewrite for globalize 2 done before updating this plugin for that new version.</p>
+          
+          
+          	<p>So&#8230;.</p>
+          
+          
+          	<p>To all those currently/thinking of using the plugin, feel free to bug me with questions, bug reports and help. I&#8217;m still commited to maintaining this.</p>
+          
+          
+          	<p>Btw, the latest version in trunk also has support for plugin template handlers, so you can now use erb, haml or whatever else takes your fancy.</p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

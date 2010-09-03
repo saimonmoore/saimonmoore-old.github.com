@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Localized urls
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                May<br />
+                17th
+              </div>
+                Thu
+            </div>
+        <a class='comments' href='/tumblog/20075/localized-urls.html#disqus_thread'>
+          Comments
+        </a>
+        <a href='/tumblog/20075/localized-urls.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/20075/localized-urls.html">Localized urls</a>
+          </h2>
+          <p>In this article, I&#8217;m going to describe a simple way to localize your application&#8217;s urls using globalize.</p>
+          
+          
+          	<h3>Localize your urls</h3>
+          
+          
+          What do I mean by &#8220;localize your urls&#8221; exactly? For example, you browse to :
+          <pre><code>
+             http://ocium.com/artists/millivanilli
+          </code></pre>
+          
+          	<p>and are shown the &#8220;Milli Vanilli&#8221; artist info page in the base locale (which is &#8216;english&#8217; for arguments sake). You click a link to switch locale within the page and you&#8217;re transported to:</p>
+          
+          
+          <pre><code>
+              http://es.ocium.com/artistas/millivanilli
+          </code></pre>
+          
+          	<p>As you can see, the whole url has been translated into the language of the currently active locale.</p>
+          
+          
+          	<p><strong>Locale defined as a path parameter</strong></p>
+          
+          
+          	<p>In this example, I&#8217;m using subdomains to indicate the locale, but you can easily use path/query parameters to define the locale.</p>
+          
+          
+          e.g.
+          <pre><code>
+             http://ocium.com/en/artists/millivanilli
+             =&gt;
+             http://ocium.com/es/artistas/millivanilli
+          </code></pre>
+          
+          	<h3>The plugin</h3>
+          
+          
+          	<p>I&#8217;ve wrapped up the code to do that within the <a href="http://sidirodromos.rubyforge.org/">LocalizedRoutes</a> plugin:</p>
+          
+          
+          	<h4>Installation</h4>
+          
+          
+          	<ul>
+          	<li>Assuming you have the latest version of globalize installed (at least for-1.2),</li>
+          		<li>Install the plugin via :<pre><code>
+          script/plugin install svn://rubyforge.org/var/svn/sidirodromos/plugins/localized_routes/trunk
+          </code></pre></li>
+          	</ul>
+          
+          
+          	<h3>Usage</h3>
+          
+          
+          	<p>You can now translate the urls in your routes via:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt>9<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.draw <span class="r">do</span> |map|<tt>
+          </tt><tt>
+          </tt>  <span class="c">#Will translate 'list' to the default namespace</span><tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span>.t, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt><tt>
+          </tt>  <span class="c">#Will translate 'list' to the 'urls' namespace</span><tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span>&gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt><span class="r">end</span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p><b>Note</b>: The use of the <em>&#8216;urls&#8217; namespace</em> when translating routes. This is recommended as it&#8217;s then easy to separate url translations from other translations.</p>
+          
+          
+          	<p>The <strong>localized_routes</strong> plugin looks at the incoming request and calculates which locale is to be set as active from one of three possible methods in the following order:</p>
+          
+          
+          <ol>
+          <li><em>&#8220;Query parameter&#8221;</em> named <strong>&#8220;locale&#8221;</strong> e.g
+          <pre><code>
+          http://saimonmoore.net/listar?locale=es
+          </code></pre>
+          </li>
+          <li><em>&#8220;Path parameter&#8221;</em> extracted by matching request path against Globalize::LocalizedRoutes::LOCALE_PATH_MATCHING_RE e.g.
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt> <span class="co">Globalize</span>::<span class="co">LocalizedRoutes</span>::<span class="co">LOCALE_PATH_MATCHING_RE</span><tt>
+          </tt> =&gt; <span class="rx"><span class="dl">/</span><span class="k">^</span><span class="ch">\/</span><span class="k">([</span><span class="ch">\w</span><span class="k">-]+)|</span><span class="ch">\/</span><span class="k">([</span><span class="ch">\w</span><span class="k">-]+)</span><span class="ch">\/</span><span class="k">.*$</span><span class="dl">/</span></span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          <pre><code>
+           http://saimonmoore.net/es/listar
+           or
+           http://saimonmoore.net/es
+          </code></pre>
+          
+          <b>Note</b>: <em>If you want to define the locale in the path differently, then just override the regexp</em>.
+          </li>
+          <li><em>&#8220;Subdomain&#8221;</em> e.g.
+          <pre><code>
+          http://es.saimonmoore.net/listar
+          </code></pre>
+          </li>
+          </ol>
+          
+          	<p>If you&#8217;re using the path parameter to define your locale then it&#8217;s a good idea to specify it in the route like so:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.draw <span class="r">do</span> |map|<tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">:locale/list</span><span class="dl">'</span></span>&gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt><span class="r">end</span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>Then you&#8217;ll have access to the <strong>&#8220;locale&#8221;</strong> parameter in the controller and it&#8217;s useful for url helper methods.</p>
+          
+          
+          	<h3>Some examples:</h3>
+          
+          
+          	<h4>You want to define the &#8220;locale via a path parameter&#8221;.</h4>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.draw <span class="r">do</span> |map|<tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">:locale/list</span><span class="dl">'</span></span>&gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt><span class="r">end</span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>You translate the urls for each language you support:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">Locale</span>.set_base_language(<span class="s"><span class="dl">'</span><span class="k">en-GB</span><span class="dl">'</span></span>)<tt>
+          </tt><tt>
+          </tt><span class="co">Locale</span>.set(<span class="s"><span class="dl">'</span><span class="k">es-ES</span><span class="dl">'</span></span>)<tt>
+          </tt><span class="co">Locale</span>.set_translation_with_namespace(<span class="s"><span class="dl">'</span><span class="k">:locale/list</span><span class="dl">'</span></span>, <span class="sy">:urls</span>, <span class="s"><span class="dl">'</span><span class="k">:locale/listar</span><span class="dl">'</span></span>)<tt>
+          </tt><tt>
+          </tt><span class="co">Locale</span>.set(<span class="s"><span class="dl">'</span><span class="k">fr-FR</span><span class="dl">'</span></span>)<tt>
+          </tt><span class="co">Locale</span>.set_translation_with_namespace(<span class="s"><span class="dl">'</span><span class="k">:locale/list</span><span class="dl">'</span></span>, <span class="sy">:urls</span>, <span class="s"><span class="dl">'</span><span class="k">:locale/enumerer</span><span class="dl">'</span></span>)<tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>You can now access:</p>
+          
+          
+          <pre><code>
+           http://saimonmoore.net/en/list
+           http://saimonmoore.net/es/listar
+           http://saimonmoore.net/fr/enumerer
+          </code></pre>
+          
+          	<p>To access:</p>
+          
+          
+          <pre><code>http://saimonmoore.net/list</code></pre>
+          
+          	<p>you&#8217;d need to additionally define:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>map.list <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p><strong>If, on the other hand, you&#8217;d like to define the &#8220;locale via subdomains&#8221;, then:</strong></p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.draw <span class="r">do</span> |map|<tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span>&gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">blog</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt><span class="r">end</span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>Again you translate the urls for each language you support:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">Locale</span>.set_base_language(<span class="s"><span class="dl">'</span><span class="k">en-GB</span><span class="dl">'</span></span>)<tt>
+          </tt><tt>
+          </tt><span class="co">Locale</span>.set(<span class="s"><span class="dl">'</span><span class="k">es-ES</span><span class="dl">'</span></span>)<tt>
+          </tt><span class="co">Locale</span>.set_translation_with_namespace(<span class="s"><span class="dl">'</span><span class="k">/list</span><span class="dl">'</span></span>, <span class="sy">:urls</span>, <span class="s"><span class="dl">'</span><span class="k">/listar</span><span class="dl">'</span></span>)<tt>
+          </tt><tt>
+          </tt><span class="co">Locale</span>.set(<span class="s"><span class="dl">'</span><span class="k">fr-FR</span><span class="dl">'</span></span>)<tt>
+          </tt><span class="co">Locale</span>.set_translation_with_namespace(<span class="s"><span class="dl">'</span><span class="k">/list</span><span class="dl">'</span></span>, <span class="sy">:urls</span>, <span class="s"><span class="dl">'</span><span class="k">/enumerer</span><span class="dl">'</span></span>)<tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p>You can now access:</p>
+          
+          
+          <pre><code>
+          http://saimonmoore.net/list
+          http://es.saimonmoore.net/listar
+          http://fr.saimonmoore.net/enumerer
+          </code></pre>
+          
+          	<h3>Switch Locale Links</h3>
+          
+          
+          	<p>Here are examples of how you&#8217;d create a list of links to switch the current locale using all three methods for defining the locale:</p>
+          
+          
+          Assuming routes defined as:
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt><span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.draw <span class="r">do</span> |map|<tt>
+          </tt>  map.list_with_locale <span class="s"><span class="dl">'</span><span class="k">:locale/list</span><span class="dl">'</span></span> &gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">application</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt>  map.list <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span> &gt;&gt; <span class="sy">:urls</span>, <span class="sy">:controller</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">application</span><span class="dl">'</span></span>, <span class="sy">:action</span> =&gt; <span class="s"><span class="dl">'</span><span class="k">list</span><span class="dl">'</span></span><tt>
+          </tt>  map.connect <span class="s"><span class="dl">'</span><span class="k">:controller/:action/:id</span><span class="dl">'</span></span><tt>
+          </tt><span class="r">end</span><tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p><strong>Note</strong>: <em>For this example I&#8217;ve already translated the urls for each of the supported languages.</em></p>
+          
+          
+          	<p>Then in your partial (or extract to a helper):</p>
+          
+          
+          <ul>
+            <li>
+              <strong>path parameter</strong>
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="co">SupportedLocales</span>.supported_language_codes.each <span class="r">do</span> |code| <span class="dl">-%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="co">Locale</span>.switch_locale(code) <span class="r">do</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%</span> <span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.reload <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%=</span> link_to <span class="co">Locale</span>.language.native_name, list_with_locale_url(<span class="s"><span class="dl">'</span><span class="k">locale</span><span class="dl">'</span></span> =&gt; code) <span class="dl">%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+          
+          <b>Note</b>:<em>To make it even simpler you could use one of these <a href="http://www.artweb-design.de/2007/5/13/concise-localized-rails-url-helpers-solved-twice">techniques</a> to only specify <strong>&#8220;list_with_locale_url&#8221;</strong></em>
+          
+              <br/>
+          Browsing to http://saimonmoore.net/list generates:
+          
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>    <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/en/list</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>English<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/el/katalago</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Ελληνικά<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/es/listar</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Español<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/ca/listar</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Català<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+            </li>
+          
+            <li>
+              <strong>query parameter</strong>
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="co">SupportedLocales</span>.supported_language_codes.each <span class="r">do</span> |code| <span class="dl">-%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="co">Locale</span>.switch_locale(code) <span class="r">do</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%</span> <span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.reload <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%=</span> link_to <span class="co">Locale</span>.language.native_name, list_url(<span class="s"><span class="dl">'</span><span class="k">locale</span><span class="dl">'</span></span> =&gt; code) <span class="dl">%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+          
+              Browsing to http://saimonmoore.net/list generates:
+          
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/list?locale=en</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>English<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/katalogo?locale=el</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Ελληνικά<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/listar?locale=es</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Español<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/listar?locale=ca</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Català<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+            </li>
+          
+            <li>
+              <strong>subdomain</strong>
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="co">SupportedLocales</span>.supported_language_codes.each <span class="r">do</span> |code| <span class="dl">-%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="co">Locale</span>.switch_locale(code) <span class="r">do</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%</span> <span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.reload <span class="dl">-%&gt;</span></span><tt>
+          </tt>          <span class="il"><span class="dl">&lt;%=</span> link_to <span class="co">Locale</span>.language.native_name, subdomain_for(<span class="sy">:list_url</span>) <span class="dl">%&gt;</span></span><tt>
+          </tt>        <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>      <span class="il"><span class="dl">&lt;%</span> <span class="r">end</span> <span class="dl">-%&gt;</span></span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+          
+              Browsing to http://saimonmoore.net/list generates:
+          
+              <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://saimonmoore.net/list</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>English<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://el.saimonmoore.net/katalogo</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Ελληνικά<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://es.saimonmoore.net/listar</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Español<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>      <span class="ta">&lt;a</span> <span class="an">href</span>=<span class="s"><span class="dl">&quot;</span><span class="k">http://ca.saimonmoore.net/listar</span><span class="dl">&quot;</span></span><span class="ta">&gt;</span>Català<span class="ta">&lt;/a&gt;</span><tt>
+          </tt>    </pre></td>
+          </tr></table>
+          
+            </li>
+          </ul>
+          
+          	<h4>Test application</h4>
+          
+          
+          	<p>If you&#8217;d like to experiment with this, I&#8217;ve bundled up a <a href="/files/testapp.tar.gz">test application</a> which has everything you need to play around with this. Just set up a db &#38; run rake globalize:setup. In the db directory you can find an sql file, with all the translations used in this example.</p>
+          
+          
+          	<p><strong>Note</strong>: <em>In the last example I used a subdomain_for() helper to correctly generate the right host for each locale. This is very simple and you can see the code in the example app.</em></p>
+          
+          
+          	<h3>The code</h3>
+          
+          
+          	<p>I&#8217;ve babbled a lot about how you can use this plugin but let&#8217;s take a look at the actual code. It&#8217;s really quite simple.</p>
+          
+          
+          	<p>In essence, I realized that for each request that goes through rails, the dispatcher takes care of running it through the defined routes in order to recognize the appropriate controller and action for the request and then passes it along to the controller for processing.</p>
+          
+          
+          	<p>What I needed then is to ensure that the locale is set before routing recognition occurs</p>
+          
+          
+          	<p>So I simple overrode Dispatcher.dispatch() to add in a call to a set_locale() method <strong>before</strong> the call to ActionController::Routing::Routes.recognize. This means Globalize::Locale is now set when the routing code does it&#8217;s recognition which means you can then translate strings within the route definitions.</p>
+          
+          
+          	<p>i.e.</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+          </tt>2<tt>
+          </tt>3<tt>
+          </tt>4<tt>
+          </tt><strong>5</strong><tt>
+          </tt>6<tt>
+          </tt>7<tt>
+          </tt>8<tt>
+          </tt>9<tt>
+          </tt><strong>10</strong><tt>
+          </tt>11<tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+          </tt>      <span class="r">def</span> <span class="fu">dispatch_with_locale</span>(cgi = <span class="pc">nil</span>, session_options = <span class="co">ActionController</span>::<span class="co">CgiRequest</span>::<span class="co">DEFAULT_SESSION_OPTIONS</span>, output = <span class="gv">$stdout</span>)<tt>
+          </tt>        controller = <span class="pc">nil</span><tt>
+          </tt>        <span class="r">if</span> cgi ||= new_cgi(output)<tt>
+          </tt>          request, response = <span class="co">ActionController</span>::<span class="co">CgiRequest</span>.new(cgi, session_options), <span class="co">ActionController</span>::<span class="co">CgiResponse</span>.new(cgi)<tt>
+          </tt>=&gt;        set_locale(request)  <span class="c">#Set the locale before route recognition</span><tt>
+          </tt>          prepare_application<tt>
+          </tt>          controller = <span class="co">ActionController</span>::<span class="co">Routing</span>::<span class="co">Routes</span>.recognize(request)<tt>
+          </tt>          controller.process(request, response).out(output)<tt>
+          </tt>        <span class="r">end</span><tt>
+          </tt>      ....<tt>
+          </tt></pre></td>
+          </tr></table>
+          
+          
+          	<p><strong>Note</strong>: <em>I hadn&#8217;t seen Dispatcher.to_prepare before and Josh Sierles brought it to my attention however, this only executes the callback on the <strong>first</strong> request in production mode so it&#8217;s not really usefull in this case. Another problem is that set_locale needs access to the request. I&#8217;m thinking of sending in a patch to rails to make it configurable and will then convert the code to using this.</em></p>
+          
+          
+          	<p>Take a look at the <a href="http://viewvc.rubyforge.mmmultiworks.com/cgi/viewvc.cgi/plugins/localized_routes/?root=sidirodromos">code</a> to see what set_locale does (though it&#8217;s nothing fancy).</p>
+          
+          
+          	<p>Hope that you find this handy. I certainly have.</p>
+          
+          
+          	<p>Saimon</p>
+          
+          
+          	<p>P.S. I&#8217;ve incorporated this functionality directly into my <a href="http://webtypes.com/2007/3/18/globalizing-mephisto">mephisto_i18n plugin</a> which makes it handy if you need to extend mephisto with custom routes.</p>
+          
+          
+          	<p><strong>Update</strong>: I&#8217;ve refactored the code slightly to use a patched Dispatcher which adds support for request_callbacks (similar to preparation_callbacks but which are executed on every request and which have access to the request object).</p>
+          
+          
+          	<p><strong>Problem?</strong>: The code now reloads the routes for the current locale <strong>on every request</strong>. This is so that you can reload routes within Locale.switch_locale blocks and generate the localized url correctly. I realize this may have a performance hit but initiall tests show this to minimal.</p>
+          <div id='disqus_thread'>
+            <script src='http://disqus.com/forums/saimonmoorenet/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://saimonmoorenet.disqus.com/?url=ref'>
+                View the discussion thread.
+              </a>
+            </noscript>
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

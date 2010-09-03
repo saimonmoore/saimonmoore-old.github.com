@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en-us' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Simple Thoughts
+    </title>
+    <meta content='Saimon Moore' name='author' />
+    <link href='/tumblog/rss.xml' rel='alternate' title='RSS' type='application/atom+xml' />
+    <link href='/css/coderay.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/css/tumblog.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='/javascripts/blog.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>
+      <a href='/'>
+        Simple Thoughts
+      </a>
+      <a href='/tumblog/rss.xml'>
+        <img alt='RSS' id='rss' src='/images/tumblog/rss.gif' />
+      </a>
+    </h1>
+    <div id='content'>
+      <div id='description'>
+        <div>
+          <p>
+                  <a href="/tumblog/index.html">Posts</a>
+          </p>
+          <p>
+                  <a href="/tumblog/archive.html">Archive</a>
+          </p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                19th
+              </div>
+                Wed
+            </div>
+        <a href='/tumblog/200712/git-plugin-for-cruisecontrolrb.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200712/git-plugin-for-cruisecontrolrb.html">Git plugin for CruiseControlRB</a>
+          </h2>
+          <p>A couple of thursday&#8217;s ago I went to the first ever <span class="caps">BCN</span> ruby/rails group meeting and though short had some interesting chats. I was also trying to convince people how great git was but I complained that <a href="http://cruisecontrolrb.thoughtworks.com/">cruisecontrolrb</a> was lacking support for git.</p>
+          
+          
+          I resolved to fix that. After some googling I couldn&#8217;t find anything already out there, so I wrote a plugin myself. You can grab it via <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">git clone git://saimonmoore.net/cruisecontrolrb.git</pre></td>
+          </tr></table>
+          
+          
+          	<p>You&#8217;ll notice the whole cruisecontrol-1.2.1 app is bundled in that repo. If you want to use the plugin for an existing cruisecontrol setup then just grab the plugin from vendor/plugins and apply this <a href="http://jira.public.thoughtworks.org/browse/CCRB-167">patch</a> (this may make itself into the next ccrb release so check)</p>
+          
+          
+          	<p>To add a git-based project:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">./cruise add cruisecontrolrb --scm git --url git://saimonmoore.net/cruisecontrolrb.git</pre></td>
+          </tr></table>
+          
+          
+          	<p>then just start the server:</p>
+          
+          
+          <table class="CodeRay"><tr>
+            <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><tt>
+          </tt></pre></td>
+            <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">./cruise start</pre></td>
+          </tr></table>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Dec<br />
+                10th
+              </div>
+                Mon
+            </div>
+        <a href='/tumblog/200712/baby-list.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200712/baby-list.html">Baby list</a>
+          </h2>
+          <p>These are some of the things we (need/think we need/would like to have) for when Sofia makes her grand entrance:</p>
+          
+          
+          	<ul>
+          	<li>Adjustable Chair &#8211; <a href="http://www.amazon.com/Stokke-Natural-Tripp-Trapp-Chair/dp/B00009IMAY">Stokke Tripp Trapp</a></li>
+          		<li>Baby Walki Talkies</li>
+          		<li>Baby dresser (<a href="http://www.mothercare.com/gp/product/B000TEPO1M/sr=1-12/qid=1197150538/ref=sr_1_12?ie=UTF8&#38;m=A2LBKNDJ2KZUGQ&#38;n=44536031&#38;mcb=core">something like this but foldable</a>)</li>
+          		<li>bouncing cradle (<a href="http://www.mothercare.com/gp/product/B000N1Z8ZI/sr=1-60/qid=1197236430/ref=sr_1_60?ie=UTF8&#38;m=A2LBKNDJ2KZUGQ&#38;n=54227031&#38;mcb=core">something like this</a>)</li>
+          		<li>play mat (<a href="http://www.mothercare.com/gp/product/B000O6ZQ9K/sr=1-3/qid=1197199408/ref=sr_1_3?ie=UTF8&#38;m=A2LBKNDJ2KZUGQ&#38;n=44389031&#38;mcb=core">this looks nice</a>)</li>
+          		<li>baby carriers (<a href="http://www.mothercare.com/gp/node/n/44458031?ie=UTF8&#38;mcb=core">front</a> / <a href="http://www.mothercare.com/gp/node/n/44459031?ie=UTF8&#38;mcb=core">back (for mountain excursions) so not exactly these shown but more or less</a>)</li>
+          		<li>Bugaboo baby nest (<a href="http://www.mothercare.com/gp/product/B000X1KUZQ/sr=1-35/qid=1197199546/ref=sr_1_35?ie=UTF8&#38;m=A2LBKNDJ2KZUGQ&#38;n=44339031&#38;mcb=core">in red</a>)</li>
+          		<li>bugaboo baby footmuff (<a href="http://www.mothercare.com/gp/product/B000IEWVLY/sr=1-6/qid=1197199694/ref=sr_1_6?ie=UTF8&#38;mcb=core">in red</a>)</li>
+          		<li>bugaboo parasol (<a href="http://www.mothercare.com/gp/product/B000IEYP5E/sr=1-15/qid=1197199769/ref=sr_1_15?ie=UTF8&#38;m=A2LBKNDJ2KZUGQ&#38;n=42764041&#38;mcb=core">in red</a>)</li>
+          		<li>Not sure what else for now</li>
+          	</ul>
+          
+          
+          	<p>If you want to buy one of these, then please choose which one you&#8217;d like to buy and let us know so we can remove it from the list so as to avoid others buying the same item.</p>
+          
+          
+          	<p>Saimon and Maria</p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Nov<br />
+                16th
+              </div>
+                Fri
+            </div>
+        <a href='/tumblog/200711/my-macbook-has-just-been-fixed-3-weeks-later.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200711/my-macbook-has-just-been-fixed-3-weeks-later.html">My MacBook has just been fixed (3 weeks later)</a>
+          </h2>
+          <p>fearoffish: This is for you :)</p>
+          
+          
+          	<p>Just a quick note to say that Apple has replaced my faulty HD, quicker than they said they would. I was expecting it in a week but it&#8217;s a week early. Suffice to say that doesn&#8217;t exone the fact that it took them 3 weeks to do so but I have to give credit where credit&#8217;s due. :)</p>
+        </div>
+      </div>
+      <div class='post'>
+            <div class="date">
+              <div class="date_brick">
+                Nov<br />
+                7th
+              </div>
+                Wed
+            </div>
+        <a href='/tumblog/200711/macbook-with-fries.html'>
+          <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
+        </a>
+        <div class='regular'>
+          <h2>
+            <a href="/tumblog/200711/macbook-with-fries.html">My Macbook's HD just fried itself</a>
+          </h2>
+          <rant>
+          I bought a Macbook ~4 months ago.
+          
+          	<p>Last week my Macbook refused to startup after a reboot. I took it in to an Apple shop and they said it would take a week to repair. It&#8217;s been more than a week and they&#8217;ve now told me, that they get the HD&#8217;s from the Netherlands and that they&#8217;ve run out of stock. Yep, you heard right, they&#8217;ve run out of stocks of HD&#8217;s belonging to 4 month old macbooks.</p>
+          
+          
+          I&#8217;ll post again when it has actually been replaced.
+          </rant>
+        </div>
+      </div>
+      <div id='footer'>
+        <a href="/tumblog/">&#171; Prev</a>
+        <a href="/tumblog/3/">Next &#187;</a>
+        <div id='credit'>
+          Powered by
+          <a href='http://webby.rubyforge.org/'>
+            Webby
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
