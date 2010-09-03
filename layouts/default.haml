@@ -9,6 +9,14 @@ filter: haml
     %link{ :href => "/images/favicon.ico", :rel => "shortcut icon" }
     %link{ :href => "/css/coderay.css", :rel => "stylesheet", :type => "text/css", :media => "screen" }
     %link{ :href => "/css/site.css", :rel => "stylesheet", :type => "text/css", :media => "screen" }
+    %script{ :src => "http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js", :type => "text/javascript"}
+    %script{ :src => "/javascripts/lib/mootools-1.2.4.4-more.js", :type => "text/javascript"}
+    %script{ :src => "/javascripts/lib/feeds.js", :type => "text/javascript"}
+    :javascript
+      window.addEvent('domready', function() {
+        display_tweets(5);
+        display_commits(5, [{uri: 'http://github.com/api/v2/json/commits/list/saimonmoore/nodered/master', repo: 'nodered'}]);
+      });
     %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "content-type" }
     %meta{ :content => "en-gb", "http-equiv" => "content-language" }
     %meta{ :content => "false", "http-equiv" => "imagetoolbar" }
@@ -49,35 +57,18 @@ filter: haml
         = render(:partial => 'google_search')
         %h1
           Latest News
-        %p
-          Spring Bloom has been released to the public. Preview or download it now and leave your comments!
-          %a.more{ :href => "http://www.edg3.co.uk/edg3-design-nine-released/" }
-            Read More &raquo;
-        %p
-          I have created a new site to list all of my favourite design related links. (I know... how boring!)
-          %a.more{ :href => "http://www.edg3.co.uk/edg3couk-links/" }
-            Read More &raquo;
+
+        #twitter
+          %h3
+            Twitter
+        #github
+          %h3
+            Github
         %h1
           Links
-        %ul
-          %li
-            %a{ :href => "http://www.4templates.com/?aff=christopher" }
-              4Templates
-          %li
-            %a{ :href => "http://www.edg3.co.uk" }
-              Christopher Robinson
-          %li
-            %a{ :href => "http://www.evohosting.co.uk/affiliate/idevaffiliate.php?id=133" }
-              EVO Hosting
-          %li
-            %a{ :href => "http://www.opendesigns.org/profile/?user=christopher" }
-              Open Designs
-          %li
-            %a{ :href => "http://www.text-link-ads.com/?ref=31171" }
-              Text Link Ads
-          %li
-            %a{ :href => "http://www.w3csites.com/profile.asp?u=christopher" }
-              W3C Sites
+
+        %ul{:id => 'links'}
+
       #main
         = @content
     #footer
