@@ -1,3 +1,4 @@
+SITE.output_dir = '..'
 
 task :default => :build
 
