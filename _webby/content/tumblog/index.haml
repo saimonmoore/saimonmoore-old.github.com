@@ -12,6 +12,7 @@ dirty:  true
     - if prev != p.created_at.strftime('%Y%m%d')
       = tumblog_date(p.created_at)
     - prev = p.created_at.strftime('%Y%m%d')
+    = tumblog_year(p.created_at)
 
     %a{ :href => p.url }
       %img.permalink{ :src => "/images/tumblog/permalink.gif", :alt => "permalink" }

@@ -43,6 +43,9 @@
               </div>
                 Wed
             </div>
+            <div class="year">
+                2007
+            </div>
         <a href='/tumblog/200711/gitting-git-1-5-3-x-installed-in-ubuntu.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
         </a>
@@ -103,6 +106,9 @@
               </div>
                 Fri
             </div>
+            <div class="year">
+                2007
+            </div>
         <a href='/tumblog/200711/mephisto_i18n-update.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
         </a>
@@ -144,6 +150,9 @@
                 23rd
               </div>
                 Tue
+            </div>
+            <div class="year">
+                2007
             </div>
         <a href='/tumblog/200710/more-validations.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
@@ -198,6 +207,9 @@
                 4th
               </div>
                 Wed
+            </div>
+            <div class="year">
+                2007
             </div>
         <a href='/tumblog/20077/after-ostrava.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
@@ -265,5 +277,19 @@
         </div>
       </div>
     </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        (function() {
+           var links = document.getElementsByTagName('a');
+           var query = '?';
+           for(var i = 0; i < links.length; i++) {
+             if(links[i].href.indexOf('#disqus_thread') >= 0) {
+               query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+             }
+           }
+           document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/saimonmoorenet/get_num_replies.js' + query + '"></' + 'script>');
+         })();
+      //]]>
+    </script>
   </body>
 </html>

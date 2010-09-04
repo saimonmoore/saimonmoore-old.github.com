@@ -63,8 +63,8 @@ div.post {
     width: 230px; }
   div.post div.year {
     position: absolute;
-    top: -50px;
-    left: -260px;
+    top: 0px;
+    left: -400px;
     text-align: right;
     width: 230px;
     white-space: nowrap;

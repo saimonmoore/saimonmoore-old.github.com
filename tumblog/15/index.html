@@ -43,6 +43,9 @@
               </div>
                 Wed
             </div>
+            <div class="year">
+                2005
+            </div>
         <a href='/tumblog/20058/adding-tags-feature-to-bligi.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
         </a>
@@ -54,6 +57,9 @@
         </div>
       </div>
       <div class='post'>
+            <div class="year">
+                2005
+            </div>
         <a href='/tumblog/20058/algorithms-series-euclid-s-1-1e.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
         </a>
@@ -72,6 +78,9 @@
               </div>
                 Tue
             </div>
+            <div class="year">
+                2005
+            </div>
         <a href='/tumblog/20058/just-registered-for-mst121.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
         </a>
@@ -89,6 +98,9 @@
                 25th
               </div>
                 Thu
+            </div>
+            <div class="year">
+                2005
             </div>
         <a href='/tumblog/20058/1st-production-release-of-bligi.html'>
           <img alt='permalink' class='permalink' src='/images/tumblog/permalink.gif' />
@@ -114,5 +126,19 @@
         </div>
       </div>
     </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        (function() {
+           var links = document.getElementsByTagName('a');
+           var query = '?';
+           for(var i = 0; i < links.length; i++) {
+             if(links[i].href.indexOf('#disqus_thread') >= 0) {
+               query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+             }
+           }
+           document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/saimonmoorenet/get_num_replies.js' + query + '"></' + 'script>');
+         })();
+      //]]>
+    </script>
   </body>
 </html>

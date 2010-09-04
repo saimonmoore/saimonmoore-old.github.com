@@ -4,6 +4,7 @@ layout: tumblog/default
 ---
 .post
   = tumblog_date(@page.created_at)
+  = tumblog_year(@page.created_at)
   %a.comments{ :href => @page.url + '#disqus_thread' }
     Comments
   %a{ :href => @page.url }
