@@ -148,7 +148,7 @@ body {
   #main ul {
     margin: 2px; }
     #main ul li {
-      margin: 2px;
+      margin-left: 30px;
       padding: 2px;
       list-style-type: circle; }
 
