@@ -17,8 +17,12 @@ filter:    haml
     %h1
       %a{ :href => "/" }
         Simple Thoughts
+      %span{:class => 'subtitle'}
+        Saimon Moore's occasional musings
       %a{ :href => "/tumblog/rss.xml" }
         %img#rss{ :src => "/images/tumblog/rss.gif", :alt => "RSS" }
+    %h2
+
     #content
       #description
         %div
@@ -44,4 +48,4 @@ filter:    haml
     -#      }
     -#      document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/saimonmoorenet/get_num_replies.js' + query + '"></' + 'script>');
     -#    })();
-    
+
