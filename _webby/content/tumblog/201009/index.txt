@@ -8,6 +8,6 @@ layout:       tumblog/post
 tumblog_type: regular
 ---
 I've been working on fairtilizer.com pretty much full time for the last 2 years. This august the team flipped the switch on a new branding Official.fm, the idea being massiveattack.official.fm.
-As I was off on holidaysi, huge congratulations to the officialfm team are due.
+As I was off on holidays, huge congratulations to the officialfm team are due.
 
 Hopefully will be blogging more often now (I think I said that about 2 years ago too :)
