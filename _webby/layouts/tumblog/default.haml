@@ -15,21 +15,27 @@ filter:    haml
     %script{:type=>"text/javascript", :src=>"/javascripts/blog.js"}
   %body
     %h1
-      %a{ :href => "/" }
+      %a{ :href => "/tumblog" }
         Simple Thoughts
       %span{:class => 'subtitle'}
         Saimon Moore's occasional musings
-      %a{ :href => "/tumblog/rss.xml" }
+      %a{:href=>"http://feeds.feedburner.com/saimonmoore", :rel=>"alternate", :type=>"application/rss+xml"}
         %img#rss{ :src => "/images/tumblog/rss.gif", :alt => "RSS" }
-    %h2
 
     #content
       #description
         %div
           %p
+            %a{:href => '/'}
+              saimonmoore.net
+          %p
             = link_unless_this_page("/tumblog/index.html", 'Posts')
           %p
             = link_unless_this_page("/tumblog/archive.html", 'Archive')
+          %p
+            %a{:href=>"http://feeds.feedburner.com/saimonmoore"}
+            %img{:src=>"http://feeds.feedburner.com/~fc/saimonmoore?bg=99CCFF&amp;fg=444444&amp;anim=0", :height=>"26", :width=>"88", :style=>"border:0",:alt=>""}
+
       = @content
       #footer
         = content_for :footer

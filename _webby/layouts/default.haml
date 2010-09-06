@@ -55,6 +55,15 @@ filter: haml
         %h1
           Search
         = render(:partial => 'google_search')
+        %p
+          %a{:href=>"http://feeds.feedburner.com/saimonmoore", :rel=>"alternate", :type=>"application/rss+xml"}
+            %img{:src=>"http://www.feedburner.com/fb/images/pub/feed-icon16x16.png", :alt=>"", :style=>"vertical-align:middle;border:0"}
+          %a{:href=>"http://feeds.feedburner.com/saimonmoore", :rel=>"alternate", :type=>"application/rss+xml"}
+            Subscribe to my feed
+        %p
+          %a{:href=>"http://feeds.feedburner.com/saimonmoore"}
+            %img{:src=>"http://feeds.feedburner.com/~fc/saimonmoore?bg=99CCFF&amp;fg=444444&amp;anim=0", :height=>"26", :width=>"88", :style=>"border:0",:alt=>""}
+
         %h1
           Latest News
 
